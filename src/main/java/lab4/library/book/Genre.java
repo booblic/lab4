@@ -1,6 +1,4 @@
-package lab4.library.publisher;
-
-import lab4.library.book.Book;
+package lab4.library.book;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,29 +6,29 @@ import java.util.Set;
 
 @Entity
 @Table
-public class Publisher {
+public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer publisherId;
+    private Integer genreId;
 
     private String name;
 
-    @ManyToMany(mappedBy = "publishers")
+    @OneToMany(mappedBy = "genre")
     private Set<Book> books = new HashSet<>();
 
-    Publisher() {}
+    Genre() {}
 
-    public Publisher(String name) {
+    public Genre(String name) {
         this.name = name;
     }
 
-    public Integer getPublisherId() {
-        return publisherId;
+    public Integer getGenreId() {
+        return genreId;
     }
 
-    public void setPublisherId(Integer publisherId) {
-        this.publisherId = publisherId;
+    public void setGenreId(Integer genreId) {
+        this.genreId = genreId;
     }
 
     public String getName() {

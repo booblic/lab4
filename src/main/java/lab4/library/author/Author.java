@@ -1,52 +1,73 @@
 package lab4.library.author;
 
+import lab4.library.book.Book;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table
 public class Author {
-    private int authorId;
 
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer authorId;
 
-    private String surname;
+    private String firstName;
 
-    private String[] patronymic;
+    private String lastName;
+
+    private String middleName;
+
+    @ManyToMany(mappedBy = "authors")
+    private Set<Book> books = new HashSet<>();
 
     Author() {}
 
-    Author(int authorId, String name, String surname, String... patronymic) {
-        this.authorId = authorId;
-        this.name = name;
-        this.surname = surname;
-        this.patronymic = patronymic;
+    public Author(String firstName, String lastName, String middleName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
     }
 
-    public int getAuthorId() {
+    public Integer getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(int authorId) {
+    public void setAuthorId(Integer authorId) {
         this.authorId = authorId;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String[] getPatronymic() {
-        return patronymic;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setPatronymic(String[] patronymic) {
-        this.patronymic = patronymic;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 }

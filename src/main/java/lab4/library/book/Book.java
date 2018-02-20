@@ -1,10 +1,19 @@
 package lab4.library.book;
 
-import java.util.List;
+import lab4.library.author.Author;
+import lab4.library.publisher.Publisher;
 
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table
 public class Book {
 
-    private int bookId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer bookId;
 
     private String name;
 
@@ -12,45 +21,39 @@ public class Book {
 
     private int year;
 
-    //private int authorId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "genreId")
+    private Genre genre;
 
-    //private int publisherId;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "bookAuthor", joinColumns = @JoinColumn(name = "bookId"), inverseJoinColumns = @JoinColumn(name = "authorId"))
+    private Set<Author> authors = new HashSet<>();
 
-    //private List<Author> authors;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "bookPublisher", joinColumns = @JoinColumn(name = "bookId"), inverseJoinColumns = @JoinColumn(name = "publisherId"))
+    private Set<Publisher> publishers = new HashSet<>();
 
-    //private List<Publisher> publishers;
+    @OneToMany(mappedBy = "book")
+    private Set<Review> reviews = new HashSet<>();
+
+    private String periodicity;
 
     Book() {}
 
-    Book(int bookId, String name, String isbn, int year) {
-        this.bookId = bookId;
+    public Book(String name, String isbn, int year, Genre genre, Set<Author> authors, Set<Publisher> publishers) {
         this.name = name;
         this.isbn = isbn;
         this.year = year;
-    }
-
-    /*Book(int bookId, String name, int authorId, int pubkisherId, String isbn, int year) {
-        this.bookId = bookId;
-        this.name = name;
-        this.authorId = authorId;
-        this.publisherId = pubkisherId;
-        this.isbn = isbn;
-        this.year = year;
-    }*/
-
-    /*Book(String name, List<Author> authors, List<Publisher> publishers, long isbn, int year) {
-        this.name = name;
+        this.genre = genre;
         this.authors = authors;
         this.publishers = publishers;
-        this.isbn = isbn;
-        this.year = year;
-    }*/
+    }
 
-    public int getBookId() {
+    public Integer getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(Integer bookId) {
         this.bookId = bookId;
     }
 
@@ -78,35 +81,35 @@ public class Book {
         this.year = year;
     }
 
-    /*public int getAuthorId() {
-        return authorId;
+    public Genre getGenre() {
+        return genre;
     }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
-    public int getPublisherId() {
-        return publisherId;
-    }
-
-    public void setPublisherId(int publisherId) {
-        this.publisherId = publisherId;
-    }*/
-
-    /*public List<Author> getAuthors() {
+    public Set<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(Set<Author> authors) {
         this.authors = authors;
     }
 
-    public List<Publisher> getPublishers() {
+    public Set<Publisher> getPublishers() {
         return publishers;
     }
 
-    public void setPublishers(List<Publisher> publishers) {
+    public void setPublishers(Set<Publisher> publishers) {
         this.publishers = publishers;
-    }*/
+    }
+
+    public String getPeriodicity() {
+        return periodicity;
+    }
+
+    public void setPeriodicity(String periodicity) {
+        this.periodicity = periodicity;
+    }
 }
