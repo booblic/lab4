@@ -21,9 +21,9 @@ public class Book {
 
     private int year;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "genreId")
-    private Genre genre;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "bookGenre", joinColumns = @JoinColumn(name = "bookId"), inverseJoinColumns = @JoinColumn(name = "genreId"))
+    private Set<Genre> genres = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "bookAuthor", joinColumns = @JoinColumn(name = "bookId"), inverseJoinColumns = @JoinColumn(name = "authorId"))
@@ -40,11 +40,11 @@ public class Book {
 
     Book() {}
 
-    public Book(String name, String isbn, int year, Genre genre, Set<Author> authors, Set<Publisher> publishers) {
+    public Book(String name, String isbn, int year, Set<Genre> genres, Set<Author> authors, Set<Publisher> publishers) {
         this.name = name;
         this.isbn = isbn;
         this.year = year;
-        this.genre = genre;
+        this.genres = genres;
         this.authors = authors;
         this.publishers = publishers;
     }
@@ -81,12 +81,12 @@ public class Book {
         this.year = year;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public Set<Genre> getGenres() {
+        return genres;
     }
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
     }
 
     public Set<Author> getAuthors() {

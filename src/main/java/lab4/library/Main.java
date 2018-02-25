@@ -6,7 +6,12 @@ import lab4.library.publisher.Publisher;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,10 +19,24 @@ import java.util.Set;
 @SpringBootApplication
 public class Main {
 
+    /*@Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Main.class);
+    }*/
+
     public static void main(String[] args) {
         System.out.println("test");
         SpringApplication.run(Main.class, args);
     }
+
+    /*@Bean
+    public ViewResolver getViewResolver() {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/webapp/");
+        resolver.setSuffix(".jsp");
+        resolver.setViewClass(JstlView.class);
+        return resolver;
+    }*/
 
 
     @Bean
@@ -30,13 +49,21 @@ public class Main {
         publisherSet.add(new Publisher("Дрофа"));
         publisherSet.add(new Publisher("Новый свет"));
 
-        Genre genre1 = new Genre("Автобиография");
-        Genre genre2 = new Genre("Сказки");
+        Set<Genre> genres1 = new HashSet<>();
+        genres1.add(new Genre("Автобиография"));
+
+        Set<Genre> genres2 = new HashSet<>();
+        genres2.add(new Genre("Сказки"));
 
         Set<Book> bookSet = new HashSet<>();
-        bookSet.add(new Book("Биография Петра и Ивана", "8800-555-35-35", 2016, genre1, authorSet, publisherSet));
-        bookSet.add(new Book("Сказки Петра и Ивана", "978-5-389-06696-0", 2000, genre2, authorSet, publisherSet));
+        bookSet.add(new Book("Биография Петра и Ивана", "8800-555-35-35", 2016, genres1, authorSet, publisherSet));
+        bookSet.add(new Book("Сказки Петра и Ивана", "978-5-389-06696-0", 2000, genres2, authorSet, publisherSet));
 
         return args -> bookRepository.save(bookSet);
+    }
+
+    @Bean
+    CommandLineRunner runner3(BookRepository bookRepository) {
+        return args -> bookRepository.findAll();
     }
 }

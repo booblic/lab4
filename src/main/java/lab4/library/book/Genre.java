@@ -14,7 +14,7 @@ public class Genre {
 
     private String name;
 
-    @OneToMany(mappedBy = "genre")
+    @ManyToMany(mappedBy = "genres")
     private Set<Book> books = new HashSet<>();
 
     Genre() {}
