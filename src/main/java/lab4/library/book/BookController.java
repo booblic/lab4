@@ -7,17 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.jws.WebParam;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.List;
-import java.util.Map;
-
-
 @Controller
 @RequestMapping(value = "/book")
 public class BookController {
-
 
     @Autowired
     private BookServices bookServices;
@@ -30,8 +22,13 @@ public class BookController {
 
     @GetMapping(value = "/show")
     public String showBooks(Model model) {
-        model.addAttribute("books", bookServices.findAll());
-        return "book/showall";
+        model.addAttribute("books", bookServices.findAllBook());
+        return "book/showallbooks";
+    }
+
+    @GetMapping(value = "/addform")
+    public String addForm() {
+        return "book/bookaddform";
     }
 
     @PostMapping(value = "/add")
@@ -40,9 +37,20 @@ public class BookController {
         return "message";
     }
 
-    @GetMapping(value = "/form")
-    public String formBook(Model model) {
-        model.addAttribute("formBook", new Book());
-        return "book/form";
+    @GetMapping(value = "/searchform")
+    public String searchForm() {
+        return "book/booksearchform";
+    }
+
+    @PostMapping(value = "/search")
+    public String searchBook(@ModelAttribute(name = "bookName") String bookName, Model model) {
+        model.addAttribute("books", bookServices.findByBookName(bookName));
+        return "book/showallbooks";
+    }
+
+    @PostMapping(value = "/changebook")
+    public String changeBook(@ModelAttribute Book book, Model model) {
+        model.addAttribute("books", bookServices.saveBook(book));
+        return "/book/show";
     }
 }

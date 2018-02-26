@@ -3,20 +3,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
 <c:set var="path" value="${pageContext.request.contextPath}"></c:set>
 
 <html>
 <head>
 </head>
 <body>
-<h1>Start Page</h1>
+<h1>Add Book</h1>
 
-    <p>${startMessage}</p>
-    <p><a href="${path}/book/show">Show Books</a></p>
-
-    <p><a href="${path}/book/addform">Add Book</a></p>
-
-    <p><a href="${path}/book/searchform">Search</a></p>
+    <form action="${path}/book/add" method="POST">
+        Name <input type="text" name="bookName"/>
+        ISBN <input type="text" name="isbn"/>
+        Year <input type="text" name="year"/>
+        <input type="submit" align="center" value="Save"/>
+    </form>
 
 </body>
 </html>

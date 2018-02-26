@@ -12,7 +12,7 @@ public class BookServices {
     @Autowired
     private BookRepository bookRepository;
 
-    public List<Book> findAll() {
+    public List<Book> findAllBook() {
         List<Book> list = new ArrayList<>();
         for (Book book : bookRepository.findAll()) {
             list.add(book);
@@ -22,5 +22,9 @@ public class BookServices {
 
     public Book saveBook(Book book) {
         return bookRepository.save(book);
+    }
+
+    public List<Book> findByBookName(String bookName) {
+        return bookRepository.findByBookName(bookName);
     }
 }

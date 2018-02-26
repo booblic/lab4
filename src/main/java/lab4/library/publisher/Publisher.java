@@ -14,15 +14,15 @@ public class Publisher {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer publisherId;
 
-    private String name;
+    private String publisherName;
 
     @ManyToMany(mappedBy = "publishers")
     private Set<Book> books = new HashSet<>();
 
     Publisher() {}
 
-    public Publisher(String name) {
-        this.name = name;
+    public Publisher(String publisherName) {
+        this.publisherName = publisherName;
     }
 
     public Integer getPublisherId() {
@@ -33,12 +33,12 @@ public class Publisher {
         this.publisherId = publisherId;
     }
 
-    public String getName() {
-        return name;
+    public String getPublisherName() {
+        return publisherName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPublisherName(String publisherName) {
+        this.publisherName = publisherName;
     }
 
     public Set<Book> getBooks() {

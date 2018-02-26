@@ -15,7 +15,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer bookId;
 
-    private String name;
+    private String bookName;
 
     private String isbn;
 
@@ -40,8 +40,8 @@ public class Book {
 
     Book() {}
 
-    public Book(String name, String isbn, int year, Set<Genre> genres, Set<Author> authors, Set<Publisher> publishers) {
-        this.name = name;
+    public Book(String bookName, String isbn, int year, Set<Genre> genres, Set<Author> authors, Set<Publisher> publishers) {
+        this.bookName = bookName;
         this.isbn = isbn;
         this.year = year;
         this.genres = genres;
@@ -57,12 +57,12 @@ public class Book {
         this.bookId = bookId;
     }
 
-    public String getName() {
-        return name;
+    public String getBookName() {
+        return bookName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
     public String getIsbn() {

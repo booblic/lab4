@@ -25,17 +25,22 @@ public class User {
 
     private String middleName;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "roleId")
+    private Role role;
+
     @OneToMany(mappedBy = "user")
     private Set<Review> reviews = new HashSet<>();
 
     User() {}
 
-    public User(String login, String password, String firstName, String lastName, String middleName) {
+    public User(String login, String password, String firstName, String lastName, String middleName, Role role) {
         this.login = login;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
+        this.role = role;
     }
 
     public Integer getUserId() {
@@ -92,5 +97,13 @@ public class User {
 
     public void setReviews(Set<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

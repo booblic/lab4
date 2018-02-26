@@ -17,5 +17,7 @@
 
     <p><a href="${path}/book/form">Add Book</a></p>
 
+    <p><a href="${path}/book/searchform">Search</a></p>
+
 </body>
 </html>

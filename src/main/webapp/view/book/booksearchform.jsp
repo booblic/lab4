@@ -9,14 +9,14 @@
 <head>
 </head>
 <body>
-<h1>Start Page</h1>
+<h1>Search By Name</h1>
 
-    <p>${startMessage}</p>
-    <p><a href="${path}/book/show">Show Books</a></p>
+    <form action="${path}/book/search" method="POST">
+            Enter book name <input type="text" name="bookName"/>
+            <input type="submit" align="center" value="Search"/>
+    </form>
 
-    <p><a href="${path}/book/addform">Add Book</a></p>
-
-    <p><a href="${path}/book/searchform">Search</a></p>
+    <p><a href="${path}/">Start Page</a></p>
 
 </body>
 </html>

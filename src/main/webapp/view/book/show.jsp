@@ -11,21 +11,9 @@
 <body>
 <h1>Book List</h1>
 
-    <br/><br/>
-    <div>
-      <table border="1">
-        <tr>
-          <th>Name</th>
-          <th>Year</th>
-        </tr>
-        <c:forEach  items="${books}" var ="book">
-        <tr>
-          <td>${book.name}</td>
+          <td>${book.bookId}</td>
+          <td>${book.bookName}</td>
           <td>${book.year}</td>
-        </tr>
-        </c:forEach>
-      </table>
-    </div>
 
     <p><a href="${path}/">Start Page</a></p>
 
