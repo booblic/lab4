@@ -1,13 +1,19 @@
 package lab4.library.controller;
 
+import lab4.library.author.Author;
 import lab4.library.book.Book;
+import lab4.library.publisher.Publisher;
+import lab4.library.services.AuthorServices;
 import lab4.library.services.BookServices;
+import lab4.library.services.PublisherServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.FormatFlagsConversionMismatchException;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/book")
@@ -15,6 +21,12 @@ public class BookController {
 
     @Autowired
     private BookServices bookServices;
+
+    @Autowired
+    private AuthorServices authorServices;
+
+    @Autowired
+    private PublisherServices publisherServices;
 
     @GetMapping(value = "/show")
     public String showBooks(Model model) {
@@ -29,7 +41,19 @@ public class BookController {
     }
 
     @PostMapping(value = "/add")
-    public String addBook(@ModelAttribute Book book, Model model) {
+    public String addBook(@ModelAttribute Book book, @ModelAttribute Author author, @ModelAttribute Publisher publisher, Model model) {
+
+        Author a = authorServices.saveAuthor(author);
+        Set<Author> authorSet = new HashSet<>();
+        authorSet.add(a);
+
+        Publisher p = publisherServices.savePublisher(publisher);
+        Set<Publisher> publisherSet = new HashSet<>();
+        publisherSet.add(p);
+
+        book.setAuthors(authorSet);
+        book.setPublishers(publisherSet);
+
         model.addAttribute("message", bookServices.saveBook(book).getBookName() + " is add");
         return "message";
     }
