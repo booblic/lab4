@@ -15,31 +15,29 @@
     <div>
       <table border="1">
         <tr>
-          <th>Name</th>
-          <th>Year</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Year</th>
+            <th>Mod</th>
         </tr>
         <c:forEach  items="${books}" var ="book">
         <tr>
 
-          <form action="${path}/book/changebook" method="POST">
-                  Id <input type="text" name="bookId" value="${book.bookId}"/>
-                  Name <input type="text" name="bookName" value="${book.bookName}"/>
-                  ISBN <input type="text" name="isbn" value="${book.isbn}"/>
-                  Year <input type="text" name="year" value="${book.year}"/>
-                  <input type="submit" align="center" value="Ghange"/>
+          <form action="${path}/book/${book.bookId}/changeform" method="POST">
+            <td>${book.bookId}</td>
+            <td>${book.bookName}</td>
+            <td>${book.year}</td>
+            <td><input type="submit" align="center" value="Ghange"/></td>
           </form>
 
-          <br>
-
-          <td>${book.bookId}</td>
-          <td>${book.bookName}</td>
-          <td>${book.year}</td>
         </tr>
         </c:forEach>
       </table>
     </div>
 
     <p><a href="${path}/">Start Page</a></p>
+
+    <p><a href="${path}/changeform">Change</a></p>
 
 </body>
 </html>

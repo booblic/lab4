@@ -1,5 +1,7 @@
-package lab4.library.book;
+package lab4.library.services;
 
+import lab4.library.book.Book;
+import lab4.library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +28,9 @@ public class BookServices {
 
     public List<Book> findByBookName(String bookName) {
         return bookRepository.findByBookName(bookName);
+    }
+
+    public Book findBook(Integer id) {
+        return bookRepository.findOne(id);
     }
 }

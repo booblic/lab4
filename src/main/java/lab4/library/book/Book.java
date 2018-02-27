@@ -1,9 +1,12 @@
 package lab4.library.book;
 
 import lab4.library.author.Author;
+import lab4.library.ganre.Genre;
 import lab4.library.publisher.Publisher;
+import lab4.library.review.Review;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +20,8 @@ public class Book {
 
     private String bookName;
 
+    @Size(min = 17, max = 17)
+    @Column(length = 17)
     private String isbn;
 
     private int year;
@@ -38,7 +43,7 @@ public class Book {
 
     private String periodicity;
 
-    Book() {}
+    public Book() {}
 
     public Book(String bookName, String isbn, int year, Set<Genre> genres, Set<Author> authors, Set<Publisher> publishers) {
         this.bookName = bookName;
@@ -106,7 +111,32 @@ public class Book {
     }
 
     public String getPeriodicity() {
-        return periodicity;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String layout: periodicity.split("/")){
+            switch (layout) {
+                case "1":
+                    stringBuilder.append("One once a ");
+                case "2":
+                    stringBuilder.append("Two once a ");
+                case "3":
+                    stringBuilder.append("Three once a ");
+                case "4":
+                    stringBuilder.append("Four once a ");
+                case "5":
+                    stringBuilder.append("Five once a ");
+                case "6":
+                    stringBuilder.append("Six once a ");
+                case "7":
+                    stringBuilder.append("Seven once a ");
+                case "w":
+                    stringBuilder.append("week");
+                case "m":
+                    stringBuilder.append("month");
+                case "y":
+                    stringBuilder.append("year");
+            }
+        }
+        return stringBuilder.toString();
     }
 
     public void setPeriodicity(String periodicity) {

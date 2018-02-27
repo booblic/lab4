@@ -14,6 +14,7 @@ public class Publisher {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer publisherId;
 
+    @Column(unique = true)
     private String publisherName;
 
     @ManyToMany(mappedBy = "publishers")

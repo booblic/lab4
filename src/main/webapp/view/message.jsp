@@ -9,7 +9,7 @@
 <head>
 </head>
 <body>
-<h1>Start Page</h1>
+<h1>Info</h1>
 
     <p>${message}</p>
 

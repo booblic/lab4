@@ -1,5 +1,6 @@
-package lab4.library.book;
+package lab4.library.review;
 
+import lab4.library.book.Book;
 import lab4.library.user.User;
 
 import javax.persistence.*;
@@ -22,12 +23,15 @@ public class Review {
 
     private String text;
 
+    private Integer rating;
+
     Review() {}
 
-    public Review(User user, Book book, String text) {
+    public Review(User user, Book book, String text, Integer rating) {
         this.user = user;
         this.book = book;
         this.text = text;
+        this.rating = rating;
     }
 
     public Integer getReviewId() {
@@ -60,5 +64,13 @@ public class Review {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 }

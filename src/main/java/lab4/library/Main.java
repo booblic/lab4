@@ -1,17 +1,14 @@
 package lab4.library;
 
 import lab4.library.author.Author;
+import lab4.library.ganre.Genre;
+import lab4.library.repository.BookRepository;
 import lab4.library.book.*;
 import lab4.library.publisher.Publisher;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -56,7 +53,7 @@ public class Main {
         genres2.add(new Genre("Сказки"));
 
         Set<Book> bookSet = new HashSet<>();
-        bookSet.add(new Book("Биография Петра и Ивана", "8800-555-35-35", 2016, genres1, authorSet, publisherSet));
+        bookSet.add(new Book("Биография Петра и Ивана", "978-5-389-06696-1", 2016, genres1, authorSet, publisherSet));
         bookSet.add(new Book("Сказки Петра и Ивана", "978-5-389-06696-0", 2000, genres2, authorSet, publisherSet));
 
         return args -> bookRepository.save(bookSet);

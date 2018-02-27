@@ -1,7 +1,6 @@
 package lab4.library.user;
 
-import lab4.library.book.Book;
-import lab4.library.book.Review;
+import lab4.library.review.Review;
 
 import javax.persistence.*;
 import java.util.HashSet;

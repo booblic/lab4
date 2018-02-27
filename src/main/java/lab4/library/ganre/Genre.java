@@ -1,26 +1,28 @@
-package lab4.library.book;
+package lab4.library.ganre;
+
+import lab4.library.book.Book;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table
 public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer genreId;
 
-    private String name;
+    @Column(unique = true)
+    private String ganreName;
 
     @ManyToMany(mappedBy = "genres")
     private Set<Book> books = new HashSet<>();
 
     Genre() {}
 
-    public Genre(String name) {
-        this.name = name;
+    public Genre(String ganreName) {
+        this.ganreName = ganreName;
     }
 
     public Integer getGenreId() {
@@ -31,12 +33,12 @@ public class Genre {
         this.genreId = genreId;
     }
 
-    public String getName() {
-        return name;
+    public String getGanreName() {
+        return ganreName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGanreName(String ganreName) {
+        this.ganreName = ganreName;
     }
 
     public Set<Book> getBooks() {
