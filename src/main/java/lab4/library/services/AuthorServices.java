@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Service
 public class AuthorServices {
 
@@ -13,10 +17,37 @@ public class AuthorServices {
     private AuthorRepository authorRepository;
 
     public Author saveAuthor(Author author) {
-        Example<Author> authorExample = Example.of(author);
-        if (authorRepository.exists(authorExample)) {
-            return authorRepository.findByFirstNameAndLastNameAndMiddleName(author.getFirstName(), author.getLastName(), author.getMiddleName());
-        }
         return authorRepository.save(author);
+    }
+
+    public Set<Author> getAuthors(String authorNames) {
+
+        Set<Author> authorSet = new HashSet<>();
+
+        for (String authorName: authorNames.split(",")) {
+
+            String[] authorNameMassif =   authorName.split(" ");
+
+            String firstName = authorNameMassif[0].trim();
+            String lastName = authorNameMassif[1].trim();
+            String middleName = null;
+
+            if (authorNameMassif.length == 3) {
+                middleName = authorNameMassif[2];
+            }
+
+            Author author = findByFirstNameAndLastName(firstName, lastName);
+
+            if (author != null) {
+                authorSet.add(author);
+            } else {
+                authorSet.add(saveAuthor(new Author(firstName, lastName, middleName)));
+            }
+        }
+        return authorSet;
+    }
+
+    public Author findByFirstNameAndLastName(String firstName, String lastName) {
+        return authorRepository.findByFirstNameAndLastName(firstName, lastName);
     }
 }

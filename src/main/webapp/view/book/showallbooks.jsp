@@ -23,11 +23,11 @@
         <c:forEach  items="${books}" var ="book">
         <tr>
 
-          <form action="${path}/book/${book.bookId}/changeform" method="POST">
+          <form action="${path}/book/${book.bookId}/editform" method="POST">
             <td>${book.bookId}</td>
             <td>${book.bookName}</td>
             <td>${book.year}</td>
-            <td><input type="submit" align="center" value="Ghange"/></td>
+            <td><input type="submit" align="center" value="Edit"/></td>
           </form>
 
         </tr>
@@ -37,7 +37,7 @@
 
     <p><a href="${path}/">Start Page</a></p>
 
-    <p><a href="${path}/changeform">Change</a></p>
+    <p><a href="${path}/console">H2 Console</a></p>
 
 </body>
 </html>

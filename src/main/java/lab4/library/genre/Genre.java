@@ -1,4 +1,4 @@
-package lab4.library.ganre;
+package lab4.library.genre;
 
 import lab4.library.book.Book;
 
@@ -14,15 +14,15 @@ public class Genre {
     private Integer genreId;
 
     @Column(unique = true)
-    private String ganreName;
+    private String genreName;
 
     @ManyToMany(mappedBy = "genres")
     private Set<Book> books = new HashSet<>();
 
     Genre() {}
 
-    public Genre(String ganreName) {
-        this.ganreName = ganreName;
+    public Genre(String genreName) {
+        this.genreName = genreName;
     }
 
     public Integer getGenreId() {
@@ -33,12 +33,12 @@ public class Genre {
         this.genreId = genreId;
     }
 
-    public String getGanreName() {
-        return ganreName;
+    public String getGenreName() {
+        return genreName;
     }
 
-    public void setGanreName(String ganreName) {
-        this.ganreName = ganreName;
+    public void setGenreName(String genreName) {
+        this.genreName = genreName;
     }
 
     public Set<Book> getBooks() {

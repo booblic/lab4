@@ -12,11 +12,14 @@
 <h1>Start Page</h1>
 
     <p>${startMessage}</p>
+
     <p><a href="${path}/book/show">Show Books</a></p>
 
     <p><a href="${path}/book/addform">Add Book</a></p>
 
     <p><a href="${path}/book/searchform">Search</a></p>
+
+    <p><a href="${path}/console">H2 Console</a></p>
 
 </body>
 </html>

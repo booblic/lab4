@@ -1,7 +1,7 @@
 package lab4.library;
 
 import lab4.library.author.Author;
-import lab4.library.ganre.Genre;
+import lab4.library.genre.Genre;
 import lab4.library.repository.BookRepository;
 import lab4.library.book.*;
 import lab4.library.publisher.Publisher;

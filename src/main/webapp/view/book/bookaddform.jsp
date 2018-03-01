@@ -12,22 +12,16 @@
 <body>
 <h1>Add Book</h1>
 
-    <form action="${path}/book/add" method="POST">
-        <h2>Book info</h2>
+    <form action="${path}/book/addbook" method="POST">
+        <h2>Book information</h2>
         Name <input type="text" name="bookName"/>
         ISBN <input type="text" name="isbn"/>
         Year <input type="text" name="year"/>
-        <br>
-        <h2>Author info</h2>
-        FirstName <input type="text" name="firstName"/>
-        LastName <input type="text" name="lastName"/>
-        MiddleName <input type="text" name="middleName"/>
-        <br>
-        <h2>Publisher info</h2>
-        PublisherName <input type="text" name="publisherName"/>
-        <br>
+
         <input type="submit" align="center" value="Save"/>
     </form>
+
+
 
 </body>
 </html>
