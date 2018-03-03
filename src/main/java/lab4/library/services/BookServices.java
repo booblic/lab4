@@ -26,35 +26,38 @@ public class BookServices {
     private PublisherServices publisherServices;
 
     public Collection<Book> findAllBook() {
-        /*List<Book> list = new ArrayList<>();
-        for (Book book : bookRepository.findAll()) {
-            list.add(book);
-        }
-        return list;*/
         return bookRepository.findAll();
     }
 
-    public Book saveBook(Book book) {
-        return bookRepository.save(book);
+    public Collection<Book> saveBook(String[] bookName, String[] isbn, Integer[] year) {
+        Set<Book> bookSet = new HashSet<>();
+        for (int i = 0; i < bookName.length; i++) {
+            Book book = new Book();
+            book.setBookName(bookName[i]);
+            book.setIsbn(isbn[i]);
+            book.setYear(year[i]);
+            bookSet.add(book);
+        }
+        return bookRepository.save(bookSet);
     }
 
-    public Book editBook(Book book, String genreNames, String authorNames, String publisherNames) {
+    public Book editBook(Book book, String[] genreNames, String[] firstNames, String[] lastNames, String[] middleNames, String[] publisherNames) {
 
         Set<Genre> genreSet;
         Set<Author> authorSet;
         Set<Publisher> publisherSet;
 
-        if (genreNames != null) {
+        if (genreNames.length != 0) {
             genreSet = genreServices.getGenres(genreNames);
             book.setGenres(genreSet);
         }
 
-        if (authorNames != null) {
-            authorSet = authorServices.getAuthors(authorNames);
+        if (firstNames.length != 0) {
+            authorSet = authorServices.getAuthors(firstNames, lastNames, middleNames);
             book.setAuthors(authorSet);
         }
 
-        if (publisherNames != null) {
+        if (publisherNames.length != 0) {
             publisherSet = publisherServices.getPublisher(publisherNames);
             book.setPublishers(publisherSet);
         }

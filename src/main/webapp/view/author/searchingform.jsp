@@ -9,14 +9,13 @@
 <head>
 </head>
 <body>
-<h1>Search By Name</h1>
+<h1>Searching Books By Author Name</h1>
 
-    <form action="${path}/book/search" method="POST">
-            Enter book name <input type="text" name="bookName"/>
-            <input type="submit" align="center" value="Search"/>
+    <form action="${path}/author/search" method="POST">
+        Author First Name <input type="text" name="firstName"/>
+        Author Last Name <input type="text" name="lastName"/>
+        <input type="submit" align="center" value="Search"/>
     </form>
-
-    <p><a href="${path}/">Start Page</a></p>
 
 </body>
 </html>

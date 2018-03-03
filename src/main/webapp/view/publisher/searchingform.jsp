@@ -9,17 +9,12 @@
 <head>
 </head>
 <body>
-<h1>Start Page</h1>
+<h1>Searching Books By Publisher Name</h1>
 
-    <p>${startMessage}</p>
-
-    <p><a href="${path}/book/show">Show Books</a></p>
-
-    <p><a href="${path}/book/formadd">Add Book</a></p>
-
-    <p><a href="${path}/searchbookoptions">Searching Books</a></p>
-
-    <p><a href="${path}/console">H2 Console</a></p>
+    <form action="${path}/publisher/search" method="POST">
+        Publisher Name <input type="text" name="publisherName"/>
+        <input type="submit" align="center" value="Search"/>
+    </form>
 
 </body>
 </html>

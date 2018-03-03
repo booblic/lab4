@@ -29,16 +29,17 @@ public class BookController {
         return "book/showallbooks";
     }
 
-    @GetMapping(value = "/addform")
+    @GetMapping(value = "/formadd")
     public String addForm(Model model) {
         model.addAttribute("book", new Book());
-        return "book/bookaddform";
+        return "book/formaddbook";
     }
 
     @PostMapping(value = "/addbook")
-    public String addBook(@ModelAttribute Book book, Model model) {
-        model.addAttribute("message", bookServices.saveBook(book).getBookName() + " is added");
-        return "message";
+    public String addBook(@RequestParam String[] bookName, @RequestParam String[] isbn, @RequestParam Integer[] year, Model model) {
+        bookServices.saveBook(bookName, isbn, year);
+        model.addAttribute("books", bookServices.findAllBook());
+        return "book/showallbooks";
     }
 
     /*@PostMapping(value = "/add")
@@ -68,35 +69,63 @@ public class BookController {
     <h2>Publisher info</h2>
     PublisherName <input type="text" name="publisherName"/>*/
 
-    @GetMapping(value = "/searchform")
-    public String searchForm(Model model) {
+    @GetMapping(value = "/getsearchingform")
+    public String getSearchingForm(Model model) {
         model.addAttribute("book", new Book());
-        return "book/booksearchform";
+        return "book/searchingform";
     }
 
     @PostMapping(value = "/search")
-    public String searchBook(@ModelAttribute(name = "bookName") String bookName, Model model) {
+    public String searchBookByBookName(@RequestParam String bookName, Model model) {
         model.addAttribute("books", bookServices.findByBookName(bookName));
         return "book/showallbooks";
     }
 
-    @PostMapping(value = "/{id}/editform")
+    @PostMapping(value = "/{id}/formedit")
     public String editForm(@PathVariable Integer id, Model model) {
         Book book = bookServices.findBook(id);
+        Set<Genre> genreSet = book.getGenres();
+        Set<Author> authorSet = book.getAuthors();
+        Set<Publisher> publisherSet = book.getPublishers();
         model.addAttribute("book", book);
-        return "book/bookeditform";
+        model.addAttribute("genres", genreSet);
+        model.addAttribute("authors", authorSet);
+        model.addAttribute("publishers", publisherSet);
+        return "book/formeditbook";
     }
 
     @PostMapping(value = "/{id}/editbook")
     public String editBook(@PathVariable Integer id,
                            @ModelAttribute Book book,
-                           @ModelAttribute(name = "genreNames") String genreNames,
-                           @ModelAttribute(name = "authorNames") String authorNames,
-                           @ModelAttribute(name = "publisherNames") String publisherNames,
+                           @RequestParam String[] genreName,
+                           @RequestParam String[] firstName,
+                           @RequestParam String[] lastName,
+                           @RequestParam String[] middleName,
+                           @RequestParam String[] publisherName,
                            Model model) {
         book.setBookId(id);
-        bookServices.editBook(book, genreNames, authorNames, publisherNames);
-        model.addAttribute("books", bookServices.saveBook(book));
-        return "/book/show";
+        System.out.println("---------------------------------------------------------");
+        for (String s: genreName) {
+            System.out.println("--"+s+"--");
+            if (s.compareTo("") == 0) {
+                System.out.println("++++++++++++++++++");
+            }
+        }
+        System.out.println("---------------------------------------------------------");
+        bookServices.editBook(book, genreName, firstName, lastName, middleName, publisherName);
+        model.addAttribute("books", bookServices.findAllBook());
+        return "book/showallbooks";
+    }
+
+    @GetMapping(value = "/test")
+    public String test(Model model) {
+        model.addAttribute("value", "test js");
+        return "/book/testjsp";
+    }
+
+    @PostMapping(value = "/params/arrays")
+    public String paramsAsArrays(@RequestParam String[] bookName, @RequestParam String[] isbn, @RequestParam Integer[] year, Model model) {
+        model.addAttribute("message", bookName.length);
+        return "message";
     }
 }

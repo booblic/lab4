@@ -11,10 +11,6 @@
 <body>
 <h1>Book List</h1>
 
-          <td>${book.bookId}</td>
-          <td>${book.bookName}</td>
-          <td>${book.year}</td>
-
     <p><a href="${path}/">Start Page</a></p>
 
 </body>

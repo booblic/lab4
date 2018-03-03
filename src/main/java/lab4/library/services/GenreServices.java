@@ -18,20 +18,21 @@ public class GenreServices {
         return genreRepository.save(genre);
     }
 
-    public Set<Genre> getGenres(String genreNames) {
+    public Set<Genre> getGenres(String[] genreNames) {
 
         Set<Genre> genreSet = new HashSet<>();
 
-        for (String genreName: genreNames.split(",")) {
+        for (String genreName: genreNames) {
 
-            genreName = genreNames.trim();
+            if (genreName.compareTo("") != 0) {
 
-            Genre genre = findByGenreName(genreName);
+                Genre genre = findByGenreName(genreName);
 
-            if (genre != null) {
-                genreSet.add(genre);
-            } else {
-                genreSet.add(saveGenre(new Genre(genreName)));
+                if (genre != null) {
+                    genreSet.add(genre);
+                } else {
+                    genreSet.add(saveGenre(new Genre(genreName)));
+                }
             }
         }
         return genreSet;

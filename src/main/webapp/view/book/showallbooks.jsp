@@ -23,7 +23,7 @@
         <c:forEach  items="${books}" var ="book">
         <tr>
 
-          <form action="${path}/book/${book.bookId}/editform" method="POST">
+          <form action="${path}/book/${book.bookId}/formedit" method="POST">
             <td>${book.bookId}</td>
             <td>${book.bookName}</td>
             <td>${book.year}</td>
