@@ -1,9 +1,8 @@
-package lab4.library.services;
+package lab4.library.service;
 
 import lab4.library.publisher.Publisher;
 import lab4.library.repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;

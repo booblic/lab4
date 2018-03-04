@@ -1,8 +1,7 @@
 package lab4.library.controller;
 
-import lab4.library.book.Book;
 import lab4.library.genre.Genre;
-import lab4.library.services.GenreServices;
+import lab4.library.service.GenreServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

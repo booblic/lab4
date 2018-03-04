@@ -1,20 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+       <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+       <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:set var="path" value="${pageContext.request.contextPath}"></c:set>
+       <c:set var="path" value="${pageContext.request.contextPath}"></c:set>
 
-<html>
-<head>
-</head>
-<body>
-<h1>Searching Books</h1>
+       <html>
+       <head>
+       </head>
+       <body>
+       <h1>Searching Books</h1>
 
-    <form action="${path}/book/search" method="POST">
-        <input type="text" name="bookName"/>
-        <input type="submit" align="center" value="Search"/>
-    </form>
+           <form action="${path}/book/search" method="POST">
+               Book Name <input type="text" name="bookName"/>
+               <input type="submit" align="center" value="Search"/>
+           </form>
 
-</body>
-</html>
+       </body>
+       </html>

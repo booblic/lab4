@@ -9,19 +9,12 @@
 <head>
 </head>
 <body>
-<h1>Start Page</h1>
+<h1>Searching Books</h1>
 
-    <p>${startMessage}</p>
-
-    <p><a href="${path}/book/show">Show Books</a></p>
-
-    <p><a href="${path}/book/formadd">Add Book</a></p>
-
-    <p><a href="${path}/searchbookoptions">Searching Books</a></p>
-
-    <p><a href="${path}/user/show">Registration</a></p>
-
-    <p><a href="${path}/console">H2 Console</a></p>
+    <p><a href="${path}/book/getsearchingform">Searching from name</a></p>
+    <p><a href="${path}/genre/getsearchingform">Searching by genre</a></p>
+    <p><a href="${path}/author/getsearchingform">Searching by author</a></p>
+    <p><a href="${path}/publisher/getsearchingform">Searching by publisher</a></p>
 
 </body>
 </html>

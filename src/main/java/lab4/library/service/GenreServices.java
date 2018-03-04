@@ -1,4 +1,4 @@
-package lab4.library.services;
+package lab4.library.service;
 
 import lab4.library.genre.Genre;
 import lab4.library.repository.GenreRepository;

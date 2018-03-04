@@ -4,16 +4,12 @@ import lab4.library.author.Author;
 import lab4.library.book.Book;
 import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
-import lab4.library.services.AuthorServices;
-import lab4.library.services.BookServices;
-import lab4.library.services.GenreServices;
-import lab4.library.services.PublisherServices;
+import lab4.library.service.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Controller

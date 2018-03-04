@@ -11,17 +11,11 @@
 <body>
 <h1>Start Page</h1>
 
-    <p>${startMessage}</p>
-
-    <p><a href="${path}/book/show">Show Books</a></p>
-
-    <p><a href="${path}/book/formadd">Add Book</a></p>
-
-    <p><a href="${path}/searchbookoptions">Searching Books</a></p>
-
-    <p><a href="${path}/user/show">Registration</a></p>
-
-    <p><a href="${path}/console">H2 Console</a></p>
+    <form action="${path}/user/login" method="POST">
+        User Name <input type="text" name="username"/>
+        Password <input type="text" name="password"/>
+        <input type="submit" align="center" value="Registration"/>
+    </form>
 
 </body>
 </html>
