@@ -9,17 +9,19 @@
     <head>
     </head>
     <body>
-    <h1>Info</h1>
+        <h1>Start Page</h1>
 
-        <p>${message}</p>
+        ${error}
 
-        <p><a href="${path}/book/show">Show Books</a></p>
+        ${message}
 
-        <p><a href="${path}/book/addform">Add Book</a></p>
+        ${test}
 
-        <p><a href="${path}/book/searchform">Search</a></p>
-
-        <p><a href="${path}/console">H2 Console</a></p>
+        <form action="${path}/user/login" method="POST">
+            User Name <input type="text" name="username"/>
+            Password <input type="text" name="password"/>
+            <input type="submit" align="center" value="Sign In"/>
+        </form>
 
     </body>
 </html>

@@ -17,14 +17,20 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
-    @GetMapping(value = "/show")
+    @GetMapping(value = "/registrationform")
     public String registration(Model model) {
         model.addAttribute("user", new User());
-        return "user/form";
+        return "user/registration";
     }
 
-    @PostMapping(value = "/login")
-    public String registerUser(@RequestParam String username, @RequestParam String password, Model model) {
+    @PostMapping(value = "/registeruser")
+    public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String confirmPassword, Model model) {
+
+        if (password.compareTo(confirmPassword) != 0) {
+            model.addAttribute("error", "Password don't match!");
+            return "user/registration";
+        }
+
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
@@ -32,5 +38,18 @@ public class UserController {
         userService.singupUser(user);
 
         return "redirect:/";
+    }
+
+    @GetMapping(value = "/login")
+    public String login(Model model, String error, String logout) {
+        if (error != null)
+            model.addAttribute("error", "Your username and password is invalid.");
+
+        if (logout != null)
+            model.addAttribute("message", "You have been logged out successfully.");
+
+        model.addAttribute("test", "test");
+
+        return "user/login";
     }
 }

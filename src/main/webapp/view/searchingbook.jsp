@@ -6,15 +6,18 @@
 <c:set var="path" value="${pageContext.request.contextPath}"></c:set>
 
 <html>
-<head>
-</head>
-<body>
-<h1>Searching Books</h1>
+    <head>
+    </head>
+    <body>
+        <h1>Searching Books</h1>
 
-    <p><a href="${path}/book/getsearchingform">Searching from name</a></p>
-    <p><a href="${path}/genre/getsearchingform">Searching by genre</a></p>
-    <p><a href="${path}/author/getsearchingform">Searching by author</a></p>
-    <p><a href="${path}/publisher/getsearchingform">Searching by publisher</a></p>
+        <p><a href="${path}/book/getsearchingform">Searching from name</a></p>
 
-</body>
+        <p><a href="${path}/genre/getsearchingform">Searching by genre</a></p>
+
+        <p><a href="${path}/author/getsearchingform">Searching by author</a></p>
+
+        <p><a href="${path}/publisher/getsearchingform">Searching by publisher</a></p>
+
+    </body>
 </html>

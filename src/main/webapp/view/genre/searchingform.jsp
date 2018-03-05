@@ -6,15 +6,15 @@
 <c:set var="path" value="${pageContext.request.contextPath}"></c:set>
 
 <html>
-<head>
-</head>
-<body>
-<h1>Searching Books by Genre Name</h1>
+    <head>
+    </head>
+    <body>
+        <h1>Searching Books by Genre Name</h1>
 
-    <form action="${path}/genre/search" method="POST">
-        Genre Name <input type="text" name="genreName"/>
-        <input type="submit" align="center" value="Search"/>
-    </form>
+        <form action="${path}/genre/search" method="POST">
+            Genre Name <input type="text" name="genreName"/>
+            <input type="submit" align="center" value="Search"/>
+        </form>
 
-</body>
+    </body>
 </html>

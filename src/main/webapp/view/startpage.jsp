@@ -6,22 +6,24 @@
 <c:set var="path" value="${pageContext.request.contextPath}"></c:set>
 
 <html>
-<head>
-</head>
-<body>
-<h1>Start Page</h1>
+    <head>
+    </head>
+    <body>
+        <h1>Start Page</h1>
 
-    <p>${startMessage}</p>
+        <p>${startMessage}</p>
 
-    <p><a href="${path}/book/show">Show Books</a></p>
+        <p><a href="${path}/book/show">Show Books</a></p>
 
-    <p><a href="${path}/book/formadd">Add Book</a></p>
+        <p><a href="${path}/book/formadd">Add Book</a></p>
 
-    <p><a href="${path}/searchbookoptions">Searching Books</a></p>
+        <p><a href="${path}/searchbookoptions">Searching Books</a></p>
 
-    <p><a href="${path}/user/show">Registration</a></p>
+        <p><a href="${path}/user/registrationform">Registration</a></p>
 
-    <p><a href="${path}/console">H2 Console</a></p>
+        <p><a href="${path}/user/login">Sign In</a></p>
 
-</body>
+        <p><a href="${path}/console">H2 Console</a></p>
+
+    </body>
 </html>

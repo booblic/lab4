@@ -6,115 +6,74 @@
 <c:set var="path" value="${pageContext.request.contextPath}"></c:set>
 
 <html>
-<head>
-    <script>
-        function createInputElement(type, name) {
-            var i = document.createElement("input");
-            i.type = type;
-            i.name = name;
-            return i;
-        }
+    <head>
+        <script type="text/javascript" src="${path}/js/editbook.js"></script>
+    </head>
+    <body>
+    <h1>Edit Book</h1>
 
-        function addAuthorFormItem() {
-            with (document) {
-                var div = createElement("div");
-                div.appendChild(createElement("br"));
-                div.appendChild(createTextNode(" First Name "));
-                div.appendChild(createInputElement("text", "firstName"));
-                div.appendChild(createTextNode(" Last Name "));
-                div.appendChild(createInputElement("text", "lastName"));
-                div.appendChild(createTextNode(" Middle Name "));
-                div.appendChild(createInputElement("text", "middleName"));
-                getElementById("authorItems").appendChild(div);
-            }
-        }
-
-        function addPublisherFormItem() {
-            with (document) {
-                var div = createElement("div");
-                div.appendChild(createElement("br"));
-                div.appendChild(createTextNode("Publisher Name "));
-                div.appendChild(createInputElement("text", "publisherName"));
-                getElementById("publisherItems").appendChild(div);
-            }
-        }
-
-        function addGenreFormItem() {
-            with (document) {
-                var div = createElement("div");
-                div.appendChild(createElement("br"));
-                div.appendChild(createTextNode("Genre Name "));
-                div.appendChild(createInputElement("text", "genreName"));
-                getElementById("genreItems").appendChild(div);
-            }
-        }
-    </script>
-</head>
-<body>
-<h1>Edit Book</h1>
-
-    <form action="${path}/book/${book.bookId}/editbook" method="POST">
-        <div>
-            <b>Book:</b><br/>
-            Name <input type="text" name="bookName" value="${book.bookName}"/>
-            ISBN <input type="text" name="isbn" value="${book.isbn}"/>
-            Year <input type="text" name="year" value="${book.year}"/>
-        </div>
-
-        <br>
-
-        <div id="genreItems">
+        <form action="${path}/book/${book.bookId}/editbook" method="POST">
             <div>
-                <b>Genre:</b><br/>
-                <c:forEach  items="${genres}" var ="genre">
-                    Genre Name <input type="text" name="genreName" value="${genre.genreName}"/>
-                    <br><br>
-                </c:forEach>
+                <b>Book:</b><br/>
+                Name <input type="text" name="bookName" value="${book.bookName}"/>
+                ISBN <input type="text" name="isbn" value="${book.isbn}"/>
+                Year <input type="text" name="year" value="${book.year}"/>
             </div>
-        </div>
 
-        <input type="button" value="Add new Genre" onclick="addGenreFormItem()"/>
+            <br>
+
+            <div id="genreItems">
+                <div>
+                    <b>Genre:</b><br/>
+                    <c:forEach  items="${genres}" var ="genre">
+                        Genre Name <input type="text" name="genreName" value="${genre.genreName}"/>
+                        <br><br>
+                    </c:forEach>
+                </div>
+            </div>
+
+            <input type="button" value="Add new Genre" onclick="addGenreFormItem()"/>
+
+            <br><br>
+
+            <div id="authorItems">
+                <div>
+                    <b>Author:</b><br/>
+                     <c:forEach  items="${authors}" var ="author">
+                        First Name <input type="text" name="firstName" value="${author.firstName}"/>
+                        Last Name <input type="text" name="lastName" value="${author.lastName}"/>
+                        Middle Name <input type="text" name="middleName" value="${author.middleName}"/>
+                        <br><br>
+                     </c:forEach>
+                </div>
+            </div>
+
+            <input type="button" value="Add new Author" onclick="addAuthorFormItem()"/>
+
+            <br><br>
+
+            <div id="publisherItems">
+                <div>
+                    <b>Publisher:</b><br/>
+                    <c:forEach  items="${publishers}" var ="publisher">
+                        Publisher Name <input type="text" name="publisherName" value="${publisher.publisherName}"/>
+                        <br><br>
+                    </c:forEach>
+                </div>
+            </div>
+
+            <input type="button" value="Add new Publisher" onclick="addPublisherFormItem()"/>
+
+            <br><br>
+
+            <div>
+                <input type="submit" align="center" value="Ghange"/>
+            </div>
+        </form>
 
         <br><br>
 
-        <div id="authorItems">
-            <div>
-                <b>Author:</b><br/>
-                 <c:forEach  items="${authors}" var ="author">
-                    First Name <input type="text" name="firstName" value="${author.firstName}"/>
-                    Last Name <input type="text" name="lastName" value="${author.lastName}"/>
-                    Middle Name <input type="text" name="middleName" value="${author.middleName}"/>
-                    <br><br>
-                 </c:forEach>
-            </div>
-        </div>
+        <p><a href="${path}/">Start Page</a></p>
 
-        <input type="button" value="Add new Author" onclick="addAuthorFormItem()"/>
-
-        <br><br>
-
-        <div id="publisherItems">
-            <div>
-                <b>Publisher:</b><br/>
-                <c:forEach  items="${publishers}" var ="publisher">
-                    Publisher Name <input type="text" name="publisherName" value="${publisher.publisherName}"/>
-                    <br><br>
-                </c:forEach>
-            </div>
-        </div>
-
-        <input type="button" value="Add new Publisher" onclick="addPublisherFormItem()"/>
-
-        <br><br>
-
-        <div>
-            <input type="submit" align="center" value="Ghange"/>
-        </div>
-    </form>
-
-    <br><br>
-
-    <p><a href="${path}/">Start Page</a></p>
-
-</body>
+    </body>
 </html>

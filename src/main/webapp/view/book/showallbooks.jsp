@@ -6,38 +6,38 @@
 <c:set var="path" value="${pageContext.request.contextPath}"></c:set>
 
 <html>
-<head>
-</head>
-<body>
-<h1>Book List</h1>
+    <head>
+    </head>
+    <body>
+        <h1>Book List</h1>
 
-    <br/><br/>
-    <div>
-      <table border="1">
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Year</th>
-            <th>Mod</th>
-        </tr>
-        <c:forEach  items="${books}" var ="book">
-        <tr>
+        <br/><br/>
+        <div>
+          <table border="1">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Year</th>
+                <th>Mod</th>
+            </tr>
+            <c:forEach  items="${books}" var ="book">
+            <tr>
 
-          <form action="${path}/book/${book.bookId}/formedit" method="POST">
-            <td>${book.bookId}</td>
-            <td>${book.bookName}</td>
-            <td>${book.year}</td>
-            <td><input type="submit" align="center" value="Edit"/></td>
-          </form>
+              <form action="${path}/book/${book.bookId}/formedit" method="POST">
+                <td>${book.bookId}</td>
+                <td>${book.bookName}</td>
+                <td>${book.year}</td>
+                <td><input type="submit" align="center" value="Edit"/></td>
+              </form>
 
-        </tr>
-        </c:forEach>
-      </table>
-    </div>
+            </tr>
+            </c:forEach>
+          </table>
+        </div>
 
-    <p><a href="${path}/">Start Page</a></p>
+        <p><a href="${path}/">Start Page</a></p>
 
-    <p><a href="${path}/console">H2 Console</a></p>
+        <p><a href="${path}/console">H2 Console</a></p>
 
-</body>
+    </body>
 </html>
