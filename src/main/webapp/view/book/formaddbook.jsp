@@ -23,6 +23,7 @@
             </div>
 
             <input type="button" value="Add new Book" onclick="addBookFormItem()"/>
+
             <input type="submit" align="center" value="Save"/>
         </form>
 

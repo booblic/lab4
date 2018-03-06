@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class PublisherServices {
+public class PublisherService {
 
     @Autowired
     private PublisherRepository publisherRepository;

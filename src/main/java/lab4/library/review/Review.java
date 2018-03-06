@@ -25,7 +25,7 @@ public class Review {
 
     private Integer rating;
 
-    Review() {}
+    public Review() {}
 
     public Review(User user, Book book, String text, Integer rating) {
         this.user = user;

@@ -18,7 +18,8 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Year</th>
-                <th>Mod</th>
+                <th>Edit</th>
+                <th>View</th>
             </tr>
             <c:forEach  items="${books}" var ="book">
             <tr>
@@ -27,7 +28,8 @@
                 <td>${book.bookId}</td>
                 <td>${book.bookName}</td>
                 <td>${book.year}</td>
-                <td><input type="submit" align="center" value="Edit"/></td>
+                <td><input type="submit" name="kind" align="center" value="Edit"/></td>
+                <td><input type="submit" name="kind" align="center" value="View"/></td>
               </form>
 
             </tr>

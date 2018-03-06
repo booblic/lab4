@@ -1,7 +1,7 @@
 package lab4.library.controller;
 
 import lab4.library.genre.Genre;
-import lab4.library.service.GenreServices;
+import lab4.library.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class GenreController {
 
     @Autowired
-    private GenreServices genreServices;
+    private GenreService genreService;
 
     @GetMapping(value = "/getsearchingform")
     public String getSearchingForm() {
@@ -24,7 +24,7 @@ public class GenreController {
 
     @PostMapping(value = "/search")
     public String searchBookByGenreName(@RequestParam String genreName, Model model) {
-        Genre genre = genreServices.findByGenreName(genreName);
+        Genre genre = genreService.findByGenreName(genreName);
         model.addAttribute("books", genre.getBooks());
         return "book/showallbooks";
     }

@@ -1,7 +1,7 @@
 package lab4.library.controller;
 
 import lab4.library.author.Author;
-import lab4.library.service.AuthorServices;
+import lab4.library.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AuthorController {
 
     @Autowired
-    private AuthorServices authorServices;
+    private AuthorService authorService;
 
     @GetMapping(value = "/getsearchingform")
     public String getSearchingForm() {
@@ -24,7 +24,7 @@ public class AuthorController {
 
     @PostMapping(value = "/search")
     public String serchBookByAuthorName(@RequestParam String firstName, @RequestParam String lastName, Model model) {
-        Author author = authorServices.findByFirstNameAndLastName(firstName, lastName);
+        Author author = authorService.findByFirstNameAndLastName(firstName, lastName);
         model.addAttribute("books", author.getBooks());
         return "/book/showallbooks";
     }

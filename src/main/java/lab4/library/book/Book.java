@@ -142,4 +142,12 @@ public class Book {
     public void setPeriodicity(String periodicity) {
         this.periodicity = periodicity;
     }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
 }

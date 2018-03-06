@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class GenreServices {
+public class GenreService {
 
     @Autowired
     private GenreRepository genreRepository;

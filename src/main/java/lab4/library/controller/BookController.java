@@ -4,7 +4,10 @@ import lab4.library.author.Author;
 import lab4.library.book.Book;
 import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
+import lab4.library.review.Review;
 import lab4.library.service.BookServices;
+import lab4.library.service.ReviewService;
+import lab4.library.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +21,12 @@ public class BookController {
 
     @Autowired
     private BookServices bookServices;
+
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private UserServiceImpl userService;
 
     @GetMapping(value = "/show")
     public String showBooks(Model model) {
@@ -78,7 +87,7 @@ public class BookController {
     }
 
     @PostMapping(value = "/{id}/formedit")
-    public String editForm(@PathVariable Integer id, Model model) {
+    public String editForm(@PathVariable Integer id, @RequestParam String kind, Model model) {
         Book book = bookServices.findBook(id);
         Set<Genre> genreSet = book.getGenres();
         Set<Author> authorSet = book.getAuthors();
@@ -87,6 +96,13 @@ public class BookController {
         model.addAttribute("genres", genreSet);
         model.addAttribute("authors", authorSet);
         model.addAttribute("publishers", publisherSet);
+
+        if (kind.compareTo("View") == 0) {
+            Set<Review> reviews = book.getReviews();
+            model.addAttribute("reviews", reviews);
+            model.addAttribute("user", userService.getCurrentUser());
+            return "book/formviewbook";
+        }
         return "book/formeditbook";
     }
 
@@ -100,17 +116,16 @@ public class BookController {
                            @RequestParam String[] publisherName,
                            Model model) {
         book.setBookId(id);
-        System.out.println("---------------------------------------------------------");
-        for (String s: genreName) {
-            System.out.println("--"+s+"--");
-            if (s.compareTo("") == 0) {
-                System.out.println("++++++++++++++++++");
-            }
-        }
-        System.out.println("---------------------------------------------------------");
         bookServices.editBook(book, genreName, firstName, lastName, middleName, publisherName);
         model.addAttribute("books", bookServices.findAllBook());
         return "book/showallbooks";
+    }
+
+    @PostMapping(value = "/{id}/addreview")
+    public String addreview(@PathVariable Integer id, @RequestParam String[] bookReview, Model model) {
+        Book book = bookServices.findBook(id);
+        reviewService.saveReview(bookReview[0], book);
+        return "redirect:/";
     }
 
     @GetMapping(value = "/test")

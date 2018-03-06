@@ -17,13 +17,13 @@ public class BookServices {
     private BookRepository bookRepository;
 
     @Autowired
-    private GenreServices genreServices;
+    private GenreService genreService;
 
     @Autowired
-    private AuthorServices authorServices;
+    private AuthorService authorService;
 
     @Autowired
-    private PublisherServices publisherServices;
+    private PublisherService publisherService;
 
     public Collection<Book> findAllBook() {
         return bookRepository.findAll();
@@ -48,17 +48,17 @@ public class BookServices {
         Set<Publisher> publisherSet;
 
         if (genreNames.length != 0) {
-            genreSet = genreServices.getGenres(genreNames);
+            genreSet = genreService.getGenres(genreNames);
             book.setGenres(genreSet);
         }
 
         if (firstNames.length != 0) {
-            authorSet = authorServices.getAuthors(firstNames, lastNames, middleNames);
+            authorSet = authorService.getAuthors(firstNames, lastNames, middleNames);
             book.setAuthors(authorSet);
         }
 
         if (publisherNames.length != 0) {
-            publisherSet = publisherServices.getPublisher(publisherNames);
+            publisherSet = publisherService.getPublisher(publisherNames);
             book.setPublishers(publisherSet);
         }
         return bookRepository.save(book);
