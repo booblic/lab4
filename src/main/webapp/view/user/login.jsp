@@ -9,13 +9,11 @@
     <head>
     </head>
     <body>
-        <h1>Start Page</h1>
+        <h1>Login Page</h1>
 
         ${error}
 
-        ${message}
-
-        ${test}
+        ${logout}
 
         <form action="${path}/user/login" method="POST">
             User Name <input type="text" name="username"/>

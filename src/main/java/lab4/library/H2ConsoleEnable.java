@@ -7,7 +7,7 @@ import org.h2.server.web.WebServlet;
 
 
 @Configuration
-public class BeanConfig {
+public class H2ConsoleEnable {
 
     @Bean
     ServletRegistrationBean h2servletRegistration(){

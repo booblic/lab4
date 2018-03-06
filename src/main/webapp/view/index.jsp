@@ -9,19 +9,9 @@
     <head>
     </head>
     <body>
-        <h1>Welcome to Library!</h1>
+        <h1>Welcome to the library!</h1>
 
-        <p>${message}</p>
-
-        <p>${registrationMessage}</p>
-
-        <p>${logoutMessage}</p>
-
-        <p><a href="${path}/user/registrationform">Registration</a></p>
-
-        <p><a href="${path}/user/login">Sign In</a></p>
-
-        <p><a href="${path}/logout">Logout</a></p>
+        ${message}
 
         <p><a href="${path}/book/show">Show Books</a></p>
 
@@ -30,6 +20,8 @@
         <p><a href="${path}/searchbookoptions">Searching Books</a></p>
 
         <p><a href="${path}/user/registrationform">Registration</a></p>
+
+        <p><a href="${path}/logout">Logout</a></p>
 
         <p><a href="${path}/console">H2 Console</a></p>
 

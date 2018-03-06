@@ -32,6 +32,12 @@
                 </div>
             </div>
 
+            <div>
+                <br>
+                Genre Name
+                <input type="text" name="genreName"/>
+            </div>
+
             <input type="button" value="Add new Genre" onclick="addGenreFormItem()"/>
 
             <br><br>
@@ -48,6 +54,13 @@
                 </div>
             </div>
 
+            <div>
+                <br>
+                First Name <input type="text" name="firstName"/>
+                Last Name <input type="text" name="lastName"/>
+                Middle Name <input type="text" name="middleName"/>
+            </div>
+
             <input type="button" value="Add new Author" onclick="addAuthorFormItem()"/>
 
             <br><br>
@@ -60,6 +73,11 @@
                         <br><br>
                     </c:forEach>
                 </div>
+            </div>
+
+            <div>
+                <br>
+                Publisher Name <input type="text" name="publisherName"/>
             </div>
 
             <input type="button" value="Add new Publisher" onclick="addPublisherFormItem()"/>

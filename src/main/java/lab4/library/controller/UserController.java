@@ -27,7 +27,7 @@ public class UserController {
     public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String confirmPassword, Model model) {
 
         if (password.compareTo(confirmPassword) != 0) {
-            model.addAttribute("error", "Password don't match!");
+            model.addAttribute("error", "Passwords are different!");
             return "user/registration";
         }
 
@@ -37,19 +37,21 @@ public class UserController {
 
         userService.singupUser(user);
 
-        return "redirect:/";
+        model.addAttribute("registrationMessage", "You have successfully registered, now sign in to your account");
+
+        return "startpage";
     }
 
     @GetMapping(value = "/login")
     public String login(Model model, String error, String logout) {
-        if (error != null)
+
+        if (error != null) {
             model.addAttribute("error", "Your username and password is invalid.");
+        }
 
-        if (logout != null)
-            model.addAttribute("message", "You have been logged out successfully.");
-
-        model.addAttribute("test", "test");
-
+        if (logout != null) {
+            model.addAttribute("logout", "You have been successfully logged out.");
+        }
         return "user/login";
     }
 }

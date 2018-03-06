@@ -9,6 +9,7 @@ import lab4.library.service.BookServices;
 import lab4.library.service.ReviewService;
 import lab4.library.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,7 @@ public class BookController {
         return "book/formaddbook";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/addbook")
     public String addBook(@RequestParam String[] bookName, @RequestParam String[] isbn, @RequestParam Integer[] year, Model model) {
         bookServices.saveBook(bookName, isbn, year);
@@ -106,6 +108,7 @@ public class BookController {
         return "book/formeditbook";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/{id}/editbook")
     public String editBook(@PathVariable Integer id,
                            @ModelAttribute Book book,
