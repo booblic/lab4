@@ -122,9 +122,9 @@ public class BookController {
     }
 
     @PostMapping(value = "/{id}/addreview")
-    public String addreview(@PathVariable Integer id, @RequestParam String[] bookReview, Model model) {
+    public String addreview(@PathVariable Integer id, @RequestParam String[] textReview, @RequestParam Integer rating, Model model) {
         Book book = bookServices.findBook(id);
-        reviewService.saveReview(bookReview[0], book);
+        reviewService.saveReview(textReview[0], rating, book, userService.getCurrentUser());
         return "redirect:/";
     }
 

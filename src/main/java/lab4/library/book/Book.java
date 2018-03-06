@@ -7,7 +7,9 @@ import lab4.library.review.Review;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -40,6 +42,8 @@ public class Book {
 
     @OneToMany(mappedBy = "book")
     private Set<Review> reviews = new HashSet<>();
+
+    private Double bookRating;
 
     private String periodicity;
 
@@ -149,5 +153,31 @@ public class Book {
 
     public void setReviews(Set<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public Double getBookRating() {
+
+        Double ratingValue = 0d;
+
+        List<Integer> reviewRating = new ArrayList<>();
+
+        for (Review review: reviews) {
+            reviewRating.add(review.getRating());
+        }
+
+        for (Integer rating: reviewRating) {
+            ratingValue = ratingValue + rating;
+        }
+
+        if (reviewRating.size() != 0) {
+            ratingValue = ratingValue / reviewRating.size();
+        }
+        setBookRating(ratingValue);
+
+        return bookRating;
+    }
+
+    public void setBookRating(Double bookRating) {
+        this.bookRating = bookRating;
     }
 }

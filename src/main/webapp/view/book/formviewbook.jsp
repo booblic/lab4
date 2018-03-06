@@ -15,7 +15,7 @@
 	<h1>View Book</h1>
 	<form action="${path}/book/${book.bookId}/addreview" method="POST">
 		<div> <b>Book:</b>
-			<br/> Name ${book.bookName} ISBN ${book.isbn} Year ${book.year} </div>
+			<br/> Name ${book.bookName} ISBN ${book.isbn} Year ${book.year} Rating ${book.bookRating} </div>
 		<br>
 		<div> <b>Genre:</b>
 			<br/>

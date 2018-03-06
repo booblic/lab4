@@ -13,11 +13,11 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer reviewId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "bookId")
     private Book book;
 
