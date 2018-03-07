@@ -1,6 +1,9 @@
 package lab4.library.user;
 
+import lab4.library.annotation.Phone;
 import lab4.library.review.Review;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,6 +30,13 @@ public class User implements UserDetails {
 
     private String middleName;
 
+    @NotEmpty
+    @Email
+    private String email;
+
+    @Phone
+    private String phoneNumber;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "userRole", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
     private Set<Role> roles;
@@ -36,12 +46,14 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(String username, String password, String firstName, String lastName, String middleName, Set<Role> roles) {
+    public User(String username, String password, String firstName, String lastName, String middleName, String email, String phoneNumber, Set<Role> roles) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
         this.roles = roles;
     }
 
@@ -117,6 +129,22 @@ public class User implements UserDetails {
 
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Set<Review> getReviews() {
