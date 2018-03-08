@@ -25,7 +25,11 @@ public class AuthorController {
     @PostMapping(value = "/search")
     public String serchBookByAuthorName(@RequestParam String firstName, @RequestParam String lastName, Model model) {
         Author author = authorService.findByFirstNameAndLastName(firstName, lastName);
-        model.addAttribute("books", author.getBooks());
-        return "/book/showallbooks";
+        if (author != null) {
+            model.addAttribute("books", author.getBooks());
+        } else {
+            model.addAttribute("error", "Sorry, books by author " + firstName + " " + lastName + " a not found.");
+        }
+        return "book/showallbooks";
     }
 }

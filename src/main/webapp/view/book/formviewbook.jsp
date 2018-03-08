@@ -17,9 +17,10 @@
 		<div> <b>Book:</b>
 			<br/> Name ${book.bookName} ISBN ${book.isbn} Year ${book.year} Rating ${book.bookRating} </div>
 		<br>
+		<br>
 		<div> <b>Genre:</b>
 			<br/>
-			<c:forEach items="${genres}" var="genre"> Genre Name ${genre.genreName}
+			<c:forEach items="${genres}" var="genre"> ${genre.genreName}
 				<br>
 				<br> </c:forEach>
 		</div>
@@ -35,7 +36,7 @@
 		<br>
 		<div> <b>Publisher:</b>
 			<br/>
-			<c:forEach items="${publishers}" var="publisher"> Publisher Name ${publisher.publisherName}
+			<c:forEach items="${publishers}" var="publisher"> ${publisher.publisherName}
 				<br>
 				<br> </c:forEach>
 		</div>
@@ -43,19 +44,25 @@
 		<br>
 		<div> <b>Book Reviews:</b>
 			<br>
-			<c:forEach items="${reviews}" var="review"> Review By User ${user.username} <br> ${review.text}
-				<br> </c:forEach>
+			<c:forEach items="${reviews}" var="review"> Review By User: ${user.username} <br> ${review.text} <br> Rating: ${review.rating}
+				<br><br> </c:forEach>
 			<br> </div>
 		<br>
 		<br>
 		<div id="bookReview">
 			<input type="button" value="Add new Review" onclick="addBookFormReview()" />
 			<br>
+			<br>
+		</div>
 
 		<input type="submit" align="center" value="Save"/>
 
 	</form>
+
 	<p><a href="${path}/">Start Page</a></p>
+
+    <p><a href="${path}/console">H2 Console</a></p>
+
 </body>
 
 </html>

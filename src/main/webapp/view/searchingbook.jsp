@@ -19,5 +19,11 @@
 
         <p><a href="${path}/publisher/getsearchingform">Searching by publisher</a></p>
 
+        <br><br>
+
+        <p><a href="${path}/">Start Page</a></p>
+
+        <p><a href="${path}/console">H2 Console</a></p>
+
     </body>
 </html>

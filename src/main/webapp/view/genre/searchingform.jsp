@@ -16,5 +16,9 @@
             <input type="submit" align="center" value="Search"/>
         </form>
 
+        <p><a href="${path}/">Start Page</a></p>
+
+        <p><a href="${path}/console">H2 Console</a></p>
+
     </body>
 </html>

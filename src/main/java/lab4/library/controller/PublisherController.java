@@ -25,7 +25,11 @@ public class PublisherController {
     @PostMapping(value = "/search")
     public String searchBookByPublisherName(@RequestParam String publisherName, Model model) {
         Publisher publisher = publisherService.findByPublisherName(publisherName);
-        model.addAttribute("books", publisher.getBooks());
+        if (publisher != null) {
+            model.addAttribute("books", publisher.getBooks());
+        } else {
+            model.addAttribute("error", "Sorry, books by publisher " + publisherName + " a not found.");
+        }
         return "book/showallbooks";
     }
 }

@@ -21,7 +21,11 @@
 
         <p><a href="${path}/user/login">Sign In</a></p>
 
+        <br>
+
         <p><a href="${path}/logout">Logout</a></p>
+
+        <br>
 
         <p><a href="${path}/book/show">Show Books</a></p>
 
@@ -29,7 +33,7 @@
 
         <p><a href="${path}/searchbookoptions">Searching Books</a></p>
 
-        <p><a href="${path}/user/registrationform">Registration</a></p>
+        <br>
 
         <p><a href="${path}/console">H2 Console</a></p>
 

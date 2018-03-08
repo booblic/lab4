@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -43,10 +44,9 @@ public class BookController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/addbook")
-    public String addBook(@RequestParam String[] bookName, @RequestParam String[] isbn, @RequestParam Integer[] year, Model model) {
+    public String addBook(@RequestParam String[] bookName, @RequestParam String[] isbn, @RequestParam Integer[] year) {
         bookServices.saveBook(bookName, isbn, year);
-        model.addAttribute("books", bookServices.findAllBook());
-        return "book/showallbooks";
+        return "redirect:/book/show";
     }
 
     /*@PostMapping(value = "/add")
@@ -84,7 +84,12 @@ public class BookController {
 
     @PostMapping(value = "/search")
     public String searchBookByBookName(@RequestParam String bookName, Model model) {
-        model.addAttribute("books", bookServices.findByBookName(bookName));
+        List<Book> bookList = bookServices.findByBookName(bookName);
+        if (bookList.size() != 0) {
+            model.addAttribute("books", bookList);
+        } else {
+            model.addAttribute("error", "Sorry, books with name " + bookName + " a not found.");
+        }
         return "book/showallbooks";
     }
 
@@ -116,19 +121,18 @@ public class BookController {
                            @RequestParam String[] firstName,
                            @RequestParam String[] lastName,
                            @RequestParam String[] middleName,
-                           @RequestParam String[] publisherName,
-                           Model model) {
+                           @RequestParam String[] publisherName) {
         book.setBookId(id);
         bookServices.editBook(book, genreName, firstName, lastName, middleName, publisherName);
-        model.addAttribute("books", bookServices.findAllBook());
-        return "book/showallbooks";
+        return "redirect:/book/show";
     }
 
     @PostMapping(value = "/{id}/addreview")
-    public String addreview(@PathVariable Integer id, @RequestParam String[] textReview, @RequestParam Integer rating, Model model) {
+    public String addreview(@PathVariable Integer id, @RequestParam String[] textReview, @RequestParam Integer rating) {
         Book book = bookServices.findBook(id);
         reviewService.saveReview(textReview[0], rating, book, userService.getCurrentUser());
-        return "redirect:/";
+        return "redirect:/book/show";
+
     }
 
     @GetMapping(value = "/test")

@@ -25,7 +25,11 @@ public class GenreController {
     @PostMapping(value = "/search")
     public String searchBookByGenreName(@RequestParam String genreName, Model model) {
         Genre genre = genreService.findByGenreName(genreName);
-        model.addAttribute("books", genre.getBooks());
+        if (genre != null) {
+            model.addAttribute("books", genre.getBooks());
+        } else {
+            model.addAttribute("error", "Sorry, books of the genre " + genreName + " a not found.");
+        }
         return "book/showallbooks";
     }
 }

@@ -23,7 +23,6 @@ function addPublisherFormItem() {
     with(document) {
         var div = createElement("div");
         div.appendChild(createElement("br"));
-        div.appendChild(createTextNode("Publisher Name "));
         div.appendChild(createInputElement("text", "publisherName"));
         getElementById("publisherItems").appendChild(div);
     }
@@ -33,7 +32,6 @@ function addGenreFormItem() {
     with(document) {
         var div = createElement("div");
         div.appendChild(createElement("br"));
-        div.appendChild(createTextNode("Genre Name "));
         div.appendChild(createInputElement("text", "genreName"));
         getElementById("genreItems").appendChild(div);
     }
