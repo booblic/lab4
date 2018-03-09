@@ -18,6 +18,11 @@
      return i;
  }
 
+ function removeElement() {
+  var elem = document.getElementById('but');
+  elem.parentNode.removeChild(elem);
+ }
+
 
  function addBookFormReview() {
      with(document) {
@@ -26,12 +31,13 @@
          div.appendChild(createElement("br"));
          div.appendChild(createTextAreaElement("textReview", "textReview", "5", "200", "width: 400px"));
          div.appendChild(createElement("br"));
-	    div.appendChild(createElement("br"));
-	    div.appendChild(createTextNode("Rating:"));
+	     div.appendChild(createElement("br"));
+	     div.appendChild(createTextNode("Rating:"));
          div.appendChild(createNumberElement("number", "rating", "1", "1", "5"));
-	    div.appendChild(createElement("br"));
-	    div.appendChild(createElement("br"));
-	    div.appendChild(createElement("br"));
+	     div.appendChild(createElement("br"));
+	     div.appendChild(createElement("br"));
+	     div.appendChild(createElement("br"));
          getElementById("bookReview").appendChild(div);
      }
+     removeElement();
  }

@@ -21,11 +21,14 @@
 
         <p><a href="${path}/user/login">Sign In</a></p>
 
-        <br>
+        <c:if test="${not empty logout}">
 
-        <p><a href="${path}/logout">Logout</a></p>
+            <p><a href="${path}/logout">Logout</a></p>
+            <br>
+            <p><a href="${path}/user/showuserprofile">Edit Your Profile</a></p>
 
-        <br>
+        </c:if>
+
 
         <p><a href="${path}/book/show">Show Books</a></p>
 

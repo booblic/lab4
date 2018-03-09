@@ -24,6 +24,8 @@ public class User implements UserDetails {
 
     private String password;
 
+    private String confirmedPassword;
+
     private String firstName;
 
     private String lastName;
@@ -105,6 +107,14 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmedPassword() {
+        return confirmedPassword;
+    }
+
+    public void setConfirmedPassword(String confirmedPassword) {
+        this.confirmedPassword = confirmedPassword;
     }
 
     public String getFirstName() {

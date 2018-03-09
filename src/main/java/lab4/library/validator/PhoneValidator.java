@@ -18,7 +18,7 @@ public class PhoneValidator implements ConstraintValidator<Phone, String> {
             return false;
         }
 
-        if (phoneNo.matches("\\d{10}")) {
+        if (phoneNo.matches("\\d{11}")) {
             return true;
         } else {
             return false;

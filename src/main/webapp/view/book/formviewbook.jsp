@@ -50,10 +50,16 @@
 		<br>
 		<br>
 		<div id="bookReview">
-			<input type="button" value="Add new Review" onclick="addBookFormReview()" />
 			<br>
 			<br>
 		</div>
+
+		<div id="but">
+
+            <input type="button" value="Add new Review" onclick="addBookFormReview()"/>
+            <br>
+            <br>
+        </div>
 
 		<input type="submit" align="center" value="Save"/>
 

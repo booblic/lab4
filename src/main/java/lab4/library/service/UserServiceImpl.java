@@ -44,7 +44,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getCurrentUser() {
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = null;
+        try {
+            userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } catch (ClassCastException exc) {
+            return null;
+        }
         User user = null;
 
         if (userDetails instanceof User) {
@@ -78,5 +83,13 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("Can't find user with username " + username);
         }
         return user;
+    }
+
+    public User getUser(Integer id) {
+        return userRepository.getOne(id);
+    }
+
+    public User updateUser(User user) {
+        return userRepository.save(user);
     }
 }
