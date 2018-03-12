@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //http.authorizeRequests().antMatchers("/resource/**", "/webapp/**", "/user/registrationform", "/user/registeruser", "/").permitAll().antMatchers("/console/").hasRole("ADMIN").anyRequest().authenticated();
         //http.formLogin().loginPage("/user/login").successForwardUrl("/success").permitAll();
         //http.authorizeRequests().antMatchers("/resource/**", "/webapp/**", "/user/registrationform", "/user/registeruser", "/").permitAll().antMatchers("/console/").hasRole("ADMIN").anyRequest().authenticated();
-        http.authorizeRequests().antMatchers("/resource/**", "/webapp/**", "/user/registrationform", "/user/registeruser", "/").permitAll().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers("/resource/**", "/webapp/**", "/user/registrationform", "/user/registeruser", "/", "/console/**").permitAll().anyRequest().authenticated();
         http.formLogin().loginPage("/user/login").permitAll();
         http.logout().permitAll();
         http.csrf().disable();

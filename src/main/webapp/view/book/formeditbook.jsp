@@ -8,6 +8,7 @@
 <html>
     <head>
         <script type="text/javascript" src="${path}/js/editbook.js"></script>
+        <link rel="stylesheet" href="/css/test.css"/>
     </head>
     <body>
     <h1>Edit Book</h1>

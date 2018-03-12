@@ -16,11 +16,21 @@ public class ReviewService {
     private ReviewRepository reviewRepository;
 
     public Review saveReview(String textReview, Integer rating, Book book, User user) {
+        if (findByBookAndUser(book, user) != null) {
+            Review review = findByBookAndUser(book, user);
+            review.setText(textReview);
+            review.setRating(rating);
+            return reviewRepository.save(review);
+        }
         Review review = new Review();
         review.setText(textReview);
         review.setRating(rating);
         review.setBook(book);
         review.setUser(user);
         return reviewRepository.save(review);
+    }
+
+    public Review findByBookAndUser(Book book, User user) {
+        return reviewRepository.findByBookAndUser(book, user);
     }
 }

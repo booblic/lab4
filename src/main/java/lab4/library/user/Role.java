@@ -12,9 +12,10 @@ import java.util.Set;
 public class Role implements GrantedAuthority {
 
     @Id
-    @SequenceGenerator(name = "role_id_sequence_gen",
+/*    @SequenceGenerator(name = "role_id_sequence_gen",
             sequenceName="role_id_sequence", initialValue = 10)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_sequence_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_sequence_gen")*/
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer roleId;
 
     private String roleName;

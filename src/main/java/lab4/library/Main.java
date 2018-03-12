@@ -5,12 +5,17 @@ import lab4.library.genre.Genre;
 import lab4.library.repository.BookRepository;
 import lab4.library.book.*;
 import lab4.library.publisher.Publisher;
+import lab4.library.repository.UserRepository;
+import lab4.library.user.Role;
+import lab4.library.user.User;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
@@ -35,6 +40,17 @@ public class Main {
         return resolver;
     }*/
 
+    /*@Bean
+    public Jackson2RepositoryPopulatorFactoryBean repositoryPopulator() {
+
+        Resource sourceData = new ClassPathResource("pop.json");
+
+        Jackson2RepositoryPopulatorFactoryBean factory = new Jackson2RepositoryPopulatorFactoryBean();
+        // Set a custom ObjectMapper if Jackson customization is needed
+        //factory.setObjectMapper(…);
+        factory.setResources(new Resource[] { sourceData });
+        return factory;
+    }*/
 
     @Bean
     CommandLineRunner runner2(BookRepository bookRepository) {
@@ -60,7 +76,45 @@ public class Main {
     }
 
     @Bean
-    CommandLineRunner runner3(BookRepository bookRepository) {
-        return args -> bookRepository.findAll();
+    CommandLineRunner runner3(UserRepository userRepository) {
+        Role role1 = new Role();
+        role1.setRoleName("Users");
+        role1.setAuthority("ROLE_USER");
+
+        Role role2 = new Role();
+        role2.setRoleName("Administrators");
+        role2.setAuthority("ROLE_ADMIN");
+
+        Set<Role> roleSet1 = new HashSet<>();
+        roleSet1.add(role1);
+        roleSet1.add(role2);
+
+        User user1 = new User();
+        user1.setUsername("admin");
+        user1.setPassword("$2a$10$ks.dpu2YDc5BrpoZwR6T2e.l5EScUuSuyYDoxtuCx3nVU2YVCVlA.");
+        user1.setFirstName("Admin");
+        user1.setLastName("Adminov");
+        user1.setMiddleName("Adminovich");
+        user1.setEmail("admin@yandex.ru");
+        user1.setPhoneNumber("88005553535");
+        user1.setRoles(roleSet1);
+
+        Set<Role> roleSet2 = new HashSet<>();
+        roleSet2.add(role1);
+
+        User user2 = new User();
+        user2.setUsername("kirill95");
+        user2.setPassword("$2a$10$ks.dpu2YDc5BrpoZwR6T2e.l5EScUuSuyYDoxtuCx3nVU2YVCVlA.");
+        user2.setFirstName("Kirill");
+        user2.setLastName("Terentev");
+        user2.setMiddleName("Aleksandrovich");
+        user2.setEmail("johnyXY@yandex.ru");
+        user2.setPhoneNumber("88005553535");
+        user2.setRoles(roleSet2);
+
+        List<User> userList = new ArrayList<>();
+        userList.add(user1);
+        userList.add(user2);
+        return args -> userRepository.save(userList);
     }
 }

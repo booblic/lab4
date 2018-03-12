@@ -8,6 +8,7 @@
 <html>
     <head>
         <script type="text/javascript" src="${path}/js/addbook.js"></script>
+        <link rel="stylesheet" href="/css/test.css"/>
     </head>
     <body>
         <h1>Add Book</h1>

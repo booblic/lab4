@@ -9,6 +9,7 @@
 
 <head>
 	<script type="text/javascript" src="${path}/js/addreview.js"></script>
+	<link rel="stylesheet" href="/css/test.css"/>
 </head>
 
 <body>
@@ -44,22 +45,39 @@
 		<br>
 		<div> <b>Book Reviews:</b>
 			<br>
-			<c:forEach items="${reviews}" var="review"> Review By User: ${user.username} <br> ${review.text} <br> Rating: ${review.rating}
+			<c:forEach items="${reviews}" var="review">
+                <c:choose>
+                    <c:when test="${user.username == review.user.username}">
+                       <c:set var="rev" scope="session" value="Yes" />
+                       <textarea id="textReview" rows="5" cols="200" style="width: 400px" name="textReview">${review.text}</textarea>
+                       <br><br>
+                       <input type="number" name="rating" size="1" min="1" max="5" value="${review.rating}"/>
+                       <br><br>
+                    </c:when>
+                    <c:otherwise>
+                        Review By User: ${review.user.username} <br> ${review.text} <br> Rating: ${review.rating}
+                        <br>
+                        <br>
+                    </c:otherwise>
+                </c:choose>
 				<br><br> </c:forEach>
 			<br> </div>
 		<br>
 		<br>
+
 		<div id="bookReview">
 			<br>
 			<br>
 		</div>
 
-		<div id="but">
+        <c:if test="${empty rev}">
+            <div id="but">
+                <input type="button" value="Add new Review" onclick="addBookFormReview()"/>
+                <br>
+                <br>
+            </div>
+        </c:if>
 
-            <input type="button" value="Add new Review" onclick="addBookFormReview()"/>
-            <br>
-            <br>
-        </div>
 
 		<input type="submit" align="center" value="Save"/>
 

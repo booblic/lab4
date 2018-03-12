@@ -9,6 +9,7 @@
 
 <html>
     <head>
+        <link rel="stylesheet" href="/css/test.css"/>
     </head>
     <body>
         <h1>Your Profile</h1>
