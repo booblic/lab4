@@ -12,6 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFactoryBean;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -104,7 +105,7 @@ public class Main {
 
         User user2 = new User();
         user2.setUsername("kirill95");
-        user2.setPassword("$2a$10$ks.dpu2YDc5BrpoZwR6T2e.l5EScUuSuyYDoxtuCx3nVU2YVCVlA.");
+        user2.setPassword("$2a$10$iQvmZ5iM8XoLigBi4oHJaep4guB5iXchg7cdqyy4jR.ZT8H3m.QJy");
         user2.setFirstName("Kirill");
         user2.setLastName("Terentev");
         user2.setMiddleName("Aleksandrovich");

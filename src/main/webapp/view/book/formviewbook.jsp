@@ -47,7 +47,7 @@
 			<br>
 			<c:forEach items="${reviews}" var="review">
                 <c:choose>
-                    <c:when test="${user.username == review.user.username}">
+                   <c:when test="${user.username == review.user.username}">
                        <c:set var="rev" scope="session" value="Yes" />
                        <textarea id="textReview" rows="5" cols="200" style="width: 400px" name="textReview">${review.text}</textarea>
                        <br><br>

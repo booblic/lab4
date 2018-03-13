@@ -123,6 +123,7 @@ public class BookController {
                            @RequestParam String[] middleName,
                            @RequestParam String[] publisherName) {
         book.setBookId(id);
+
         bookServices.editBook(book, genreName, firstName, lastName, middleName, publisherName);
         return "redirect:/book/show";
     }

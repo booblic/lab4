@@ -18,7 +18,7 @@ public class AuthorService {
         return authorRepository.save(author);
     }
 
-    public Set<Author> getAuthors(String[] firstNames, String[] lastNames, String[] middleNames) {
+    public Set<Author> findOrCreateAuthors(String[] firstNames, String[] lastNames, String[] middleNames) {
 
         Set<Author> authorSet = new HashSet<>();
 

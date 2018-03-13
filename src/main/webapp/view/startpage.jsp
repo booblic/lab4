@@ -26,7 +26,7 @@
 
             <p><a href="${path}/logout">Logout</a></p>
             <br>
-            <p><a href="${path}/user/showuserprofile">Edit Your Profile</a></p>
+            <p><a href="${path}/user/showuserprofile">Show Your Profile</a></p>
 
         </c:if>
 

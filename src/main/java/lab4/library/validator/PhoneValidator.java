@@ -20,6 +20,10 @@ public class PhoneValidator implements ConstraintValidator<Phone, String> {
 
         if (phoneNo.matches("\\d{11}")) {
             return true;
+        } else if (phoneNo.matches("\\(\\d{3}\\)\\d{6}")) {
+            return true;
+        } else if (phoneNo.matches("\\(\\d{3}\\)\\d{7}")) {
+            return true;
         } else {
             return false;
         }

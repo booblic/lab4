@@ -18,7 +18,7 @@ public class GenreService {
         return genreRepository.save(genre);
     }
 
-    public Set<Genre> getGenres(String[] genreNames) {
+    public Set<Genre> findOrCreateGenres(String[] genreNames) {
 
         Set<Genre> genreSet = new HashSet<>();
 

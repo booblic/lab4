@@ -24,9 +24,9 @@
             Middle Name:  <form:input path="middleName"  value="${user.middleName}"/><br><br>
 
             Email: <form:input path="email"  value="${user.email}"/><br><br>
-            <form:errors path="email"/><br><br>
+            <form:errors path="email"/><br><br>
 
-            Phone Number: <form:input path="phoneNumber"  value="${user.phoneNumber}"/><br><br>
+            Phone Number: <form:input path="phoneNumber"  value="${user.phoneNumber}"/><br><br>
             <form:errors path="phoneNumber"/><br><br>
 
             User Name: <form:input path="username"  value="${user.username}"/><br><br>

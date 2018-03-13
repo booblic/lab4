@@ -18,7 +18,7 @@ public class PublisherService {
         return publisherRepository.save(publisher);
     }
 
-    public Set<Publisher> getPublisher(String[] publisherNames) {
+    public Set<Publisher> findOrCreatePublisher(String[] publisherNames) {
 
         Set<Publisher> publisherSet = new HashSet<>();
 

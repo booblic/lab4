@@ -48,17 +48,17 @@ public class BookServices {
         Set<Publisher> publisherSet;
 
         if (genreNames.length != 0) {
-            genreSet = genreService.getGenres(genreNames);
+            genreSet = genreService.findOrCreateGenres(genreNames);
             book.setGenres(genreSet);
         }
 
         if (firstNames.length != 0) {
-            authorSet = authorService.getAuthors(firstNames, lastNames, middleNames);
+            authorSet = authorService.findOrCreateAuthors(firstNames, lastNames, middleNames);
             book.setAuthors(authorSet);
         }
 
         if (publisherNames.length != 0) {
-            publisherSet = publisherService.getPublisher(publisherNames);
+            publisherSet = publisherService.findOrCreatePublisher(publisherNames);
             book.setPublishers(publisherSet);
         }
         return bookRepository.save(book);
