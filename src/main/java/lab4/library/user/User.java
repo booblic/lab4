@@ -20,6 +20,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
 
+    @Column(unique = true)
     private String username;
 
     private String password;
@@ -39,11 +40,15 @@ public class User implements UserDetails {
     @Phone
     private String phoneNumber;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {}, fetch = FetchType.EAGER)
     @JoinTable(name = "userRole", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
+// XXX: N1 ElementCollection
+//    @ElementCollection
+//    @CollectionTable
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "user")
+
     private Set<Review> reviews = new HashSet<>();
 
     public User() {}
