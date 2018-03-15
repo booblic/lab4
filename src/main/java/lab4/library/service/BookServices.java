@@ -41,6 +41,10 @@ public class BookServices {
         return bookRepository.save(bookSet);
     }
 
+    public Book editBook(Integer id, Book book) {
+        return book; // save book & return updated instance from repository
+    }
+
     public Book editBook(Book book, String[] genreNames, String[] firstNames, String[] lastNames, String[] middleNames, String[] publisherNames) {
 
         Set<Genre> genreSet;

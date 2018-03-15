@@ -13,7 +13,7 @@
     <body>
     <h1>Edit Book</h1>
 
-        <form action="${path}/book/${book.bookId}/editbook" method="POST">
+        <form action="${path}/book/${book.bookId}/editbook2" method="POST">
             <div>
                 <b>Book:</b><br/>
                 Name <input type="text" name="bookName" value="${book.bookName}"/>

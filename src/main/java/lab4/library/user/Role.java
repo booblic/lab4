@@ -16,6 +16,8 @@ public class Role implements GrantedAuthority {
             sequenceName="role_id_sequence", initialValue = 10)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_sequence_gen")*/
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "role_id_sequence_gen",
+            sequenceName="role_id_sequence", initialValue = 1000)
     private Integer roleId;
 
     private String roleName;
