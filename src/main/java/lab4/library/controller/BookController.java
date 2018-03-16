@@ -2,6 +2,7 @@ package lab4.library.controller;
 
 import lab4.library.author.Author;
 import lab4.library.book.Book;
+import lab4.library.controller.convert.FormBook;
 import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
 import lab4.library.review.Review;
@@ -9,11 +10,13 @@ import lab4.library.service.BookServices;
 import lab4.library.service.ReviewService;
 import lab4.library.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +33,9 @@ public class BookController {
     @Autowired
     private UserServiceImpl userService;
 
+    @Autowired
+    private ConversionService conversionService;
+
     @GetMapping(value = "/show")
     public String showBooks(Model model) {
         model.addAttribute("books", bookServices.findAllBook());
@@ -42,10 +48,28 @@ public class BookController {
         return "book/formaddbook";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+/*    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/addbook")
     public String addBook(@RequestParam String[] bookName, @RequestParam String[] isbn, @RequestParam Integer[] year) {
         bookServices.saveBook(bookName, isbn, year);
+        return "redirect:/book/show";
+    }*/
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value = "/addbook")
+    public String addBook(@RequestParam String[] bookName, @RequestParam String[] isbn, @RequestParam Integer[] year) {
+
+        Set<Book> bookSet = new HashSet<>();
+
+        for (int i = 0; i < bookName.length; i++) {
+            Book book = new Book();
+            book.setBookName(bookName[i]);
+            book.setIsbn(isbn[i]);
+            book.setYear(year[i]);
+            bookSet.add(book);
+        }
+
+        bookServices.saveBook(bookSet);
         return "redirect:/book/show";
     }
 
@@ -113,18 +137,27 @@ public class BookController {
         return "book/formeditbook";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping(value = "/{id}/editbook")
+/*    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value = "/editbook")
     public String editBook(@PathVariable Integer id,
                            @ModelAttribute Book book,
                            @RequestParam String[] genreName,
                            @RequestParam String[] firstName,
                            @RequestParam String[] lastName,
                            @RequestParam String[] middleName,
-                           @RequestParam String[] publisherName) {
+                           @RequestParam String[] publisherName, FormBook formBook) {
         book.setBookId(id);
 
         bookServices.editBook(book, genreName, firstName, lastName, middleName, publisherName);
+        return "redirect:/book/show";
+    }*/
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value = "/editbook")
+    public String editBook(@ModelAttribute FormBook formBook) {
+        Book book = conversionService.convert(formBook, Book.class);
+
+        bookServices.editBook(book);
         return "redirect:/book/show";
     }
 
@@ -139,12 +172,11 @@ public class BookController {
     @GetMapping(value = "/test")
     public String test(Model model) {
         model.addAttribute("value", "test js");
-        return "/book/testjsp";
+        return "book/testjsp";
     }
 
     @PostMapping(value = "/params/arrays")
-    public String paramsAsArrays(@RequestParam String[] bookName, @RequestParam String[] isbn, @RequestParam Integer[] year, Model model) {
-        model.addAttribute("message", bookName.length);
+    public String paramsAsArrays(Model model) {
         return "message";
     }
 }

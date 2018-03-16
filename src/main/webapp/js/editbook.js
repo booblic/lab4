@@ -10,11 +10,11 @@ function addAuthorFormItem() {
         var div = createElement("div");
         div.appendChild(createElement("br"));
         div.appendChild(createTextNode(" First Name "));
-        div.appendChild(createInputElement("text", "firstName"));
+        div.appendChild(createInputElement("text", "authorsFirstNames"));
         div.appendChild(createTextNode(" Last Name "));
-        div.appendChild(createInputElement("text", "lastName"));
+        div.appendChild(createInputElement("text", "authorsLastNames"));
         div.appendChild(createTextNode(" Middle Name "));
-        div.appendChild(createInputElement("text", "middleName"));
+        div.appendChild(createInputElement("text", "authorsMiddleNames"));
         getElementById("authorItems").appendChild(div);
     }
 }
@@ -23,7 +23,8 @@ function addPublisherFormItem() {
     with(document) {
         var div = createElement("div");
         div.appendChild(createElement("br"));
-        div.appendChild(createInputElement("text", "publisherName"));
+        div.appendChild(createTextNode(" Publisher Name "));
+        div.appendChild(createInputElement("text", "publishersNames"));
         getElementById("publisherItems").appendChild(div);
     }
 }
@@ -32,7 +33,8 @@ function addGenreFormItem() {
     with(document) {
         var div = createElement("div");
         div.appendChild(createElement("br"));
-        div.appendChild(createInputElement("text", "genreName"));
+        div.appendChild(createTextNode(" Genre Name "));
+        div.appendChild(createInputElement("text", "genresNames"));
         getElementById("genreItems").appendChild(div);
     }
 }

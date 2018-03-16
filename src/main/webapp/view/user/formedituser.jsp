@@ -29,7 +29,7 @@
             Phone Number: <form:input path="phoneNumber"  value="${user.phoneNumber}"/><br><br>
             <form:errors path="phoneNumber"/><br><br>
 
-            User Name: <form:input path="username"  value="${user.username}"/><br><br>
+            User Name: <form:input path="username"  value="${username}"/><br><br>
             <form:errors path="username"/><br><br>
 
             <div id="passwordItems">

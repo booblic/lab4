@@ -4,6 +4,7 @@ import lab4.library.repository.RoleRepository;
 import lab4.library.repository.UserRepository;
 import lab4.library.user.Role;
 import lab4.library.user.User;
+import org.h2.jdbc.JdbcSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
 
     @Override
-    public User singupUser(User user) {
+    public User singupUser(User user) throws Exception {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Role userRole = roleRepository.findOne(ROLE_USER_ID);

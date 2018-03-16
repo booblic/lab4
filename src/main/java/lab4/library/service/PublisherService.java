@@ -18,26 +18,6 @@ public class PublisherService {
         return publisherRepository.save(publisher);
     }
 
-    public Set<Publisher> findOrCreatePublisher(String[] publisherNames) {
-
-        Set<Publisher> publisherSet = new HashSet<>();
-
-        for (String publisherName: publisherNames) {
-
-            if (publisherName.compareTo("") != 0) {
-
-                Publisher publisher = findByPublisherName(publisherName);
-
-                if (publisher != null) {
-                    publisherSet.add(publisher);
-                } else {
-                    publisherSet.add(savePublisher(new Publisher(publisherName)));
-                }
-            }
-        }
-        return publisherSet;
-    }
-
     public Publisher findByPublisherName(String publisherName) {
         return publisherRepository.findByPublisherName(publisherName);
     }

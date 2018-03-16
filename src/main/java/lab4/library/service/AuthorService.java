@@ -18,26 +18,6 @@ public class AuthorService {
         return authorRepository.save(author);
     }
 
-    public Set<Author> findOrCreateAuthors(String[] firstNames, String[] lastNames, String[] middleNames) {
-
-        Set<Author> authorSet = new HashSet<>();
-
-        for (int i = 0; i < firstNames.length; i++) {
-
-            if (firstNames[i].compareTo("") != 0) {
-
-                Author author = findByFirstNameAndLastName(firstNames[i], lastNames[i]);
-
-                if (author != null) {
-                    authorSet.add(author);
-                } else {
-                    authorSet.add(saveAuthor(new Author(firstNames[i], lastNames[i], middleNames[i])));
-                }
-            }
-        }
-        return authorSet;
-    }
-
     public Author findByFirstNameAndLastName(String firstName, String lastName) {
         return authorRepository.findByFirstNameAndLastName(firstName, lastName);
     }

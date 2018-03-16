@@ -41,5 +41,9 @@
 
         <p><a href="${path}/console">H2 Console</a></p>
 
+        <br><br><br>
+
+        <p><a href="${path}/book/test">Test</a></p>
+
     </body>
 </html>

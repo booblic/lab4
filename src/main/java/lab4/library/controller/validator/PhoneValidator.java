@@ -1,4 +1,4 @@
-package lab4.library.validator;
+package lab4.library.controller.validator;
 
 import lab4.library.annotation.Phone;
 

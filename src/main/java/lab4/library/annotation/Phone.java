@@ -1,6 +1,6 @@
 package lab4.library.annotation;
 
-import lab4.library.validator.PhoneValidator;
+import lab4.library.controller.validator.PhoneValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

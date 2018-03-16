@@ -20,6 +20,8 @@
 
         <p><a href="${path}/publisher/getsearchingform">Searching by publisher</a></p>
 
+        <p><a href="${path}/searchingform">Slow Searching</a></p>
+
         <br><br>
 
         <p><a href="${path}/">Start Page</a></p>

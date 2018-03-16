@@ -22,7 +22,6 @@ public class Book {
 
     private String bookName;
 
-    @Size(min = 17, max = 17)
     @Column(length = 17)
     private String isbn;
 

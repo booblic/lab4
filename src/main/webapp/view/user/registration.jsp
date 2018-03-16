@@ -23,15 +23,18 @@
             Middle Name:  <form:input path="middleName"/><br><br>
 
             Email: <form:input path="email"/><br><br>
-            <form:errors path="email"/><br><br>
+            <form:errors path="email"/><br><br>
 
-            Phone Number: <form:input path="phoneNumber"/><br><br>
+            Phone Number: <form:input path="phoneNumber"/><br><br>
             <form:errors path="phoneNumber"/><br><br>
 
-            User Name: <form:input path="username"/><br><br>
-            <form:errors path="username"/><br><br>
+            User Name: <form:input path="username"/><br>
+            <c:if test="${not empty NotUniqeUsername}">
+                ${NotUniqeUsername} <br><br>
+            </c:if>
+            <br>
 
-            Password: <form:input path="password"/><br><br>
+            Password: <input type="text" name="password"/><br><br>
 
             Confirmed Password <input type="text" name="confirmPassword"/><br><br>
 

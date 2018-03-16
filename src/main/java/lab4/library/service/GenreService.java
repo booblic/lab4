@@ -18,26 +18,6 @@ public class GenreService {
         return genreRepository.save(genre);
     }
 
-    public Set<Genre> findOrCreateGenres(String[] genreNames) {
-
-        Set<Genre> genreSet = new HashSet<>();
-
-        for (String genreName: genreNames) {
-
-            if (genreName.compareTo("") != 0) {
-
-                Genre genre = findByGenreName(genreName);
-
-                if (genre != null) {
-                    genreSet.add(genre);
-                } else {
-                    genreSet.add(saveGenre(new Genre(genreName)));
-                }
-            }
-        }
-        return genreSet;
-    }
-
     public Genre findByGenreName(String genreName) {
         return genreRepository.findByGenreName(genreName);
     }

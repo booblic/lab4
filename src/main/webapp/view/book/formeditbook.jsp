@@ -13,9 +13,10 @@
     <body>
     <h1>Edit Book</h1>
 
-        <form action="${path}/book/${book.bookId}/editbook" method="POST">
+        <form action="${path}/book/editbook" method="POST">
             <div>
                 <b>Book:</b><br/>
+                Id <input type="text" name="bookId" value="${book.bookId}" size="3" readonly/>
                 Name <input type="text" name="bookName" value="${book.bookName}"/>
                 ISBN <input type="text" name="isbn" value="${book.isbn}"/>
                 Year <input type="text" name="year" value="${book.year}"/>
@@ -27,7 +28,7 @@
                 <div>
                     <b>Genre:</b><br/>
                     <c:forEach  items="${genres}" var ="genre">
-                        Genre Name <input type="text" name="genreName" value="${genre.genreName}"/>
+                        Genre Name <input type="text" name="genresNames" value="${genre.genreName}"/>
                         <br><br>
                     </c:forEach>
                 </div>
@@ -36,7 +37,7 @@
             <div>
                 <br>
                 Genre Name
-                <input type="text" name="genreName"/>
+                <input type="text" name="genresNames"/>
             </div>
 
             <input type="button" value="Add new Genre" onclick="addGenreFormItem()"/>
@@ -47,9 +48,9 @@
                 <div>
                     <b>Author:</b><br/>
                      <c:forEach  items="${authors}" var ="author">
-                        First Name <input type="text" name="firstName" value="${author.firstName}"/>
-                        Last Name <input type="text" name="lastName" value="${author.lastName}"/>
-                        Middle Name <input type="text" name="middleName" value="${author.middleName}"/>
+                        First Name <input type="text" name="authorsFirstNames" value="${author.firstName}"/>
+                        Last Name <input type="text" name="authorsLastNames" value="${author.lastName}"/>
+                        Middle Name <input type="text" name="authorsMiddleNames" value="${author.middleName}"/>
                         <br><br>
                      </c:forEach>
                 </div>
@@ -57,9 +58,9 @@
 
             <div>
                 <br>
-                First Name <input type="text" name="firstName"/>
-                Last Name <input type="text" name="lastName"/>
-                Middle Name <input type="text" name="middleName"/>
+                First Name <input type="text" name="authorsFirstNames"/>
+                Last Name <input type="text" name="authorsLastNames"/>
+                Middle Name <input type="text" name="authorsMiddleNames"/>
             </div>
 
             <input type="button" value="Add new Author" onclick="addAuthorFormItem()"/>
@@ -70,7 +71,7 @@
                 <div>
                     <b>Publisher:</b><br/>
                     <c:forEach  items="${publishers}" var ="publisher">
-                        Publisher Name <input type="text" name="publisherName" value="${publisher.publisherName}"/>
+                        Publisher Name <input type="text" name="publishersNames" value="${publisher.publisherName}"/>
                         <br><br>
                     </c:forEach>
                 </div>
@@ -78,7 +79,7 @@
 
             <div>
                 <br>
-                Publisher Name <input type="text" name="publisherName"/>
+                Publisher Name <input type="text" name="publishersNames"/>
             </div>
 
             <input type="button" value="Add new Publisher" onclick="addPublisherFormItem()"/>
