@@ -4,7 +4,6 @@ import lab4.library.repository.RoleRepository;
 import lab4.library.repository.UserRepository;
 import lab4.library.user.Role;
 import lab4.library.user.User;
-import org.h2.jdbc.JdbcSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;

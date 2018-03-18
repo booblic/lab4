@@ -9,6 +9,8 @@ import lab4.library.review.Review;
 import lab4.library.service.BookServices;
 import lab4.library.service.ReviewService;
 import lab4.library.service.UserServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +25,8 @@ import java.util.Set;
 @Controller
 @RequestMapping(value = "/book")
 public class BookController {
+
+    private Logger logger = LoggerFactory.getLogger(BookServices.class);
 
     @Autowired
     private BookServices bookServices;
@@ -166,7 +170,30 @@ public class BookController {
         Book book = bookServices.findBook(id);
         reviewService.saveReview(textReview[0], rating, book, userService.getCurrentUser());
         return "redirect:/book/show";
+    }
 
+    @GetMapping(value = "/genreandyearsearchingform")
+    public String genreAndYearSearchingForm(Model model) {
+        model.addAttribute("value", "test js");
+        return "book/genreandyearsearchingform";
+    }
+
+    @PostMapping(value = "/searcingbygenreandyear")
+    public String searcingByGenreAndYear(@RequestParam String genreName, @RequestParam int year, Model model) {
+        model.addAttribute("books", bookServices.findByYearAndGenreName(genreName, year));
+        return "book/showallbooks";
+    }
+
+    @GetMapping(value = "/authorandgenresearchingform")
+    public String authorAndGenreSearchingForm(Model model) {
+        model.addAttribute("value", "test js");
+        return "book/authorandgenreform";
+    }
+
+    @PostMapping(value = "/searcingbyauthorandgenre")
+    public String searcingByAuthorAndGenre(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String genreName, Model model) {
+        model.addAttribute("books", bookServices.findByAuthorAndGenreName(firstName, lastName, genreName));
+        return "book/showallbooks";
     }
 
     @GetMapping(value = "/test")
@@ -176,7 +203,8 @@ public class BookController {
     }
 
     @PostMapping(value = "/params/arrays")
-    public String paramsAsArrays(Model model) {
-        return "message";
+    public String paramsAsArrays(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String genreName, Model model) {
+        model.addAttribute("books", bookServices.findByAuthorAndGenreName(firstName, lastName, genreName));
+        return "book/showallbooks";
     }
 }

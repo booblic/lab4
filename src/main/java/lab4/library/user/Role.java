@@ -1,7 +1,6 @@
 package lab4.library.user;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
 import java.util.HashSet;

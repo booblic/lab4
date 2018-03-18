@@ -22,6 +22,12 @@
 
         <p><a href="${path}/searchingform">Slow Searching</a></p>
 
+        <p><a href="${path}/book/genreandyearsearchingform">Searching by genre and year</a></p>
+
+        <p><a href="${path}/book/authorandgenresearchingform">Searching by author and genre</a></p>
+
+        <p><a href="${path}/book/test">Test Searching</a></p>
+
         <br><br>
 
         <p><a href="${path}/">Start Page</a></p>

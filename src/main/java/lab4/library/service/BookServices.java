@@ -8,7 +8,6 @@ import lab4.library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 @Service
@@ -44,6 +43,14 @@ public class BookServices {
 
     public Book findBook(Integer id) {
         return bookRepository.findOne(id);
+    }
+
+    public List<Book> findByYearAndGenreName(String genreName, int year) {
+        return bookRepository.findByYearAndGenreName(genreName, year);
+    }
+
+    public List<Book> findByAuthorAndGenreName(String firstName, String lastName, String genreName) {
+        return bookRepository.findByAuthorAndGenreName(firstName, lastName, genreName);
     }
 
     public List<Book> searching(String bookName,

@@ -4,7 +4,6 @@ import lab4.library.exception.ResourceNotFoundException;
 import lab4.library.genre.Genre;
 import lab4.library.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

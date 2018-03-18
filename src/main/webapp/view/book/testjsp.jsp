@@ -4,24 +4,6 @@
        <c:set var="path" value="${pageContext.request.contextPath}"></c:set>
        <html>
        <head>
-           <script>
-               function createInputElement(type, name) {
-                   var i = document.createElement("input");
-                   i.type = type;
-                   i.name = name;
-                   return i;
-               }
-               function addBookFormItem() {
-                   with (document) {
-                       var div = createElement("div");
-                       div.appendChild(createTextNode("Book"));
-                       div.appendChild(createElement("br"));
-                       div.appendChild(createTextNode("Name"));
-                       div.appendChild(createInputElement("text", "genresNames"));
-                       getElementById("bookItems").appendChild(div);
-                   }
-               }
-           </script>
        </head>
        <body>
 
@@ -30,13 +12,13 @@
            <form action="${path}/book/params/arrays" method="POST">
                <div id="bookItems">
                    <div>
-                       <b>Book:</b><br/>
-                       Id <input type="text" name="id"/>
-                       Name <input type="text" name="genresNames"/>
+                       <b>Entry the data:</b><br/>
+                       First Name <input type="text" name="firstName"/>
+                       Last Name <input type="text" name="lastName"/>
+                       Genre Name <input type="text" name="genreName"/>
                    </div>
                </div>
 
-               <input type="button" value="Add new Book" onclick="addBookFormItem()"/>
                <input type="submit" align="center" value="Save"/>
            </form>
        </p>

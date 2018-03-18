@@ -1,13 +1,10 @@
 package lab4.library;
 
 import lab4.library.author.Author;
+import lab4.library.book.Book;
 import lab4.library.genre.Genre;
-import lab4.library.repository.BookRepository;
-import lab4.library.book.*;
 import lab4.library.publisher.Publisher;
-import lab4.library.repository.UserRepository;
-import lab4.library.user.Role;
-import lab4.library.user.User;
+import lab4.library.repository.BookRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,9 +13,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFactoryBean;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
