@@ -5,6 +5,7 @@ import lab4.library.repository.UserRepository;
 import lab4.library.user.Role;
 import lab4.library.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
 
     @Override
-    public User singupUser(User user) throws Exception {
+    public User singupUser(User user) throws DataIntegrityViolationException {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Role userRole = roleRepository.findOne(ROLE_USER_ID);

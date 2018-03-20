@@ -26,7 +26,7 @@ import java.util.Set;
 @RequestMapping(value = "/book")
 public class BookController {
 
-    private Logger logger = LoggerFactory.getLogger(BookServices.class);
+    private Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
     private BookServices bookServices;
@@ -42,6 +42,7 @@ public class BookController {
 
     @GetMapping(value = "/show")
     public String showBooks(Model model) {
+        logger.info("----------------------------------------------");
         model.addAttribute("books", bookServices.findAllBook());
         return "book/showallbooks";
     }
@@ -137,6 +138,12 @@ public class BookController {
             model.addAttribute("reviews", reviews);
             model.addAttribute("user", userService.getCurrentUser());
             return "book/formviewbook";
+        }
+
+        if (kind.compareTo("Delete") == 0) {
+            bookServices.deleteBook(id);
+            model.addAttribute("books", bookServices.findAllBook());
+            return "book/showallbooks";
         }
         return "book/formeditbook";
     }

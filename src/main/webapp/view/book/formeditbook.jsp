@@ -87,7 +87,7 @@
             <br><br>
 
             <div>
-                <input type="submit" align="center" value="Ghange"/>
+                <input type="submit" align="center" value="Edit"/>
             </div>
         </form>
 

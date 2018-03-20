@@ -37,6 +37,10 @@ public class BookServices {
         return bookRepository.save(book);
     }
 
+    public void deleteBook(Integer id) {
+        bookRepository.delete(id);
+    }
+
     public List<Book> findByBookName(String bookName) {
         return bookRepository.findByBookName(bookName);
     }

@@ -2,7 +2,10 @@ package lab4.library.controller;
 
 import lab4.library.service.UserServiceImpl;
 import lab4.library.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +17,8 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
+
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserServiceImpl userService;
@@ -41,7 +46,7 @@ public class UserController {
 
         try {
             userService.singupUser(user);
-        } catch (Exception exception) {
+        } catch (DataIntegrityViolationException exception) {
             if (exception.getMessage().contains("org.hibernate.exception.ConstraintViolationException")) {
                 model.addAttribute("NotUniqeUsername", "This username already exists");
                 return "user/registration";
@@ -68,6 +73,7 @@ public class UserController {
 
     @GetMapping(value = "/showuserprofile")
     public String showUserProfile(Model model) {
+        logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         User currentUser = userService.getCurrentUser();
         Integer id = currentUser.getUserId();
         User user = userService.getUser(id);
