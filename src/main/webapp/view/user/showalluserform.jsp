@@ -31,9 +31,9 @@
                     <c:forEach  items="${users}" var ="user">
                     <tr>
 
-                      <form action="${path}/user/${user.userId}/edituserbyadmin" method="POST">
+                      <form action="${path}/user/getformedituserbyadmin" method="POST">
                         <td>${user.userId}</td>
-                        <td>${user.username}</td>
+                        <td><input type="text" name="username" value="${user.username}" readonly/></td>
                         <td>${user.firstName}</td>
                         <td>${user.lastName}</td>
                         <td>${user.middleName}</td>

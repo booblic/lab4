@@ -14,4 +14,8 @@ public class RoleService {
     public Role getRole(Integer roleId) {
         return roleRepository.getOne(roleId);
     }
+
+    public Role getRoleByAuthority(String authority) {
+        return roleRepository.findByAuthority(authority);
+    }
 }

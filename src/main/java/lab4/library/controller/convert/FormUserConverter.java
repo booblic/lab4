@@ -11,7 +11,7 @@ public class FormUserConverter implements Converter<User, FormUser> {
     public FormUser convert(User user) {
 
         FormUser formUser = new FormUser();
-        formUser.setFormUserId(user.getUserId());
+
         formUser.setUsername(user.getUsername());
         formUser.setFirstName(user.getFirstName());
         formUser.setLastName(user.getLastName());

@@ -6,8 +6,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class FormUser {
 
-    private Integer formUserId;
-
     private String username;
 
     private String password;
@@ -29,7 +27,7 @@ public class FormUser {
     @Phone
     private String phoneNumber;
 
-    private String[] roles;
+    private String role;
 
     public FormUser() {}
 
@@ -41,14 +39,6 @@ public class FormUser {
         this.middleName = middleName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-    }
-
-    public Integer getFormUserId() {
-        return formUserId;
-    }
-
-    public void setFormUserId(Integer formUserId) {
-        this.formUserId = formUserId;
     }
 
     public String getUsername() {
@@ -123,11 +113,11 @@ public class FormUser {
         this.phoneNumber = phoneNumber;
     }
 
-    public String[] getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoles(String[] roles) {
-        this.roles = roles;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

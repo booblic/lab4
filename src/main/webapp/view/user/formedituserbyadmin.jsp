@@ -15,7 +15,7 @@
     <body>
         <h1>Edit Your Profile</h1>
 
-        <form:form action="${path}/user/edituserprofile" modelAttribute="user" method="POST">
+        <form:form action="${path}/user/edituserbyadmin" modelAttribute="user" method="POST">
 
             First Name:  <form:input path="firstName" value="${user.firstName}"/><br><br>
 
@@ -31,6 +31,13 @@
 
             User Name: <form:input path="username"  value="${user.username}"/><br><br>
             <form:errors path="username"/><br><br>
+
+            <c:if test="${not empty userRole}">
+                Administrator <input type="checkbox" name="role" value="ROLE_ADMIN"/><br><br>
+            </c:if>
+            <c:if test="${not empty adminAndUserRole}">
+                Administrator <input type="checkbox" name="role" value="ROLE_ADMIN" checked/><br><br>
+            </c:if>
 
             <br>
 

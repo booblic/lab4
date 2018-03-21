@@ -11,8 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -91,6 +89,10 @@ public class UserServiceImpl implements UserService {
 
     public User getUser(Integer id) {
         return userRepository.getOne(id);
+    }
+
+    public User getUserByName(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public User updateUser(User user) {

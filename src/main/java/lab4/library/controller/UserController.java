@@ -10,6 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +21,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -89,16 +92,15 @@ public class UserController {
 
     @GetMapping(value = "/showuserprofile")
     public String showUserProfile(Model model) {
-        User user = userService.getCurrentUser();
-        logger.info("userService.getCurrentUser()", user);
-        model.addAttribute("user", user);
+        Integer id = userService.getCurrentUser().getUserId();
+        model.addAttribute("user", userService.getUser(id));
         return "user/formshowuser";
     }
 
-    @GetMapping(value = "/edituser")
+    @PostMapping(value = "/edituser")
     public String editUser(Model model) {
-        User user = userService.getCurrentUser();
-        model.addAttribute("user", user);
+        Integer id = userService.getCurrentUser().getUserId();
+        model.addAttribute("user", userService.getUser(id));
         return "user/formedituser";
     }
 
@@ -109,33 +111,21 @@ public class UserController {
             return "user/formedituser";
         }
 
-        User user = null;
-
         User currentUser = userService.getCurrentUser();
 
-        if (userService.hasRole("ROLE_ADMIN")) {
-            currentUser = userService.getUser(formUser.getFormUserId());
-        }
+        User user = null;
 
         if (formUser.getOldPassword() != null && formUser.getPassword() != null && formUser.getConfirmedPassword() != null) {
             if (passwordEncoder.matches(formUser.getOldPassword(), userService.getCurrentUser().getPassword()) && formUser.getPassword().compareTo(formUser.getConfirmedPassword()) == 0) {
+
                 user = conversionService.convert(formUser, User.class);
                 user.setPassword(passwordEncoder.encode(formUser.getPassword()));
-                if (userService.hasRole("ROLE_ADMIN")) {
-                    Set<Role> roleSet = new HashSet<>();
-                    for (String roleName: formUser.getRoles()) {
-                        if (roleName.compareTo("Administrator") == 0) {
-                            roleSet.add(roleService.getRole(2));
-                        }
-                    }
-                    roleSet.add(roleService.getRole(1));
-                    user.setRoles(roleSet);
-                } else {
-                    user.setRoles(currentUser.getRoles());
-                }
+                user.setRoles(currentUser.getRoles());
                 user.setReviews(currentUser.getReviews());
                 user.setUserId(currentUser.getUserId());
+
                 userService.updateUser(user);
+
             } else {
                 model.addAttribute("error", "Invalid password");
                 return "user/formedituser";
@@ -143,22 +133,13 @@ public class UserController {
         }
 
         if (user == null) {
+
             user = conversionService.convert(formUser, User.class);
             user.setPassword(currentUser.getPassword());
+            user.setRoles(currentUser.getRoles());
             user.setReviews(currentUser.getReviews());
-            if (userService.hasRole("ROLE_ADMIN")) {
-                Set<Role> roleSet = new HashSet<>();
-                for (String roleName: formUser.getRoles()) {
-                    if (roleName.compareTo("Administrator") == 0) {
-                        roleSet.add(roleService.getRole(2));
-                    }
-                }
-                roleSet.add(roleService.getRole(1));
-                user.setRoles(roleSet);
-            } else {
-                user.setRoles(currentUser.getRoles());
-            }
             user.setUserId(currentUser.getUserId());
+
             userService.updateUser(user);
         }
 
@@ -171,12 +152,76 @@ public class UserController {
         return "user/showalluserform";
     }
 
-    @PostMapping(value = "/{id}/edituserbyadmin")
-    public String editUserByAdmin(@PathVariable(value = "id") Integer id, Model model) {
-        User user = userService.getUser(id);
-        model.addAttribute("admin", "yes");
+    @PostMapping(value = "/getformedituserbyadmin")
+    public String getFormEditUserByAdmin(@RequestParam String username, Model model) {
+        User user = userService.getUserByName(username);
+        if (user.getRoles().size() == 1) {
+            model.addAttribute("userRole", "yes");
+        } else if (user.getRoles().size() == 2) {
+            model.addAttribute("adminAndUserRole", "yes");
+        }
         model.addAttribute("user", user);
-        System.out.println("-------------------------------------------------------------------");
-        return "user/formedituser";
+        return "user/formedituserbyadmin";
+    }
+
+    @PostMapping(value = "/edituserbyadmin")
+    public String editUserByAdminForm(@ModelAttribute("user") @Valid FormUser formUser, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "user/formedituser";
+        }
+
+        User user = null;
+
+        User currentUser = userService.getUserByName(formUser.getUsername());
+
+        if (formUser.getOldPassword() != null && formUser.getPassword() != null && formUser.getConfirmedPassword() != null) {
+
+            if (passwordEncoder.matches(formUser.getOldPassword(), currentUser.getPassword()) && formUser.getPassword().compareTo(formUser.getConfirmedPassword()) == 0) {
+
+                user = conversionService.convert(formUser, User.class);
+                user.setPassword(passwordEncoder.encode(formUser.getPassword()));
+
+                Set<Role> roleSet = new HashSet<>();
+                if (formUser.getRole() != null) {
+                    roleSet.add(roleService.getRoleByAuthority(formUser.getRole()));
+                }
+                roleSet.add(roleService.getRoleByAuthority("ROLE_USER"));
+
+                user.setRoles(roleSet);
+
+                user.setReviews(currentUser.getReviews());
+                user.setUserId(currentUser.getUserId());
+
+                userService.updateUser(user);
+
+            } else {
+                model.addAttribute("error", "The current password is incorrect or new passwords are different");
+                return "user/formedituser";
+            }
+        }
+
+        if (user == null) {
+
+            user = conversionService.convert(formUser, User.class);
+            user.setPassword(currentUser.getPassword());
+
+            Set<Role> roleSet = new HashSet<>();
+            if (formUser.getRole() != null) {
+                roleSet.add(roleService.getRoleByAuthority(formUser.getRole()));
+            }
+            roleSet.add(roleService.getRoleByAuthority("ROLE_USER"));
+
+            user.setRoles(roleSet);
+
+            user.setReviews(currentUser.getReviews());
+            user.setUserId(currentUser.getUserId());
+
+            userService.updateUser(user);
+        }
+
+        model.addAttribute("users", userService.getAllUsers());
+
+        return "user/showalluserform";
     }
 }
