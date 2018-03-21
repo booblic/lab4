@@ -5,11 +5,13 @@ import lab4.library.repository.UserRepository;
 import lab4.library.user.Role;
 import lab4.library.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -29,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private UserDetailsManager userDetailsManager;
 
     @Override
     public User singupUser(User user) {
@@ -90,6 +95,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public User updateUser(User user) {
+        User userInRepository = userRepository.getOne(user.getUserId());
+        user.setRoles(userInRepository.getRoles());
         return userRepository.save(user);
+    }
+
+    public void changePassword(String oldPassword, String newPassword) {
+        userDetailsManager.changePassword(oldPassword, newPassword);
     }
 }

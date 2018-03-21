@@ -1,0 +1,8 @@
+[
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Book1",
+    "description": "my first book",
+    "isbn": "12312312312312311"
+  }
+]

@@ -1,5 +1,7 @@
 package lab4.library.book;
 
+import lab4.library.ReflectionToString;
+import lab4.library.annotation.ToString;
 import lab4.library.author.Author;
 import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
@@ -18,12 +20,15 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ToString
     private Integer bookId;
 
+    @ToString
     private String bookName;
 
     @Size(min = 17, max = 17)
     @Column(length = 17)
+    @ToString
     private String isbn;
 
     private int year;
@@ -179,5 +184,10 @@ public class Book {
 
     public void setBookRating(Double bookRating) {
         this.bookRating = bookRating;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.toStringFromObject(this);
     }
 }

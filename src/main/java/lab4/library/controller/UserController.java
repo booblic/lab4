@@ -3,6 +3,8 @@ package lab4.library.controller;
 import lab4.library.service.UserServiceImpl;
 import lab4.library.user.User;
 import lab4.library.validator.UserValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
@@ -17,6 +20,7 @@ import javax.validation.Valid;
 @RequestMapping(value = "/user")
 public class UserController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserServiceImpl userService;
 
@@ -77,15 +81,16 @@ public class UserController {
 
     @GetMapping(value = "/login")
     public String login(Model model, String error, String logout) {
-
-        if (error != null) {
-            model.addAttribute("error", "Your username and password is invalid.");
-        }
-
         if (logout != null) {
             model.addAttribute("logout", "You have been successfully logged out.");
         }
         return "user/login";
+    }
+
+    @GetMapping(path = "/login", params = {"error"})
+    public ModelAndView loginError() {
+        LOG.warn("User not able to login");
+        return new ModelAndView("user/login", "error", "Your username and password is invalid.");
     }
 
     @GetMapping(value = "/showuserprofile")
