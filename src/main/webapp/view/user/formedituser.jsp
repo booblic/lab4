@@ -9,13 +9,17 @@
 
 <html>
     <head>
-        <script type="text/javascript" src="${path}/js/changepassword.js"></script>
+        <script type="text/javascript" src="${path}/js/edituser.js"></script>
         <link rel="stylesheet" href="/css/test.css"/>
     </head>
     <body>
         <h1>Edit Your Profile</h1>
 
-        <form:form action="${path}/user/${user.userId}/edituserprofile" modelAttribute="user" method="POST">
+        <form:form action="${path}/user/edituserprofile" modelAttribute="user" method="POST">
+
+            <c:if test="${not empty admin}">
+                Id <input type="text" name="formUserId" value="${user.userId}" readonly/><br><br>
+            </c:if>
 
             First Name:  <form:input path="firstName" value="${user.firstName}"/><br><br>
 
@@ -29,8 +33,30 @@
             Phone Number: <form:input path="phoneNumber"  value="${user.phoneNumber}"/><br><br>
             <form:errors path="phoneNumber"/><br><br>
 
-            User Name: <form:input path="username"  value="${username}"/><br><br>
+            User Name: <form:input path="username"  value="${user.username}"/><br><br>
             <form:errors path="username"/><br><br>
+
+            <c:if test="${not empty admin}">
+                <c:forEach  items="${user.roles}" var ="role">
+                    Role: <input type="text" name="roles" value="${role.roleName}"/><br><br>
+                </c:forEach>
+
+                <div id="roleItems">
+
+                </div>
+
+                <div id="but1">
+
+                    <input type="button" value="Add role" onclick="addRoleForm()"/>
+
+                </div>
+            </c:if>
+
+            <br>
+
+            <c:if test="${not empty error}">
+                ${error}
+            </c:if>
 
             <div id="passwordItems">
 

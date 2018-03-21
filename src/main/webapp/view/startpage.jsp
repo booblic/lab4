@@ -28,6 +28,10 @@
             <br>
             <p><a href="${path}/user/showuserprofile">Show Your Profile</a></p>
 
+            <c:if test="${not empty admin}">
+                <p><a href="${path}/user/getshowalluserform">Show All User</a></p>
+            </c:if>
+
         </c:if>
 
 

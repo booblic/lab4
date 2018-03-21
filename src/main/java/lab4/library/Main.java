@@ -5,13 +5,17 @@ import lab4.library.book.Book;
 import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
 import lab4.library.repository.BookRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFactoryBean;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;

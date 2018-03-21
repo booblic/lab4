@@ -36,7 +36,10 @@
 
             Password: <input type="text" name="password"/><br><br>
 
-            Confirmed Password <input type="text" name="confirmPassword"/><br><br>
+            Confirmed Password <input type="text" name="confirmedPassword"/><br><br>
+            <c:if test="${not empty differentPassword}">
+                ${differentPassword} <br><br>
+            </c:if>
 
             <input type="submit" value="Registration"/>
         </form:form>

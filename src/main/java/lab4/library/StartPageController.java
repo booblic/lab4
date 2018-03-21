@@ -2,7 +2,7 @@ package lab4.library;
 
 import lab4.library.book.Book;
 import lab4.library.service.BookServices;
-import lab4.library.service.UserServiceImpl;
+import lab4.library.service.UserService;
 import lab4.library.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import java.util.List;
 public class StartPageController {
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
     private BookServices bookServices;
@@ -31,6 +31,10 @@ public class StartPageController {
 
         if (user != null) {
             model.addAttribute("logout", "yes");
+        }
+
+        if (userService.hasRole("ROLE_ADMIN")) {
+            model.addAttribute("admin", "yes");
         }
 
         model.addAttribute("startMessage", "Welcome to Library!");

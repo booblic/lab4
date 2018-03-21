@@ -2,13 +2,13 @@
   {
     "_class": "lab4.library.user.Role",
     "roleId": 1,
-    "roleName": "Users",
+    "roleName": "User",
     "authority": "ROLE_USER"
   },
   {
     "_class": "lab4.library.user.Role",
     "roleId": 2,
-    "roleName": "Administrators",
+    "roleName": "Administrator",
     "authority": "ROLE_ADMIN"
   }
 ]
