@@ -27,25 +27,26 @@ public class BookConverter implements Converter<FormBook, Book> {
     private PublisherService publisherService;
 
     @Override
-    public Book convert(FormBook FormBook) {
+    public Book convert(FormBook formBook) {
 
         Book book = new Book();
 
-        book.setBookId(FormBook.getBookId());
-        book.setBookName(FormBook.getBookName());
-        book.setIsbn(FormBook.getIsbn());
-        book.setYear(FormBook.getYear());
+        book.setBookId(formBook.getBookId());
+        book.setBookName(formBook.getBookName());
+        book.setIsbn(formBook.getIsbn());
+        book.setYear(formBook.getYear());
+        book.setDescription(formBook.getDescription());
 
-        if (FormBook.getGenresNames() != null) {
-            book.setGenres(getGenreSet(FormBook.getGenresNames()));
+        if (formBook.getGenresNames() != null) {
+            book.setGenres(getGenreSet(formBook.getGenresNames()));
         }
 
-        if (FormBook.getAuthorsFirstNames() != null || FormBook.getAuthorsLastNames() != null) {
-            book.setAuthors(getAuthorSet(FormBook.getAuthorsFirstNames(), FormBook.getAuthorsLastNames(), FormBook.getAuthorsMiddleNames()));
+        if (formBook.getAuthorsFirstNames() != null || formBook.getAuthorsLastNames() != null) {
+            book.setAuthors(getAuthorSet(formBook.getAuthorsFirstNames(), formBook.getAuthorsLastNames(), formBook.getAuthorsMiddleNames()));
         }
 
-        if (FormBook.getPublishersNames() != null) {
-            book.setPublishers(getPublisherSet(FormBook.getPublishersNames()));
+        if (formBook.getPublishersNames() != null) {
+            book.setPublishers(getPublisherSet(formBook.getPublishersNames()));
         }
 
         return book;

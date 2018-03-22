@@ -21,6 +21,7 @@ public class Review {
     @JoinColumn(name = "bookId")
     private Book book;
 
+    @Column(length = 1000)
     private String text;
 
     private Integer rating;

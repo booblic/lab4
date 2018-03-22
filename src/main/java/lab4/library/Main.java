@@ -46,7 +46,7 @@ public class Main {
         return factory;
     }
 
-    @Bean
+/*    @Bean
     CommandLineRunner runner2(BookRepository bookRepository) {
         Set<Author> authorSet1 = new HashSet<>();
         authorSet1.add(new Author("Иван", "Иванов" , "Иванович"));
@@ -81,5 +81,5 @@ public class Main {
         bookSet.add(new Book("Герой нашего времени", "978-5-4335-0125-6", 2000, genres3, authorSet3, publisherSet2));
 
         return args -> bookRepository.save(bookSet);
-    }
+    }*/
 }

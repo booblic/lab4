@@ -1,5 +1,7 @@
 package lab4.library.publisher;
 
+import lab4.library.Description;
+import lab4.library.annotation.ToString;
 import lab4.library.book.Book;
 
 import javax.persistence.*;
@@ -8,13 +10,14 @@ import java.util.Set;
 
 @Entity
 @Table
-public class Publisher {
+public class Publisher extends Description {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer publisherId;
 
     @Column(unique = true)
+    @ToString
     private String publisherName;
 
     @ManyToMany(mappedBy = "publishers")

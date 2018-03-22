@@ -1,5 +1,6 @@
 package lab4.library.user;
 
+import lab4.library.annotation.ToString;
 import lab4.library.review.Review;
 import lab4.library.annotation.Phone;
 import org.hibernate.validator.constraints.Email;
@@ -21,23 +22,26 @@ public class User implements UserDetails {
     private Integer userId;
 
     @Column(unique = true)
+    @ToString
     private String username;
 
     private String password;
 
-    /*private String confirmedPassword;*/
-
+    @ToString
     private String firstName;
 
+    @ToString
     private String lastName;
 
     private String middleName;
 
     @NotEmpty
     @Email
+    @ToString
     private String email;
 
     @Phone
+    @ToString
     private String phoneNumber;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -109,14 +113,6 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    /*public String getConfirmedPassword() {
-        return confirmedPassword;
-    }
-
-    public void setConfirmedPassword(String confirmedPassword) {
-        this.confirmedPassword = confirmedPassword;
-    }*/
 
     public String getFirstName() {
         return firstName;

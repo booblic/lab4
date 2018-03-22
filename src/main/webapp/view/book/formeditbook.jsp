@@ -20,6 +20,7 @@
                 Name <input type="text" name="bookName" value="${book.bookName}"/>
                 ISBN <input type="text" name="isbn" value="${book.isbn}"/>
                 Year <input type="text" name="year" value="${book.year}"/>
+                Description: <textarea rows="5" cols="200" style="width: 400px" name="description">${book.description}</textarea>
             </div>
 
             <br>
@@ -27,7 +28,7 @@
             <div id="genreItems">
                 <div>
                     <b>Genre:</b><br/>
-                    <c:forEach  items="${genres}" var ="genre">
+                    <c:forEach  items="${book.genres}" var ="genre">
                         Genre Name <input type="text" name="genresNames" value="${genre.genreName}"/>
                         <br><br>
                     </c:forEach>
@@ -47,7 +48,7 @@
             <div id="authorItems">
                 <div>
                     <b>Author:</b><br/>
-                     <c:forEach  items="${authors}" var ="author">
+                     <c:forEach  items="${book.authors}" var ="author">
                         First Name <input type="text" name="authorsFirstNames" value="${author.firstName}"/>
                         Last Name <input type="text" name="authorsLastNames" value="${author.lastName}"/>
                         Middle Name <input type="text" name="authorsMiddleNames" value="${author.middleName}"/>
@@ -70,7 +71,7 @@
             <div id="publisherItems">
                 <div>
                     <b>Publisher:</b><br/>
-                    <c:forEach  items="${publishers}" var ="publisher">
+                    <c:forEach  items="${book.publishers}" var ="publisher">
                         Publisher Name <input type="text" name="publishersNames" value="${publisher.publisherName}"/>
                         <br><br>
                     </c:forEach>

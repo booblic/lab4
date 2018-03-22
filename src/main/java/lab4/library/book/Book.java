@@ -1,5 +1,7 @@
 package lab4.library.book;
 
+import lab4.library.Description;
+import lab4.library.annotation.ToString;
 import lab4.library.author.Author;
 import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
@@ -13,28 +15,35 @@ import java.util.Set;
 
 @Entity
 @Table
-public class Book {
+public class Book extends Description {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer bookId;
 
+    @ToString
     private String bookName;
 
     @Column(length = 17)
+    @ToString
     private String isbn;
 
+    @ToString
     private int year;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
+
+    //@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "bookGenre", joinColumns = @JoinColumn(name = "bookId"), inverseJoinColumns = @JoinColumn(name = "genreId"))
     private Set<Genre> genres = new HashSet<>();
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
+    //@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "bookAuthor", joinColumns = @JoinColumn(name = "bookId"), inverseJoinColumns = @JoinColumn(name = "authorId"))
     private Set<Author> authors = new HashSet<>();
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
+    //@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "bookPublisher", joinColumns = @JoinColumn(name = "bookId"), inverseJoinColumns = @JoinColumn(name = "publisherId"))
     private Set<Publisher> publishers = new HashSet<>();
 

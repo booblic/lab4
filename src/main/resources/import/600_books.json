@@ -1,0 +1,143 @@
+[
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Руслан и Людмила",
+    "isbn": "978-5-7793-4296-4",
+    "year": "2013",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 4
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 1
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 1
+      },
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 2
+      }
+    ],
+    "description": "Руслан и Людмила — первая законченная поэма Александра Сергеевича Пушкина; волшебная сказка, вдохновлённая древнерусскими былинами."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Евгений Онегин",
+    "isbn": "978-5-389-04903-1",
+    "year": "2016",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 1
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 3
+      },
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 4
+      }
+    ],
+    "description": "Евгений Онегин — роман в стихах русского поэта Александра Сергеевича Пушкина, написанный в 1823—1831 годах, одно из самых значительных произведений русской словесности."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Война и мир",
+    "isbn": "978-5-699-08860-7",
+    "year": "2004",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 4
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 2
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 5
+      },
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 6
+      }
+    ],
+    "description": "Война и мир — роман-эпопея Льва Николаевича Толстого, описывающий русское общество в эпоху войн против Наполеона в 1805—1812 годах."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Герой нашего времени",
+    "isbn": "978-5-389-01927-0",
+    "year": "2011",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 3
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 3
+      },
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 4
+      }
+    ],
+    "description": "Герой нашего времени (написан в 1838—1840 годах) — первый в русской прозе лирико-психологический роман, написанный Михаилом Юрьевичем Лермонтовым. Классика русской литературы. Впервые роман был издан в Санкт-Петербурге в типографии Ильи Глазунова и Кº в 1840 г. в 2 книгах. Тираж — 1000 экземпляров."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Преступление и наказание",
+    "isbn": "978-5-699-22189-9",
+    "year": "2016",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 4
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 6
+      }
+    ],
+    "description": "Преступление и наказание — социально-психологический и социально-философский роман Фёдора Михайловича Достоевского, над которым писатель работал в 1865—1866 годах. Впервые опубликован в 1866 году в журнале «Русский вестник» (№ 1, 2, 4, 6—8, 11, 12). Через год вышло в свет отдельное издание, структура которого была немного изменена по сравнению с журнальной редакцией; кроме того, автор внёс в книжный вариант ряд сокращений и стилистических правок."
+  }
+]

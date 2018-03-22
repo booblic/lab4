@@ -20,6 +20,8 @@ public class FormBook {
 
     private String[] publishersNames;
 
+    private String description;
+
     public FormBook() {}
 
     public Integer getBookId() {
@@ -92,5 +94,13 @@ public class FormBook {
 
     public void setPublishersNames(String[] publishersNames) {
         this.publishersNames = publishersNames;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

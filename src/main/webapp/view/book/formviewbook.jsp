@@ -16,12 +16,16 @@
 	<h1>View Book</h1>
 	<form action="${path}/book/${book.bookId}/addreview" method="POST">
 		<div> <b>Book:</b>
-			<br/> Name ${book.bookName} ISBN ${book.isbn} Year ${book.year} Rating ${book.bookRating} </div>
+			Name: ${book.bookName} Rating: ${book.bookRating} <br>
+			ISBN: ${book.isbn} <br>
+			Year: ${book.year} <br>
+			Description: ${book.description} <br>
+			</div>
 		<br>
 		<br>
 		<div> <b>Genre:</b>
 			<br/>
-			<c:forEach items="${genres}" var="genre"> ${genre.genreName}
+			<c:forEach items="${book.genres}" var="genre"> ${genre.genreName}
 				<br>
 				<br> </c:forEach>
 		</div>
@@ -29,7 +33,7 @@
 		<br>
 		<div> <b>Author:</b>
 			<br/>
-			<c:forEach items="${authors}" var="author"> First Name ${author.firstName} Last Name ${author.lastName}" Middle Name ${author.middleName}
+			<c:forEach items="${book.authors}" var="author"> First Name ${author.firstName} Last Name ${author.lastName}" Middle Name ${author.middleName}
 				<br>
 				<br> </c:forEach>
 		</div>
@@ -37,7 +41,7 @@
 		<br>
 		<div> <b>Publisher:</b>
 			<br/>
-			<c:forEach items="${publishers}" var="publisher"> ${publisher.publisherName}
+			<c:forEach items="${book.publishers}" var="publisher"> ${publisher.publisherName}
 				<br>
 				<br> </c:forEach>
 		</div>
