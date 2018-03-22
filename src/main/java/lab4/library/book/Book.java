@@ -8,10 +8,7 @@ import lab4.library.publisher.Publisher;
 import lab4.library.review.Review;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table
@@ -169,7 +166,9 @@ public class Book extends Description {
         List<Integer> reviewRating = new ArrayList<>();
 
         for (Review review: reviews) {
-            reviewRating.add(review.getRating());
+            for (Map.Entry<String, String> pair : review.getBookReview().entrySet()) {
+                reviewRating.add(Integer.parseInt(pair.getValue()));
+            }
         }
 
         for (Integer rating: reviewRating) {
@@ -186,5 +185,29 @@ public class Book extends Description {
 
     public void setBookRating(Double bookRating) {
         this.bookRating = bookRating;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book)) return false;
+        if (!super.equals(o)) return false;
+        Book book = (Book) o;
+        return year == book.year &&
+                Objects.equals(bookId, book.bookId) &&
+                Objects.equals(bookName, book.bookName) &&
+                Objects.equals(isbn, book.isbn) &&
+                Objects.equals(genres, book.genres) &&
+                Objects.equals(authors, book.authors) &&
+                Objects.equals(publishers, book.publishers) &&
+                Objects.equals(reviews, book.reviews) &&
+                Objects.equals(bookRating, book.bookRating) &&
+                Objects.equals(periodicity, book.periodicity);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(bookId, bookName, isbn, year);
     }
 }

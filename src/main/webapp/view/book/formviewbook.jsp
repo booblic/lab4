@@ -51,18 +51,26 @@
 			<br>
 			<c:forEach items="${reviews}" var="review">
                 <c:choose>
-                   <c:when test="${user.username == review.user.username}">
+                    <c:when test="${user.username == review.user.username}">
                        <c:set var="rev" scope="session" value="Yes" />
-                       <textarea id="textReview" rows="5" cols="200" style="width: 400px" name="textReview">${review.text}</textarea>
-                       <br><br>
-                       <input type="number" name="rating" size="1" min="1" max="5" value="${review.rating}"/>
-                       <br><br>
+
+                           <c:forEach var="entry" items="${review.bookReview}">
+                                <textarea id="textReview" rows="5" cols="200" style="width: 400px" name="textReview">${entry.key}</textarea>
+                                <br><br>
+                                <input type="number" name="rating" size="1" min="1" max="5" value="${entry.value}"/>
+                                <br><br>
+                           </c:forEach>
+
                     </c:when>
                     <c:otherwise>
-                        Review By User: ${review.user.username} <br> ${review.text} <br> Rating: ${review.rating}
-                        <br>
-                        <br>
-                    </c:otherwise>
+                        <c:forEach var="entry" items="${review.bookReview}">
+
+                            Review By User: ${review.user.username} <br> ${entry.key} <br> Rating: ${entry.value}
+                            <br>
+                            <br>
+
+                        </c:forEach>
+                   </c:otherwise>
                 </c:choose>
 				<br><br> </c:forEach>
 			<br> </div>

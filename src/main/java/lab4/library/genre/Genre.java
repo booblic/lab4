@@ -6,6 +6,7 @@ import lab4.library.book.Book;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -50,5 +51,21 @@ public class Genre extends Description {
 
     public void setBooks(Set<Book> books) {
         this.books = books;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Genre)) return false;
+        Genre genre = (Genre) o;
+        return Objects.equals(genreId, genre.genreId) &&
+                Objects.equals(genreName, genre.genreName) &&
+                Objects.equals(books, genre.books);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(genreId, genreName);
     }
 }

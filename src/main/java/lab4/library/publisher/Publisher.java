@@ -6,6 +6,7 @@ import lab4.library.book.Book;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -51,5 +52,21 @@ public class Publisher extends Description {
 
     public void setBooks(Set<Book> books) {
         this.books = books;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Publisher)) return false;
+        Publisher publisher = (Publisher) o;
+        return Objects.equals(publisherId, publisher.publisherId) &&
+                Objects.equals(publisherName, publisher.publisherName) &&
+                Objects.equals(books, publisher.books);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(publisherId, publisherName);
     }
 }

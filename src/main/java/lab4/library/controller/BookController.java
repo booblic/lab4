@@ -9,6 +9,7 @@ import lab4.library.review.Review;
 import lab4.library.service.BookServices;
 import lab4.library.service.ReviewService;
 import lab4.library.service.UserServiceImpl;
+import lab4.library.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/book")
@@ -118,9 +117,29 @@ public class BookController {
     }
 
     @PostMapping(value = "/{id}/addreview")
-    public String addreview(@PathVariable Integer id, @RequestParam String[] textReview, @RequestParam Integer rating) {
+    public String addReview(@PathVariable Integer id, @RequestParam String textReview, @RequestParam String rating) {
+
+        Review review = null;
+
+        User user = userService.getCurrentUser();
+
         Book book = bookServices.findBook(id);
-        reviewService.saveReview(textReview[0], rating, book, userService.getCurrentUser());
+
+        Map<String, String> bookReview = new HashMap<>();
+        bookReview.put(textReview, rating);
+
+        if (reviewService.findByBookAndUser(book, user) != null) {
+            review = reviewService.findByBookAndUser(book, user);
+            review.setBookReview(bookReview);
+            reviewService.saveReview(review);
+        } else {
+            review = new Review();
+            review.setUser(user);
+            review.setBook(book);
+            review.setBookReview(bookReview);
+        }
+        reviewService.saveReview(review);
+
         return "redirect:/book/show";
     }
 
