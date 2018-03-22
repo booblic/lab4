@@ -111,20 +111,15 @@ public class UserController {
             return "user/formedituser";
         }
 
-        User currentUser = userService.getCurrentUser();
+        Integer id = userService.getCurrentUser().getUserId();
+        User currentUser = userService.getUser(id);
 
-        User user = null;
+        User user = conversionService.convert(formUser, User.class);
 
         if (formUser.getOldPassword() != null && formUser.getPassword() != null && formUser.getConfirmedPassword() != null) {
             if (passwordEncoder.matches(formUser.getOldPassword(), userService.getCurrentUser().getPassword()) && formUser.getPassword().compareTo(formUser.getConfirmedPassword()) == 0) {
 
-                user = conversionService.convert(formUser, User.class);
                 user.setPassword(passwordEncoder.encode(formUser.getPassword()));
-                user.setRoles(currentUser.getRoles());
-                user.setReviews(currentUser.getReviews());
-                user.setUserId(currentUser.getUserId());
-
-                userService.updateUser(user);
 
             } else {
                 model.addAttribute("error", "Invalid password");
@@ -132,16 +127,15 @@ public class UserController {
             }
         }
 
-        if (user == null) {
-
-            user = conversionService.convert(formUser, User.class);
+        if (user.getPassword() == null) {
             user.setPassword(currentUser.getPassword());
-            user.setRoles(currentUser.getRoles());
-            user.setReviews(currentUser.getReviews());
-            user.setUserId(currentUser.getUserId());
-
-            userService.updateUser(user);
         }
+
+        user.setRoles(currentUser.getRoles());
+        user.setReviews(currentUser.getReviews());
+        user.setUserId(currentUser.getUserId());
+
+        userService.updateUser(user);
 
         return "redirect:/user/showuserprofile";
     }
@@ -153,14 +147,25 @@ public class UserController {
     }
 
     @PostMapping(value = "/getformedituserbyadmin")
-    public String getFormEditUserByAdmin(@RequestParam String username, Model model) {
-        User user = userService.getUserByName(username);
-        if (user.getRoles().size() == 1) {
-            model.addAttribute("userRole", "yes");
-        } else if (user.getRoles().size() == 2) {
-            model.addAttribute("adminAndUserRole", "yes");
+    public String getFormEditUserByAdmin(@RequestParam Integer userId, Model model) {
+        User user = userService.getUser(userId);
+
+        Boolean isAdmin = false;
+
+        for (Role userRole: user.getRoles()) {
+            if (userRole.getRoleName().compareTo("Administrator") == 0) {
+                isAdmin = true;
+            }
         }
+
+        if (isAdmin == true) {
+            model.addAttribute("adminAndUserRole", "yes");
+        } else {
+            model.addAttribute("userRole", "yes");
+        }
+
         model.addAttribute("user", user);
+
         return "user/formedituserbyadmin";
     }
 
@@ -171,29 +176,14 @@ public class UserController {
             return "user/formedituser";
         }
 
-        User user = null;
-
-        User currentUser = userService.getUserByName(formUser.getUsername());
+        User currentUser = userService.getUser(formUser.getUserId());
+        User user = conversionService.convert(formUser, User.class);
 
         if (formUser.getOldPassword() != null && formUser.getPassword() != null && formUser.getConfirmedPassword() != null) {
 
             if (passwordEncoder.matches(formUser.getOldPassword(), currentUser.getPassword()) && formUser.getPassword().compareTo(formUser.getConfirmedPassword()) == 0) {
 
-                user = conversionService.convert(formUser, User.class);
                 user.setPassword(passwordEncoder.encode(formUser.getPassword()));
-
-                Set<Role> roleSet = new HashSet<>();
-                if (formUser.getRole() != null) {
-                    roleSet.add(roleService.getRoleByAuthority(formUser.getRole()));
-                }
-                roleSet.add(roleService.getRoleByAuthority("ROLE_USER"));
-
-                user.setRoles(roleSet);
-
-                user.setReviews(currentUser.getReviews());
-                user.setUserId(currentUser.getUserId());
-
-                userService.updateUser(user);
 
             } else {
                 model.addAttribute("error", "The current password is incorrect or new passwords are different");
@@ -201,27 +191,23 @@ public class UserController {
             }
         }
 
-        if (user == null) {
-
-            user = conversionService.convert(formUser, User.class);
+        if (user.getPassword() == null) {
             user.setPassword(currentUser.getPassword());
-
-            Set<Role> roleSet = new HashSet<>();
-            if (formUser.getRole() != null) {
-                roleSet.add(roleService.getRoleByAuthority(formUser.getRole()));
-            }
-            roleSet.add(roleService.getRoleByAuthority("ROLE_USER"));
-
-            user.setRoles(roleSet);
-
-            user.setReviews(currentUser.getReviews());
-            user.setUserId(currentUser.getUserId());
-
-            userService.updateUser(user);
         }
 
-        model.addAttribute("users", userService.getAllUsers());
+        Set<Role> roleSet = new HashSet<>();
+        if (formUser.getRole() != null) {
+            roleSet.add(roleService.getRoleByAuthority(formUser.getRole()));
+        }
+        roleSet.add(roleService.getRoleByAuthority("ROLE_USER"));
 
-        return "user/showalluserform";
+        user.setRoles(roleSet);
+
+        user.setReviews(currentUser.getReviews());
+        user.setUserId(currentUser.getUserId());
+
+        userService.updateUser(user);
+
+        return "redirect:/user/getshowalluserform";
     }
 }

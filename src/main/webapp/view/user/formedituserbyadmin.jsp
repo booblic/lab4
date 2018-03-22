@@ -17,6 +17,8 @@
 
         <form:form action="${path}/user/edituserbyadmin" modelAttribute="user" method="POST">
 
+            Id: <input type="text" name="userId" value="${user.userId}" readonly/><br><br>
+
             First Name:  <form:input path="firstName" value="${user.firstName}"/><br><br>
 
             Last Name:  <form:input path="lastName" value="${user.lastName}"/><br><br>

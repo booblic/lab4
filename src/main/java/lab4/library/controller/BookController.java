@@ -60,7 +60,7 @@ public class BookController {
         return "redirect:/book/show";
     }*/
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/addbook")
     public String addBook(@RequestParam String[] bookName, @RequestParam String[] isbn, @RequestParam Integer[] year) {
 
@@ -163,7 +163,7 @@ public class BookController {
         return "redirect:/book/show";
     }*/
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/editbook")
     public String editBook(@ModelAttribute FormBook formBook) {
         Book book = conversionService.convert(formBook, Book.class);

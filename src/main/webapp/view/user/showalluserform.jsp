@@ -32,8 +32,8 @@
                     <tr>
 
                       <form action="${path}/user/getformedituserbyadmin" method="POST">
-                        <td>${user.userId}</td>
-                        <td><input type="text" name="username" value="${user.username}" readonly/></td>
+                        <td><input type="text" name="userId" value="${user.userId}" readonly/></td>
+                        <td>${user.username}</td>
                         <td>${user.firstName}</td>
                         <td>${user.lastName}</td>
                         <td>${user.middleName}</td>

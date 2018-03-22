@@ -15,7 +15,6 @@ public class UserConverter implements Converter<FormUser, User> {
         User user = new User();
 
         user.setUsername(formUser.getUsername());
-        user.setPassword(formUser.getPassword());
         user.setFirstName(formUser.getFirstName());
         user.setLastName(formUser.getLastName());
         user.setMiddleName(formUser.getMiddleName());
