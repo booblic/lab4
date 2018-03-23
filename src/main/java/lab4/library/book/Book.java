@@ -119,7 +119,7 @@ public class Book extends Description {
     }
 
     public String getPeriodicity() {
-        StringBuilder stringBuilder = new StringBuilder();
+        /*StringBuilder stringBuilder = new StringBuilder();
         for (String layout: periodicity.split("/")){
             switch (layout) {
                 case "1":
@@ -144,7 +144,8 @@ public class Book extends Description {
                     stringBuilder.append("year");
             }
         }
-        return stringBuilder.toString();
+        return stringBuilder.toString();*/
+        return periodicity;
     }
 
     public void setPeriodicity(String periodicity) {

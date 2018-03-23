@@ -6,6 +6,7 @@ import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
 import lab4.library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -160,5 +161,9 @@ public class BookServices {
             }
         }
         return books;
+    }
+
+    public List<Book> findBook(Example<Book> example) {
+        return bookRepository.findAll(example);
     }
 }

@@ -7,6 +7,7 @@ import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
 import lab4.library.review.Review;
 import lab4.library.service.BookServices;
+import lab4.library.service.GenreService;
 import lab4.library.service.ReviewService;
 import lab4.library.service.UserServiceImpl;
 import lab4.library.user.User;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.data.domain.Example;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +37,9 @@ public class BookController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private GenreService genreService;
 
     @Autowired
     private ConversionService conversionService;
@@ -151,7 +156,18 @@ public class BookController {
 
     @PostMapping(value = "/searcingbygenreandyear")
     public String searcingByGenreAndYear(@RequestParam String genreName, @RequestParam int year, Model model) {
-        model.addAttribute("books", bookServices.findByYearAndGenreName(genreName, year));
+        Book book = new Book();
+        book.setYear(2013);
+        Example<Book> example = Example.of(book);
+        //book.setYear(year);
+        /*Set<Genre> genreSet = new HashSet<>();
+        genreSet.add(genreService.findByGenreName(genreName));
+        book.setGenres(genreSet);*/
+        //model.addAttribute("books", bookServices.findByYearAndGenreName(genreName, year));
+        model.addAttribute("books", bookServices.findBook(example));
+        System.out.println("-----------------------------------------------------------");
+        System.out.println(bookServices.findBook(example));
+        System.out.println("-----------------------------------------------------------");
         return "book/showallbooks";
     }
 
