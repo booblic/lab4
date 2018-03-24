@@ -26,7 +26,7 @@ public class Book extends Description {
     private String isbn;
 
     @ToString
-    private int year;
+    private Integer year;
 
 
     //@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
@@ -86,11 +86,11 @@ public class Book extends Description {
         this.isbn = isbn;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 

@@ -4,10 +4,11 @@ import lab4.library.book.Book;
 import lab4.library.review.Review;
 import lab4.library.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReviewRepository extends JpaRepository<Review, Integer> {
+public interface ReviewRepository extends JpaRepository<Review, Integer>, QueryByExampleExecutor<Review> {
 
     public Review findByBookAndUser(Book book, User user);
 }

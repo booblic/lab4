@@ -17,6 +17,7 @@
             <div>
               <table border="1">
                 <tr>
+                    <th></th>
                     <th>Id</th>
                     <th>Name</th>
                     <th>Year</th>
@@ -27,8 +28,9 @@
                     <c:forEach  items="${books}" var ="book">
                     <tr>
 
-                      <form action="${path}/book/${book.bookId}/formedit" method="POST">
-                        <td>${book.bookId}</td>
+                      <form action="${path}/book/formedit" method="POST">
+                        <td><input type="checkbox" form="export" name="id" value="${book.bookId}"/></td>
+                        <td><input type="text" name="bookId" value="${book.bookId}" readonly/></td>
                         <td>${book.bookName}</td>
                         <td>${book.year}</td>
                         <td><input type="submit" name="kind" align="center" value="Edit"/></td>
@@ -40,7 +42,16 @@
                     </c:forEach>
               </table>
             </div>
+
+            <br>
+
+            <form id="export" action="${path}/book/exportbooks" method="POST">
+                <input type="submit" align="center" value="Export"/> Choose which books you want to export
+            </form>
+
+
         </c:if>
+
 
         <c:if test="${not empty error}">
             ${error}

@@ -6,21 +6,23 @@ import lab4.library.controller.convert.FormBook;
 import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
 import lab4.library.review.Review;
-import lab4.library.service.BookServices;
-import lab4.library.service.GenreService;
-import lab4.library.service.ReviewService;
-import lab4.library.service.UserServiceImpl;
+import lab4.library.service.*;
 import lab4.library.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Controller
@@ -33,7 +35,13 @@ public class BookController {
     private BookServices bookServices;
 
     @Autowired
+    private AuthorService authorService;
+
+    @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private PublisherService publisherService;
 
     @Autowired
     private UserServiceImpl userService;
@@ -92,9 +100,9 @@ public class BookController {
         return "book/showallbooks";
     }
 
-    @PostMapping(value = "/{id}/formedit")
-    public String editForm(@PathVariable Integer id, @RequestParam String kind, Model model) {
-        Book book = bookServices.findBook(id);
+    @PostMapping(value = "/formedit")
+    public String editForm(@RequestParam Integer bookId, @RequestParam String kind, Model model) {
+        Book book = bookServices.findBook(bookId);
         model.addAttribute("book", book);
 
         if (kind.compareTo("View") == 0) {
@@ -105,7 +113,7 @@ public class BookController {
         }
 
         if (kind.compareTo("Delete") == 0) {
-            bookServices.deleteBook(id);
+            bookServices.deleteBook(bookId);
             model.addAttribute("books", bookServices.findAllBook());
             return "book/showallbooks";
         }
@@ -157,17 +165,13 @@ public class BookController {
     @PostMapping(value = "/searcingbygenreandyear")
     public String searcingByGenreAndYear(@RequestParam String genreName, @RequestParam int year, Model model) {
         Book book = new Book();
-        book.setYear(2013);
-        Example<Book> example = Example.of(book);
-        //book.setYear(year);
-        /*Set<Genre> genreSet = new HashSet<>();
+        book.setYear(year);
+        Set<Genre> genreSet = new HashSet<>();
         genreSet.add(genreService.findByGenreName(genreName));
-        book.setGenres(genreSet);*/
+        book.setGenres(genreSet);
+        Example<Book> example = Example.of(book, ExampleMatcher.matching().withIgnorePaths("bookRating"));
         //model.addAttribute("books", bookServices.findByYearAndGenreName(genreName, year));
         model.addAttribute("books", bookServices.findBook(example));
-        System.out.println("-----------------------------------------------------------");
-        System.out.println(bookServices.findBook(example));
-        System.out.println("-----------------------------------------------------------");
         return "book/showallbooks";
     }
 
@@ -177,8 +181,8 @@ public class BookController {
         return "book/authorandgenreform";
     }
 
-    @PostMapping(value = "/searcingbyauthorandgenre")
-    public String searcingByAuthorAndGenre(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String genreName, Model model) {
+    @PostMapping(value = "/searhcingbyauthorandgenre")
+    public String searchingByAuthorAndGenre(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String genreName, Model model) {
         model.addAttribute("books", bookServices.findByAuthorAndGenreName(firstName, lastName, genreName));
         return "book/showallbooks";
     }
@@ -193,5 +197,40 @@ public class BookController {
     public String paramsAsArrays(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String genreName, Model model) {
         model.addAttribute("books", bookServices.findByAuthorAndGenreName(firstName, lastName, genreName));
         return "book/showallbooks";
+    }
+
+    @PostMapping(value = "/exportbooks")
+    public String exportBooks(@RequestParam Integer[] id, Model model, HttpServletResponse response) {
+
+        List<Book> books = new ArrayList<>();
+
+        String lineSeparator = System.getProperty("line.separator");
+
+        for (Integer bookIf: id) {
+            books.add(bookServices.findBook(bookIf));
+        }
+
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            Writer file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("books.csv"), "utf-8"));
+            for (Book book: books) {
+                stringBuilder.append(book.getBookName()).append(",").append(book.getIsbn()).append(",").append(book.getYear()).append(lineSeparator);
+            }
+
+            file.write(stringBuilder.toString());
+            file.close();
+            byte[] array = Files.readAllBytes(Paths.get("books.csv"));
+
+            response.setContentType("text/plain");
+            response.setHeader("Content-Disposition", "attachment; filename=books.csv");
+            response.getOutputStream().write(array);
+
+            response.getOutputStream().flush();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+
+        }
+
+        return null;
     }
 }

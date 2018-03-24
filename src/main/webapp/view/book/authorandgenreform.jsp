@@ -11,7 +11,7 @@
 		<body>
 			<h1>Genre and year search</h1>
 			<p>
-				<form action="${path}/book/searcingbyauthorandgenre" method="POST">
+				<form action="${path}/book/searhcingbyauthorandgenre" method="POST">
 					<div id="bookItems">
 						<div> <b>Entry the data:</b>
 						    <br>
