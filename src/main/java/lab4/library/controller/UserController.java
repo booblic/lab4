@@ -180,23 +180,48 @@ public class UserController {
         User user = userService.getUser(userId);
         LOG.info("msg: User user = userService.getUser(userId); " + userId + " " + ReflectionToString.reflectionToString(user));
 
-        Boolean isAdmin = false;
-        LOG.info("msg: Boolean isAdmin = false;", isAdmin);
+        /*User user = userService.getCurrentUser();
+        LOG.info("msg: User user = userService.getCurrentUser(); " + userId + " " + ReflectionToString.reflectionToString(user));*/
 
-        for (Role userRole: user.getRoles()) {
-            if (userRole.getRoleName().compareTo("Administrator") == 0) {
-                isAdmin = true;
-                LOG.info("msg: for (Role userRole: user.getRoles()) { if (userRole.getRoleName().compareTo(\"Administrator\") == 0) { isAdmin = true; } }");
+        LOG.info("msg: Boolean isSuperUser = false;");
+        Boolean isSuperUser = false;
+
+        LOG.info("msg: Boolean isAdmin = false;");
+        Boolean isAdmin = false;
+
+        for (Role userRole: userService.getCurrentUser().getRoles()) {
+
+            if (userRole.getRoleName().compareTo("SuperUser") == 0) {
+                LOG.info("msg: for (Role userRole: user.getRoles()) { if (userRole.getRoleName().compareTo(\"SuperUser\") == 0) { isSuperUser = true; } }");
+                isSuperUser = true;
             }
         }
 
-        if (isAdmin == true) {
-            LOG.info("msg: if (isAdmin == true) { model.addAttribute(\"adminAndUserRole\", \"yes\"); }");
-            model.addAttribute("adminAndUserRole", "yes");
-        } else {
-            LOG.info("msg: if (isAdmin == false) { model.addAttribute(\"userRole\", \"yes\"); }");
-            model.addAttribute("userRole", "yes");
+        for (Role userRole: user.getRoles()) {
+
+            if (userRole.getRoleName().compareTo("SuperUser") == 0) {
+                LOG.info("msg: for (Role userRole: user.getRoles()) { if (userRole.getRoleName().compareTo(\"SuperUser\") == 0) { isAdmin = false; } }");
+                isAdmin = false;
+                isSuperUser = false;
+            } else if (userRole.getRoleName().compareTo("Administrator") == 0) {
+                LOG.info("msg: for (Role userRole: user.getRoles()) { if (userRole.getRoleName().compareTo(\"Administrator\") == 0) { isAdmin = true; } }");
+                isAdmin = true;
+            }
         }
+
+
+        if (isSuperUser == true) {
+            LOG.info("msg: if (isSuperUser == true) { model.addAttribute(\"superUser\", \"yes\"); }");
+            model.addAttribute("superUser", "isSuperUser");
+        }
+        if (isAdmin == true) {
+            LOG.info("msg: if (isAdmin == true) { model.addAttribute(\"admin\", \"yes\"); }");
+            model.addAttribute("admin", "yes");
+        }
+       /* else {
+            LOG.info("msg: if (isSuperUser == false) { model.addAttribute(\"userRole\", \"yes\"); }");
+            model.addAttribute("userRole", "yes");
+        }*/
         LOG.info("msg: model.addAttribute(\"user\", user); " + ReflectionToString.reflectionToString(user));
         model.addAttribute("user", user);
         LOG.info("msg: return \"user/formedituserbyadmin\";");

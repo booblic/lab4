@@ -10,5 +10,11 @@
     "roleId": 2,
     "roleName": "Administrator",
     "authority": "ROLE_ADMIN"
+  },
+  {
+    "_class": "lab4.library.user.Role",
+    "roleId": 3,
+    "roleName": "SuperUser",
+    "authority": "ROLE_SUPERUSER"
   }
 ]

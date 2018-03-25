@@ -16,6 +16,10 @@
       {
         "_class": "lab4.library.user.Role",
         "roleId": 2
+      },
+      {
+        "_class": "lab4.library.user.Role",
+        "roleId": 3
       }
     ]
   },

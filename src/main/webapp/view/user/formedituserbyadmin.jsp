@@ -34,12 +34,19 @@
             User Name: <form:input path="username"  value="${user.username}"/><br><br>
             <form:errors path="username"/><br><br>
 
-            <c:if test="${not empty userRole}">
-                Administrator <input type="checkbox" name="role" value="ROLE_ADMIN"/><br><br>
-            </c:if>
-            <c:if test="${not empty adminAndUserRole}">
-                Administrator <input type="checkbox" name="role" value="ROLE_ADMIN" checked/><br><br>
-            </c:if>
+            <c:choose>
+                <c:when test="${not empty superUser}">
+                   <c:if test="${not empty admin}">
+                    Administrator <input type="checkbox" name="role" value="ROLE_ADMIN" checked/><br><br>
+                   </c:if>
+                    <c:if test="${empty admin}">
+                    Administrator <input type="checkbox" name="role" value="ROLE_ADMIN"/><br><br>
+                   </c:if>
+                </c:when>
+                <c:otherwise>
+
+                </c:otherwise>
+            </c:choose>
 
             <br>
 
