@@ -14,7 +14,7 @@
     <body>
         <h1>Your Profile</h1>
 
-        <form action="${path}/user/edituser" method="POST">
+        <form action="${path}/user/getedituserform" method="POST">
 
             First Name:  ${user.firstName}<br><br>
 

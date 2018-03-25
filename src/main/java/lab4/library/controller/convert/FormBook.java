@@ -1,13 +1,19 @@
 package lab4.library.controller.convert;
 
+import lab4.library.annotation.ToString;
+
 public class FormBook {
 
+    @ToString
     private Integer bookId;
 
+    @ToString
     private String bookName;
 
+    @ToString
     private String isbn;
 
+    @ToString
     private int year;
 
     private String[] genresNames;

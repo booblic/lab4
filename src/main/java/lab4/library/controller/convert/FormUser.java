@@ -1,6 +1,7 @@
 package lab4.library.controller.convert;
 
 import lab4.library.annotation.Phone;
+import lab4.library.annotation.ToString;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -8,6 +9,7 @@ public class FormUser {
 
     private Integer userId;
 
+    @ToString
     private String username;
 
     private String password;
@@ -16,17 +18,22 @@ public class FormUser {
 
     private String confirmedPassword;
 
+    @ToString
     private String firstName;
 
+    @ToString
     private String lastName;
 
+    @ToString
     private String middleName;
 
     @NotEmpty
     @Email
+    @ToString
     private String email;
 
     @Phone
+    @ToString
     private String phoneNumber;
 
     private String role;

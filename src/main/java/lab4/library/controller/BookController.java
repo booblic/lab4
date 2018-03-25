@@ -1,5 +1,6 @@
 package lab4.library.controller;
 
+import lab4.library.ReflectionToString;
 import lab4.library.author.Author;
 import lab4.library.book.Book;
 import lab4.library.controller.convert.FormBook;
@@ -10,10 +11,14 @@ import lab4.library.service.*;
 import lab4.library.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +34,7 @@ import java.util.*;
 @RequestMapping(value = "/book")
 public class BookController {
 
-    private Logger logger = LoggerFactory.getLogger(BookController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
     private BookServices bookServices;
@@ -54,14 +59,17 @@ public class BookController {
 
     @GetMapping(value = "/show")
     public String showBooks(Model model) {
-        logger.info("----------------------------------------------");
+        LOG.info("msg: model.addAttribute(\"books\", bookServices.findAllBook());");
         model.addAttribute("books", bookServices.findAllBook());
+        LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
     }
 
-    @GetMapping(value = "/formadd")
-    public String addForm(Model model) {
+    @GetMapping(value = "/getaddform")
+    public String getAddForm(Model model) {
+        LOG.info("Message: model.addAttribute(\"book\", new Book());");
         model.addAttribute("book", new Book());
+        LOG.info("Msg: return \"book/formaddbook\";");
         return "book/formaddbook";
     }
 
@@ -76,56 +84,76 @@ public class BookController {
             book.setBookName(bookName[i]);
             book.setIsbn(isbn[i]);
             book.setYear(year[i]);
+            LOG.info("Add book in Set: " + ReflectionToString.reflectionToString(book));
             bookSet.add(book);
         }
-
+        LOG.info("msg: bookServices.saveBook(bookSet);");
         bookServices.saveBook(bookSet);
+        LOG.info("return \"redirect:/book/show\";");
+
         return "redirect:/book/show";
     }
 
     @GetMapping(value = "/getsearchingform")
     public String getSearchingForm(Model model) {
+        LOG.info("msg: model.addAttribute(\"book\", new Book());");
         model.addAttribute("book", new Book());
+        LOG.info("msg: return \"book/searchingform\";");
         return "book/searchingform";
     }
 
     @PostMapping(value = "/search")
     public String searchBookByBookName(@RequestParam String bookName, Model model) {
+        LOG.info("msg: List<Book> bookList = bookServices.findByBookName(bookName);", bookName);
         List<Book> bookList = bookServices.findByBookName(bookName);
         if (bookList.size() != 0) {
+            LOG.info("msg: if (bookList.size() != 0) { model.addAttribute(\"books\", bookList); }");
             model.addAttribute("books", bookList);
         } else {
+            LOG.info("msg: if (bookList.size() == 0) { model.addAttribute(\"error\", \"Sorry, books with name \" + bookName + \" a not found.\"); }", bookName);
             model.addAttribute("error", "Sorry, books with name " + bookName + " a not found.");
         }
+        LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
     }
 
     @PostMapping(value = "/formedit")
     public String editForm(@RequestParam Integer bookId, @RequestParam String kind, Model model) {
+        LOG.info("msg: Book book = bookServices.findBook(bookId);", bookId);
         Book book = bookServices.findBook(bookId);
         model.addAttribute("book", book);
 
         if (kind.compareTo("View") == 0) {
+            LOG.info("msg:  if (kind.compareTo(\"View\") == 0) { Set<Review> reviews = book.getReviews(); }");
             Set<Review> reviews = book.getReviews();
+            LOG.info("msg: model.addAttribute(\"reviews\", reviews);");
             model.addAttribute("reviews", reviews);
+            LOG.info("msg: model.addAttribute(\"user\", userService.getCurrentUser());");
             model.addAttribute("user", userService.getCurrentUser());
+            LOG.info("msg: return \"book/formviewbook\";");
             return "book/formviewbook";
         }
 
         if (kind.compareTo("Delete") == 0) {
+            LOG.info("msg:  if (kind.compareTo(\"Delete\") == 0) {  bookServices.deleteBook(bookId); }");
             bookServices.deleteBook(bookId);
+            LOG.info("msg: model.addAttribute(\"books\", bookServices.findAllBook());");
             model.addAttribute("books", bookServices.findAllBook());
+            LOG.info("msg: return \"book/showallbooks\";");
             return "book/showallbooks";
         }
+        LOG.info("msg: return \"book/formeditbook\";");
         return "book/formeditbook";
     }
 
     //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/editbook")
     public String editBook(@ModelAttribute FormBook formBook) {
+        LOG.info("msg: Book book = conversionService.convert(formBook, Book.class); " + ReflectionToString.reflectionToString(formBook));
         Book book = conversionService.convert(formBook, Book.class);
-
+        LOG.info("msg: bookServices.editBook(book); " + ReflectionToString.reflectionToString(book));
         bookServices.editBook(book);
+        LOG.info("msg: return \"redirect:/book/show\";");
         return "redirect:/book/show";
     }
 
@@ -133,56 +161,68 @@ public class BookController {
     public String addReview(@PathVariable Integer id, @RequestParam String textReview, @RequestParam String rating) {
 
         Review review = null;
-
+        LOG.info("msg: User user = userService.getCurrentUser();");
         User user = userService.getCurrentUser();
-
+        LOG.info("msg: Book book = bookServices.findBook(id);", id);
         Book book = bookServices.findBook(id);
 
         Map<String, String> bookReview = new HashMap<>();
+        LOG.info("msg: bookReview.put(textReview, rating);", textReview, rating);
         bookReview.put(textReview, rating);
 
         if (reviewService.findByBookAndUser(book, user) != null) {
+            LOG.info("msg: if (reviewService.findByBookAndUser(book, user) != null) { review.setBookReview(bookReview); }", bookReview);
             review = reviewService.findByBookAndUser(book, user);
             review.setBookReview(bookReview);
-            reviewService.saveReview(review);
         } else {
             review = new Review();
+            LOG.info("if (reviewService.findByBookAndUser(book, user) == null) { review.setUser(user); review.setBook(book); review.setBookReview(bookReview); }");
             review.setUser(user);
             review.setBook(book);
             review.setBookReview(bookReview);
         }
+        LOG.info("msg: reviewService.saveReview(review);");
         reviewService.saveReview(review);
-
+        LOG.info("msg: return \"redirect:/book/show\";");
         return "redirect:/book/show";
     }
 
     @GetMapping(value = "/genreandyearsearchingform")
-    public String genreAndYearSearchingForm(Model model) {
-        model.addAttribute("value", "test js");
+    public String genreAndYearSearchingForm() {
+        LOG.info("msg: return \"book/genreandyearsearchingform\";");
         return "book/genreandyearsearchingform";
     }
 
-    @PostMapping(value = "/searcingbygenreandyear")
-    public String searcingByGenreAndYear(@RequestParam String genreName, @RequestParam int year, Model model) {
+    @PostMapping(value = "/searchingbygenreandyear")
+    public String searchingByGenreAndYear(@RequestParam String genreName, @RequestParam int year, Model model) {
+/*        LOG.info("msg: Book book = new Book();");
         Book book = new Book();
+        LOG.info("msg:  book.setYear(year);", year);
         book.setYear(year);
         Set<Genre> genreSet = new HashSet<>();
+        LOG.info("msg:  genreSet.add(genreService.findByGenreName(genreName));", genreName);
         genreSet.add(genreService.findByGenreName(genreName));
+        LOG.info("msg:  book.setGenres(genreSet);");
         book.setGenres(genreSet);
-        Example<Book> example = Example.of(book, ExampleMatcher.matching().withIgnorePaths("bookRating"));
-        //model.addAttribute("books", bookServices.findByYearAndGenreName(genreName, year));
-        model.addAttribute("books", bookServices.findBook(example));
+        LOG.info("msg:  Example<Book> example = Example.of(book, ExampleMatcher.matching().withIgnorePaths(\"bookRating\"));");
+        Example<Book> example = Example.of(book, ExampleMatcher.matching().withIgnorePaths("bookRating"));*/
+        LOG.info("msg: model.addAttribute(\"books\", bookServices.findByYearAndGenreName(genreName, year));", genreName, year);
+        model.addAttribute("books", bookServices.findByYearAndGenreName(genreName, year));
+/*        LOG.info("msg: model.addAttribute(\"books\", bookServices.findBook(example));", genreName, year);
+        model.addAttribute("books", bookServices.findBook(example));*/
+        LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
     }
 
     @GetMapping(value = "/authorandgenresearchingform")
-    public String authorAndGenreSearchingForm(Model model) {
-        model.addAttribute("value", "test js");
+    public String authorAndGenreSearchingForm() {
+        LOG.info("msg: return \"book/authorandgenreform\";");
         return "book/authorandgenreform";
     }
 
     @PostMapping(value = "/searhcingbyauthorandgenre")
     public String searchingByAuthorAndGenre(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String genreName, Model model) {
+        LOG.info("msg: model.addAttribute(\"books\", bookServices.findByAuthorAndGenreName(firstName, lastName, genreName));", firstName, lastName, genreName);
         model.addAttribute("books", bookServices.findByAuthorAndGenreName(firstName, lastName, genreName));
         return "book/showallbooks";
     }
@@ -200,37 +240,41 @@ public class BookController {
     }
 
     @PostMapping(value = "/exportbooks")
-    public String exportBooks(@RequestParam Integer[] id, Model model, HttpServletResponse response) {
-
+    public HttpEntity<byte[]> exportBooks(@RequestParam Integer[] id) throws IOException {
+        LOG.info("msg: List<Book> books = new ArrayList<>();");
         List<Book> books = new ArrayList<>();
-
+        LOG.info("msg: String lineSeparator = System.getProperty(\"line.separator\");");
         String lineSeparator = System.getProperty("line.separator");
 
-        for (Integer bookIf: id) {
-            books.add(bookServices.findBook(bookIf));
+        for (Integer bookId: id) {
+            LOG.info("msg: for (Integer bookId: id) { books.add(bookServices.findBook(bookId)); }", bookId);
+            books.add(bookServices.findBook(bookId));
+        }
+        LOG.info("msg: StringBuilder stringBuilder = new StringBuilder();");
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Book book: books) {
+            LOG.info("msg: stringBuilder.append(book.getBookName()).append(\",\").append(book.getIsbn()).append(\",\").append(book.getYear()).append(lineSeparator);", book);
+            stringBuilder.append(book.getBookName()).append(",").append(book.getIsbn()).append(",").append(book.getYear()).append(lineSeparator);
         }
 
-        try {
-            StringBuilder stringBuilder = new StringBuilder();
-            Writer file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("books.csv"), "utf-8"));
-            for (Book book: books) {
-                stringBuilder.append(book.getBookName()).append(",").append(book.getIsbn()).append(",").append(book.getYear()).append(lineSeparator);
-            }
+        LOG.info("msg: Writer file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(\"books.csv\"), \"utf-8\"));");
+        try(Writer file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("books.csv"), "utf-8"));) {
 
+            LOG.info("msg: file.write(stringBuilder.toString());", stringBuilder.toString());
             file.write(stringBuilder.toString());
-            file.close();
-            byte[] array = Files.readAllBytes(Paths.get("books.csv"));
 
-            response.setContentType("text/plain");
-            response.setHeader("Content-Disposition", "attachment; filename=books.csv");
-            response.getOutputStream().write(array);
-
-            response.getOutputStream().flush();
         } catch (IOException exception) {
+            LOG.error("msg: exception.printStackTrace();", exception);
             exception.printStackTrace();
-
         }
 
-        return null;
+        LOG.info("msg: HttpHeaders httpHeaders = new HttpHeaders();");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        LOG.info("httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, \"attachment; filename=books.csv\");");
+        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=books.csv");
+
+        LOG.info("msg: return new HttpEntity<>(Files.readAllBytes(Paths.get(\"books.csv\")), httpHeaders);");
+        return new HttpEntity<>(Files.readAllBytes(Paths.get("books.csv")), httpHeaders);
     }
 }

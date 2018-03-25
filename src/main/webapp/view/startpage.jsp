@@ -12,7 +12,7 @@
 			<p>${message}</p>
 			<p>${registrationMessage}</p>
 			<p>${logoutMessage}</p>
-			<p><a href="${path}/user/registrationform">Registration</a></p>
+			<p><a href="${path}/user/getregistrationform">Registration</a></p>
 			<c:choose>
 				<c:when test="${empty logout}">
 					<p><a href="${path}/user/login">Sign In</a></p>
@@ -27,7 +27,7 @@
 					<br>
 					<br>
 					<p><a href="${path}/book/show">Show Books</a></p>
-                    <p><a href="${path}/book/formadd">Add Book</a></p>
+                    <p><a href="${path}/book/getaddform">Add Book</a></p>
                     <p><a href="${path}/searchbookoptions">Searching Books</a></p>
                     <br>
 					</c:when>

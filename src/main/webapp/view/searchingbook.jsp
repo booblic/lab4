@@ -14,11 +14,11 @@
 
         <p><a href="${path}/book/getsearchingform">Searching from name</a></p>
 
-        <p><a href="${path}/genre/getsearchingform">Searching by genre</a></p>
+        <p><a href="${path}/genre/getsearchingbygenreform">Searching by genre</a></p>
 
-        <p><a href="${path}/author/getsearchingform">Searching by author</a></p>
+        <p><a href="${path}/author/getsearchingbyauthorform">Searching by author</a></p>
 
-        <p><a href="${path}/publisher/getsearchingform">Searching by publisher</a></p>
+        <p><a href="${path}/publisher/getsearchingbypublisherform">Searching by publisher</a></p>
 
         <p><a href="${path}/searchingform">Slow Searching</a></p>
 
