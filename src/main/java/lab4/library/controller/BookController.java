@@ -97,7 +97,7 @@ public class BookController {
             bookSet.add(book);
         }
         LOG.info("msg: bookServices.saveBook(bookSet);");
-        bookServices.saveBook(bookSet);
+        bookServices.saveBooks(bookSet);
         LOG.info("return \"redirect:/book/show\";");
 
         return "redirect:/book/show";
@@ -303,12 +303,20 @@ public class BookController {
 
         List<PatternBook> books = new ArrayList<>();
 
-/*        Map<String, String> vars = new HashMap<>();
+//jsoup get
+/*      try {
+            Document doc  = Jsoup.connect("https://mybook.ru/search/books/?q=" + bookName).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+//restTemplate get
+        Map<String, String> vars = new HashMap<>();
         vars.put("name", bookName);
 
         String result = restTemplate.getForObject(
-                "https://mybook.ru/search/books/?q={name}", String.class, vars);*/
-        String line = null;
+                "https://mybook.ru/search/books/?q={name}", String.class, vars);
+/*        String line = null;
         String result = null;
 
 
@@ -319,7 +327,7 @@ public class BookController {
             }
         } catch (IOException exc) {
             exc.printStackTrace();
-        }
+        }*/
 
         Document document = Jsoup.parse(result);
 
@@ -356,7 +364,7 @@ public class BookController {
                 for (Element elementsTagA: elementsTagAs) {
                     String author = elementsTagA.text();
 
-                    b.setAuthorsNames(author);
+                    //b.setAuthorsNames(author);
 
                 }
             }
@@ -379,6 +387,21 @@ public class BookController {
                     if (info.toLowerCase().contains("Жанр".toLowerCase())) {
                         b.setGenresNames(info);
                     }
+
+                    Elements elementsTagAs = elementsTagP.getElementsByTag("a");
+
+                    for (Element elementsTagA: elementsTagAs) {
+
+                        Elements authorsNames = elementsTagA.getElementsByAttributeValueMatching("href", "/author/");
+
+                        for (Element authorName: authorsNames) {
+                            if (b.getAuthorsNames() != null) {
+                                b.setAuthorsNames(b.getAuthorsNames() + ", " + authorName.text());
+                            } else {
+                                b.setAuthorsNames(authorsNames.text());
+                            }
+                        }
+                    }
                 }
             }
             books.add(b);
@@ -398,7 +421,69 @@ public class BookController {
     @PostMapping(value = "addfindingbook")
     public String addFindingBook(@ModelAttribute PatternBook patternBook, Model model) {
 
-        System.out.println(patternBook.getGenresNames().replace("Жанр:", ""));
+        Book book = new Book();
+
+        book.setBookName(patternBook.getBookName());
+
+        if (patternBook.getYear() != null) {
+            Integer year = Integer.parseInt(patternBook.getYear().replace("Год издания:", "").trim());
+            book.setYear(year);
+        }
+
+        if (patternBook.getAuthorsNames() != null) {
+            Set<Author> authorSet = new HashSet<>();
+            for (String authorName: patternBook.getAuthorsNames().trim().split(",")) {
+                String[] authorNameMassif = new String[2];
+                int i = 0;
+                for (String name: authorName.trim().split(" ")) {
+                    authorNameMassif[i] = name;
+                    i++;
+                }
+                Author existingAuthor = authorService.findByFirstNameAndLastName(authorNameMassif[0], authorNameMassif[1]);
+
+                if (existingAuthor != null) {
+                    authorSet.add(existingAuthor);
+                } else {
+                    Author author = new Author();
+                    author.setFirstName(authorNameMassif[0]);
+                    author.setLastName(authorNameMassif[1]);
+                    authorSet.add(authorService.saveAuthor(author));
+                }
+            }
+            book.setAuthors(authorSet);
+        }
+
+        if (patternBook.getGenresNames() != null) {
+            Set<Genre> genreSet = new HashSet<>();
+            for (String genreName: patternBook.getGenresNames().replace("Жанр:", "").trim().split(",")) {
+                Genre existingGenre = genreService.findByGenreName(genreName.trim());
+                if (existingGenre != null) {
+                    genreSet.add(existingGenre);
+                } else {
+                    Genre genre = new Genre();
+                    genre.setGenreName(genreName.trim());
+                    genreSet.add(genreService.saveGenre(genre));
+                }
+            }
+            book.setGenres(genreSet);
+        }
+
+        if (patternBook.getPublishersNames() != null) {
+            Set<Publisher> publisherSet = new HashSet<>();
+            for (String publisherName: patternBook.getPublishersNames().replace("Правообладатель:", "").trim().split(",")) {
+                Publisher existingPublisher = publisherService.findByPublisherName(publisherName.trim());
+                if (existingPublisher != null) {
+                    publisherSet.add(existingPublisher);
+                } else {
+                    Publisher publisher = new Publisher();
+                    publisher.setPublisherName(publisherName.trim());
+                    publisherSet.add(publisherService.savePublisher(publisher));
+                }
+            }
+            book.setPublishers(publisherSet);
+        }
+
+        bookServices.saveBook(book);
 
         return "redirect:/book/show";
     }

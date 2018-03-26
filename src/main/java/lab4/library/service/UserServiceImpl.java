@@ -56,10 +56,10 @@ public class UserServiceImpl implements UserService {
 
         UserDetails userDetails = null;
         try {
-            LOG.info("msg: userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();");
+            //LOG.info("msg: userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();");
             userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         } catch (ClassCastException exc) {
-            LOG.error("msg: ClassCastException", exc);
+            //LOG.error("msg: ClassCastException", exc);
             return null;
         }
         User user = null;

@@ -31,7 +31,7 @@ public class StartPageController {
             LOG.info("msg: model.addAttribute(\"logoutMessage\", \"You have been successfully logged out.\");");
             model.addAttribute("logoutMessage", "You have been successfully logged out.");
         }
-        LOG.info("msg: User user = userService.getCurrentUser();");
+        //LOG.info("msg: User user = userService.getCurrentUser();");
         User user = userService.getCurrentUser();
 
         if (user != null) {

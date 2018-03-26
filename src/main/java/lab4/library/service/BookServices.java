@@ -30,8 +30,12 @@ public class BookServices {
         return bookRepository.findAll();
     }
 
-    public Collection<Book> saveBook(Set<Book> books) {
+    public Collection<Book> saveBooks(Set<Book> books) {
         return bookRepository.save(books);
+    }
+
+    public Book saveBook(Book book) {
+        return bookRepository.save(book);
     }
 
     public Book editBook(Book book) {

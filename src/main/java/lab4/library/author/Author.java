@@ -29,7 +29,7 @@ public class Author extends Description {
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
 
-    Author() {}
+    public Author() {}
 
     public Author(String firstName, String lastName, String middleName) {
         this.firstName = firstName;

@@ -23,7 +23,7 @@ public class Genre extends Description {
     @ManyToMany(mappedBy = "genres")
     private Set<Book> books = new HashSet<>();
 
-    Genre() {}
+    public Genre() {}
 
     public Genre(String genreName) {
         this.genreName = genreName;

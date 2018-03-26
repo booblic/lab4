@@ -24,7 +24,7 @@ public class Publisher extends Description {
     @ManyToMany(mappedBy = "publishers")
     private Set<Book> books = new HashSet<>();
 
-    Publisher() {}
+    public Publisher() {}
 
     public Publisher(String publisherName) {
         this.publisherName = publisherName;
