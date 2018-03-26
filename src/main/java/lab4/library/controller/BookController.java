@@ -3,12 +3,17 @@ package lab4.library.controller;
 import lab4.library.ReflectionToString;
 import lab4.library.author.Author;
 import lab4.library.book.Book;
+import lab4.library.book.PatternBook;
 import lab4.library.controller.convert.FormBook;
 import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
 import lab4.library.review.Review;
 import lab4.library.service.*;
 import lab4.library.user.User;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -17,12 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -57,6 +62,9 @@ public class BookController {
     @Autowired
     private ConversionService conversionService;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @GetMapping(value = "/show")
     public String showBooks(Model model) {
         LOG.info("msg: model.addAttribute(\"books\", bookServices.findAllBook());");
@@ -65,10 +73,11 @@ public class BookController {
         return "book/showallbooks";
     }
 
-    @GetMapping(value = "/getaddform")
-    public String getAddForm(Model model) {
+    @PostMapping(value = "/getaddform")
+    public String getAddForm(@RequestParam String bookName, Model model) {
         LOG.info("Message: model.addAttribute(\"book\", new Book());");
         model.addAttribute("book", new Book());
+        model.addAttribute("bookName", bookName);
         LOG.info("Msg: return \"book/formaddbook\";");
         return "book/formaddbook";
     }
@@ -112,6 +121,9 @@ public class BookController {
         } else {
             LOG.info("msg: if (bookList.size() == 0) { model.addAttribute(\"error\", \"Sorry, books with name \" + bookName + \" a not found.\"); }", bookName);
             model.addAttribute("error", "Sorry, books with name " + bookName + " a not found.");
+            model.addAttribute("bookName", bookName);
+            model.addAttribute("add", "yes");
+            model.addAttribute("find", "yes");
         }
         LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
@@ -276,5 +288,118 @@ public class BookController {
 
         LOG.info("msg: return new HttpEntity<>(Files.readAllBytes(Paths.get(\"books.csv\")), httpHeaders);");
         return new HttpEntity<>(Files.readAllBytes(Paths.get("books.csv")), httpHeaders);
+    }
+
+    @PostMapping(value = "/getfindbookform")
+    public String getFindForm(@RequestParam String bookName, Model model) {
+        model.addAttribute("bookName", bookName);
+        return "book/findbookform";
+    }
+
+    @PostMapping(value = "/findbook")
+    public String findBook(@RequestParam String bookName, Model model) {
+
+        String lineSeparator = System.getProperty("line.separator");
+
+        List<PatternBook> books = new ArrayList<>();
+
+/*        Map<String, String> vars = new HashMap<>();
+        vars.put("name", bookName);
+
+        String result = restTemplate.getForObject(
+                "https://mybook.ru/search/books/?q={name}", String.class, vars);*/
+        String line = null;
+        String result = null;
+
+
+        try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream("test.txt"), "windows-1251"))) {
+
+            while((line = bufferedReader.readLine()) != null){
+                result += line;
+            }
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+
+        Document document = Jsoup.parse(result);
+
+        Elements SearchResultItemSearchResultItemBookFirstChilds = document.getElementsByClass("search-result__item search-result__item_book first_child");
+
+        int count = 0;
+
+        for (Element SearchResultItemSearchResultItemBookFirstChild: SearchResultItemSearchResultItemBookFirstChilds) {
+
+            Elements booksItemInfoNames = SearchResultItemSearchResultItemBookFirstChild.getElementsByClass("books__item__info-name");
+
+            Elements booksItemInfoAuthors = SearchResultItemSearchResultItemBookFirstChild.getElementsByClass("books__item__info-authors");
+
+            Elements searchResultItemMores = SearchResultItemSearchResultItemBookFirstChild.getElementsByClass("search-result__item_more");
+
+            PatternBook b = new PatternBook();
+
+            count++;
+
+            for (Element booksItemInfoName: booksItemInfoNames) {
+                Elements elementsTagAs = booksItemInfoName.getElementsByTag("a");
+
+                for (Element elementsTagA: elementsTagAs) {
+                    String book = elementsTagA.text();
+                    b.setCount(count);
+                    b.setBookName(book);
+
+                }
+            }
+
+            for (Element booksItemInfoAuthor: booksItemInfoAuthors) {
+                Elements elementsTagAs = booksItemInfoAuthor.getElementsByTag("a");
+
+                for (Element elementsTagA: elementsTagAs) {
+                    String author = elementsTagA.text();
+
+                    b.setAuthorsNames(author);
+
+                }
+            }
+
+            for (Element searchResultItemMore: searchResultItemMores) {
+
+                Elements elementsTagPs = searchResultItemMore.getElementsByTag("p");
+
+                for (Element elementsTagP: elementsTagPs) {
+                    String info = elementsTagP.text();
+
+                    if (info.toLowerCase().contains("Год издания".toLowerCase())) {
+                        b.setYear(info);
+                    }
+
+                    if (info.toLowerCase().contains("Правообладатель".toLowerCase())) {
+                        b.setPublishersNames(info);
+                    }
+
+                    if (info.toLowerCase().contains("Жанр".toLowerCase())) {
+                        b.setGenresNames(info);
+                    }
+                }
+            }
+            books.add(b);
+        }
+
+/*        try(Writer file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("import.txt", true), "utf-8"));) {
+
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }*/
+
+        model.addAttribute("books", books);
+
+        return "book/findingresult";
+    }
+
+    @PostMapping(value = "addfindingbook")
+    public String addFindingBook(@ModelAttribute PatternBook patternBook, Model model) {
+
+        System.out.println(patternBook.getGenresNames().replace("Жанр:", ""));
+
+        return "redirect:/book/show";
     }
 }

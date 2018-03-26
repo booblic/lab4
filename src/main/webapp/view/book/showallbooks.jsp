@@ -57,6 +57,21 @@
             ${error}
         </c:if>
 
+        <c:if test="${not empty add}">
+            <form action="${path}/book/getaddform" method="POST">
+            	<input type="hidden" name="bookName" value="${bookName}" readonly/>
+            	<input type="submit" align="center" value="Add this book"/>
+            </form>
+        </c:if>
+
+        <br><br>
+
+        <c:if test="${not empty find}">
+            <form action="${path}/book/getfindbookform" method="POST">
+            	<input type="hidden" name="bookName" value="${bookName}" readonly/>
+            	<input type="submit" align="center" value="Find this book"/>
+            </form>
+        </c:if>
 
         <p><a href="${path}/">Start Page</a></p>
 

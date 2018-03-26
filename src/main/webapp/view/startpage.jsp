@@ -27,7 +27,6 @@
 					<br>
 					<br>
 					<p><a href="${path}/book/show">Show Books</a></p>
-                    <p><a href="${path}/book/getaddform">Add Book</a></p>
                     <p><a href="${path}/searchbookoptions">Searching Books</a></p>
                     <br>
 					</c:when>

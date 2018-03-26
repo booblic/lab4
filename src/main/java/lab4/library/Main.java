@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFactoryBean;
+import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -44,6 +45,11 @@ public class Main {
 
         factory.setResources(resourcePatternResolver.getResources("classpath:/import/*.json"));
         return factory;
+    }
+
+    @Bean
+    public RestTemplate getRestTemplate() {
+        return new RestTemplate();
     }
 
 /*    @Bean
