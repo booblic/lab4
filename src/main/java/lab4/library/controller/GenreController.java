@@ -35,6 +35,7 @@ public class GenreController {
         } else {
             LOG.info("msg: if (genre == null) { model.addAttribute(\"error\", \"Sorry, books of the genre \" + genreName + \" a not found.\"); }", genreName);
             model.addAttribute("error", "Sorry, books of the genre " + genreName + " a not found.");
+            model.addAttribute("bookName", "");
         }
         LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";

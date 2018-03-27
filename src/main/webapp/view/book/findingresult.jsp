@@ -20,8 +20,8 @@
                         <th>Name</th>
                         <th>Genres</th>
                         <th>Authors</th>
-                        <th>Year</th>
                         <th>Publishers</th>
+                        <th>Year</th>
                         <th>Add</th>
                     </tr>
                         <c:forEach  items="${books}" var ="book">
@@ -29,12 +29,12 @@
 
                           <form action="${path}/book/addfindingbook" method="POST">
                             <td>${book.count}</td>
-                            <td><input type="text" name="count" value="${book.count}"/></td>
                             <td><input type="text" name="bookName" value="${book.bookName}"/></td>
-                            <td><input type="text" name="authorsNames" value="${book.authorsNames}"/></td>
-                            <td><input type="text" name="year" value="${book.year}"/></td>
                             <td><input type="text" name="genresNames" value="${book.genresNames}"/></td>
+                            <td><input type="text" name="authorsNames" value="${book.authorsNames}"/></td>
                             <td><input type="text" name="publishersNames" value="${book.publishersNames}"/></td>
+                            <td><input type="text" name="year" value="${book.year}"/></td>
+                            <input type="hidden" name="href" value="${book.href}"/>
                             <td><input type="submit" align="center" value="Add"/></td>
                           </form>
 

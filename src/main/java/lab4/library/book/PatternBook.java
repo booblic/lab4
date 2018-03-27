@@ -1,20 +1,30 @@
 package lab4.library.book;
 
+import lab4.library.annotation.ToString;
 import org.springframework.web.bind.annotation.PathVariable;
 
 public class PatternBook {
 
+    @ToString
     private Integer count;
 
+    @ToString
     private String bookName;
 
+    @ToString
     private String authorsNames;
 
+    @ToString
     private String year;
 
+    @ToString
     private String genresNames;
 
+    @ToString
     private String publishersNames;
+
+    @ToString
+    private String href;
 
     public PatternBook() {}
 
@@ -64,5 +74,13 @@ public class PatternBook {
 
     public void setPublishersNames(String publishersNames) {
         this.publishersNames = publishersNames;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
     }
 }

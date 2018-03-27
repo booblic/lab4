@@ -46,6 +46,7 @@
             <br>
 
             <form id="export" action="${path}/book/exportbooks" method="POST">
+                <td><input type="hidden" name="id" value="0"/>
                 <input type="submit" align="center" value="Export"/> Choose which books you want to export
             </form>
 
@@ -57,21 +58,19 @@
             ${error}
         </c:if>
 
-        <c:if test="${not empty add}">
-            <form action="${path}/book/getaddform" method="POST">
-            	<input type="hidden" name="bookName" value="${bookName}" readonly/>
-            	<input type="submit" align="center" value="Add this book"/>
-            </form>
-        </c:if>
+        <br><br>
+
+        <form action="${path}/book/getaddform" method="POST">
+            <input type="hidden" name="bookName" value="${bookName}" readonly/>
+            <input type="submit" align="center" value="Add this book"/>
+        </form>
 
         <br><br>
 
-        <c:if test="${not empty find}">
-            <form action="${path}/book/getfindbookform" method="POST">
-            	<input type="hidden" name="bookName" value="${bookName}" readonly/>
-            	<input type="submit" align="center" value="Find this book"/>
-            </form>
-        </c:if>
+        <form action="${path}/book/getfindbookform" method="POST">
+            <input type="hidden" name="bookName" value="${bookName}" readonly/>
+            <input type="submit" align="center" value="Find this book"/>
+       </form>
 
         <p><a href="${path}/">Start Page</a></p>
 

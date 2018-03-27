@@ -81,6 +81,7 @@ public class StartPageController {
         List<Book> books = bookServices.searching(bookName, isbn, year, genreName, firstName, lastName, middleName, publisherName);
         LOG.info("msg: model.addAttribute(\"books\", books);");
         model.addAttribute("books", books);
+        model.addAttribute("bookName", "");
         LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
     }

@@ -13,6 +13,7 @@ import lab4.library.user.User;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,8 +123,6 @@ public class BookController {
             LOG.info("msg: if (bookList.size() == 0) { model.addAttribute(\"error\", \"Sorry, books with name \" + bookName + \" a not found.\"); }", bookName);
             model.addAttribute("error", "Sorry, books with name " + bookName + " a not found.");
             model.addAttribute("bookName", bookName);
-            model.addAttribute("add", "yes");
-            model.addAttribute("find", "yes");
         }
         LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
@@ -220,6 +219,7 @@ public class BookController {
         Example<Book> example = Example.of(book, ExampleMatcher.matching().withIgnorePaths("bookRating"));*/
         LOG.info("msg: model.addAttribute(\"books\", bookServices.findByYearAndGenreName(genreName, year));", genreName, year);
         model.addAttribute("books", bookServices.findByYearAndGenreName(genreName, year));
+        model.addAttribute("bookName", "");
 /*        LOG.info("msg: model.addAttribute(\"books\", bookServices.findBook(example));", genreName, year);
         model.addAttribute("books", bookServices.findBook(example));*/
         LOG.info("msg: return \"book/showallbooks\";");
@@ -236,6 +236,7 @@ public class BookController {
     public String searchingByAuthorAndGenre(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String genreName, Model model) {
         LOG.info("msg: model.addAttribute(\"books\", bookServices.findByAuthorAndGenreName(firstName, lastName, genreName));", firstName, lastName, genreName);
         model.addAttribute("books", bookServices.findByAuthorAndGenreName(firstName, lastName, genreName));
+        model.addAttribute("bookName", "");
         return "book/showallbooks";
     }
 
@@ -253,21 +254,30 @@ public class BookController {
 
     @PostMapping(value = "/exportbooks")
     public HttpEntity<byte[]> exportBooks(@RequestParam Integer[] id) throws IOException {
+
         LOG.info("msg: List<Book> books = new ArrayList<>();");
         List<Book> books = new ArrayList<>();
+
         LOG.info("msg: String lineSeparator = System.getProperty(\"line.separator\");");
         String lineSeparator = System.getProperty("line.separator");
 
         for (Integer bookId: id) {
-            LOG.info("msg: for (Integer bookId: id) { books.add(bookServices.findBook(bookId)); }", bookId);
-            books.add(bookServices.findBook(bookId));
+            if (bookServices.findBook(bookId) != null) {
+                LOG.info("msg: for (Integer bookId: id) { books.add(bookServices.findBook(bookId)); }", bookId);
+                books.add(bookServices.findBook(bookId));
+            }
         }
+
         LOG.info("msg: StringBuilder stringBuilder = new StringBuilder();");
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Book book: books) {
-            LOG.info("msg: stringBuilder.append(book.getBookName()).append(\",\").append(book.getIsbn()).append(\",\").append(book.getYear()).append(lineSeparator);", book);
-            stringBuilder.append(book.getBookName()).append(",").append(book.getIsbn()).append(",").append(book.getYear()).append(lineSeparator);
+        if (books.size() != 0) {
+
+            for (Book book : books) {
+                LOG.info("msg: stringBuilder.append(book.getBookName()).append(\",\").append(book.getIsbn()).append(\",\").append(book.getYear()).append(lineSeparator);", book);
+                stringBuilder.append(book.getBookName()).append(",").append(book.getIsbn()).append(",").append(book.getYear()).append(lineSeparator);
+            }
+
         }
 
         LOG.info("msg: Writer file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(\"books.csv\"), \"utf-8\"));");
@@ -331,9 +341,89 @@ public class BookController {
 
         Document document = Jsoup.parse(result);
 
-        Elements SearchResultItemSearchResultItemBookFirstChilds = document.getElementsByClass("search-result__item search-result__item_book first_child");
+        //Elements SearchResultItemSearchResultItemBookFirstChilds = document.getElementsByClass("search-result__item search-result__item_book first_child");
+        Elements searchResultItemInfos = document.getElementsByClass("search-result__item-info");
 
-        int count = 0;
+        int count = 1;
+
+        for (Element searchResultItemInfo: searchResultItemInfos) {
+
+            PatternBook book = new PatternBook();
+
+            Elements searchResultItemInfoAuthors = searchResultItemInfo.getElementsByClass("search-result__item-info_author");
+
+            Elements searchResultItemMores = searchResultItemInfo.getElementsByClass("search-result__item_more");
+
+            for (Element searchResultItemInfoAuthor: searchResultItemInfoAuthors) {
+
+
+                /*System.out.println("-------------------------------------------");
+                System.out.println(searchResultItemInfoAuthor.text());
+                System.out.println(searchResultItemInfoAuthor.attr("href"));
+                System.out.println("-------------------------------------------");*/
+
+                book.setBookName(searchResultItemInfoAuthor.text());
+                book.setHref("https://mybook.ru/" + searchResultItemInfoAuthor.attr("href"));
+                book.setCount(count++);
+            }
+
+            for (Element searchResultItemMore: searchResultItemMores) {
+
+                Elements elementsTagPs = searchResultItemMore.getElementsByTag("p");
+
+                for (Element elementsTagP: elementsTagPs) {
+                    String info = elementsTagP.text();
+
+                    if (info.toLowerCase().contains("Год издания:".toLowerCase())) {
+                        /*System.out.println("-------------------------------------------");
+                        System.out.println(info);
+                        System.out.println("-------------------------------------------");*/
+
+                        book.setYear(info.replace("Год издания:", "").trim());
+                    }
+
+                    if (info.toLowerCase().contains("Правообладатель:".toLowerCase())) {
+/*                        System.out.println("-------------------------------------------");
+                        System.out.println(info);
+                        System.out.println("-------------------------------------------");*/
+                        book.setPublishersNames(info.replace("Правообладатель:", "").trim());
+                    }
+
+                    if (info.toLowerCase().contains("Жанр:".toLowerCase())) {
+/*                        System.out.println("-------------------------------------------");
+                        System.out.println(info);
+                        System.out.println("-------------------------------------------");*/
+                        book.setGenresNames(info.replace("Жанр:", "").trim());
+                    }
+
+                    Elements elementsTagAs = elementsTagP.getElementsByTag("a");
+
+                    for (Element elementsTagA: elementsTagAs) {
+
+                        Elements authorsNames = elementsTagA.getElementsByAttributeValueMatching("href", "/author/");
+
+                        for (Element authorName: authorsNames) {
+/*                            System.out.println("-------------------------------------------");
+                            System.out.println(authorName.text());
+                            System.out.println("-------------------------------------------");*/
+                            if (book.getAuthorsNames() != null) {
+                                book.setAuthorsNames(book.getAuthorsNames() + ", " + authorName.text());
+                            } else {
+                                book.setAuthorsNames(authorsNames.text());
+                            }
+                        }
+                    }
+                }
+            }
+            books.add(book);
+
+/*            System.out.println("-------------------------------------------");
+            System.out.println(ReflectionToString.reflectionToString(b1));
+            System.out.println("-------------------------------------------");*/
+
+        }
+
+/*        int count = 0;
 
         for (Element SearchResultItemSearchResultItemBookFirstChild: SearchResultItemSearchResultItemBookFirstChilds) {
 
@@ -405,7 +495,7 @@ public class BookController {
                 }
             }
             books.add(b);
-        }
+        }*/
 
 /*        try(Writer file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("import.txt", true), "utf-8"));) {
 
@@ -426,7 +516,7 @@ public class BookController {
         book.setBookName(patternBook.getBookName());
 
         if (patternBook.getYear() != null) {
-            Integer year = Integer.parseInt(patternBook.getYear().replace("Год издания:", "").trim());
+            Integer year = Integer.parseInt(patternBook.getYear());
             book.setYear(year);
         }
 
@@ -455,7 +545,7 @@ public class BookController {
 
         if (patternBook.getGenresNames() != null) {
             Set<Genre> genreSet = new HashSet<>();
-            for (String genreName: patternBook.getGenresNames().replace("Жанр:", "").trim().split(",")) {
+            for (String genreName: patternBook.getGenresNames().split(",")) {
                 Genre existingGenre = genreService.findByGenreName(genreName.trim());
                 if (existingGenre != null) {
                     genreSet.add(existingGenre);
@@ -470,7 +560,7 @@ public class BookController {
 
         if (patternBook.getPublishersNames() != null) {
             Set<Publisher> publisherSet = new HashSet<>();
-            for (String publisherName: patternBook.getPublishersNames().replace("Правообладатель:", "").trim().split(",")) {
+            for (String publisherName: patternBook.getPublishersNames().split(",")) {
                 Publisher existingPublisher = publisherService.findByPublisherName(publisherName.trim());
                 if (existingPublisher != null) {
                     publisherSet.add(existingPublisher);
@@ -482,6 +572,27 @@ public class BookController {
             }
             book.setPublishers(publisherSet);
         }
+
+        Document doc = null;
+
+        try {
+            doc  = Jsoup.connect(patternBook.getHref()).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Elements bookSummarys = doc.getElementsByClass("book-summary");
+
+        for (Element bookSummary: bookSummarys) {
+            Elements items = bookSummary.getElementsByClass("item");
+
+            for (Element item: items) {
+                if (item.text().contains("ISBN (EAN):")) {
+                    book.setIsbn(item.text().replace("ISBN (EAN):", "").trim());
+                }
+            }
+        }
+
 
         bookServices.saveBook(book);
 

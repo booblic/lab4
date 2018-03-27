@@ -26,8 +26,6 @@
 
         <p><a href="${path}/book/authorandgenresearchingform">Searching by author and genre</a></p>
 
-        <p><a href="${path}/book/test">Test Searching</a></p>
-
         <br><br>
 
         <p><a href="${path}/">Start Page</a></p>

@@ -12,7 +12,7 @@
     <body>
         <h1>Searching Books By Publisher Name</h1>
 
-        <form action="${path}/publisher/search" method="POST">
+        <form action="${path}/publisher/searchingbypublisher" method="POST">
             Publisher Name <input type="text" name="publisherName"/>
             <input type="submit" align="center" value="Search"/>
         </form>

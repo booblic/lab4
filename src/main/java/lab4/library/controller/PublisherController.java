@@ -27,8 +27,8 @@ public class PublisherController {
         return "publisher/searchingform";
     }
 
-    @PostMapping(value = "/search")
-    public String searchBookByPublisherName(@RequestParam String publisherName, Model model) {
+    @PostMapping(value = "/searchingbypublisher")
+    public String searchByPublisher(@RequestParam String publisherName, Model model) {
         LOG.info("msg: Publisher publisher = publisherService.findByPublisherName(publisherName);", publisherName);
         Publisher publisher = publisherService.findByPublisherName(publisherName);
         if (publisher != null) {
@@ -37,6 +37,7 @@ public class PublisherController {
         } else {
             LOG.info("msg: model.addAttribute(\"error\", \"Sorry, books by publisher \" + publisherName + \" a not found.\");", publisherName);
             model.addAttribute("error", "Sorry, books by publisher " + publisherName + " a not found.");
+            model.addAttribute("bookName", "");
         }
         LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";

@@ -27,7 +27,7 @@ public class AuthorController {
         return "author/searchingform";
     }
 
-    @PostMapping(value = "/searchingbyaouthor")
+    @PostMapping(value = "/searchingbyauthor")
     public String searchingByAuthor(@RequestParam String firstName, @RequestParam String lastName, Model model) {
         LOG.info("msg: Author author = authorService.findByFirstNameAndLastName(firstName, lastName);", firstName, lastName);
         Author author = authorService.findByFirstNameAndLastName(firstName, lastName);
@@ -37,6 +37,7 @@ public class AuthorController {
         } else {
             LOG.info("msg: if (author == null) { model.addAttribute(\"error\", \"Sorry, books by author \" + firstName + \" \" + lastName + \" a not found.\"); }", lastName, firstName);
             model.addAttribute("error", "Sorry, books by author " + firstName + " " + lastName + " a not found.");
+            model.addAttribute("bookName", "");
         }
         LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
