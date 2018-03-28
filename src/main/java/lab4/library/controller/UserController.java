@@ -191,7 +191,7 @@ public class UserController {
 
         for (Role userRole: userService.getCurrentUser().getRoles()) {
 
-            if (userRole.getRoleName().compareTo("SuperUser") == 0) {
+            if (userRole.getRoleName().compareTo(Role.ROLE_SUPER_USER) == 0) {
                 LOG.info("msg: for (Role userRole: user.getRoles()) { if (userRole.getRoleName().compareTo(\"SuperUser\") == 0) { isSuperUser = true; } }");
                 isSuperUser = true;
             }
@@ -199,7 +199,7 @@ public class UserController {
 
         for (Role userRole: user.getRoles()) {
 
-            if (userRole.getRoleName().compareTo("SuperUser") == 0) {
+            if (userRole.getRoleName().compareTo(Role.ROLE_SUPER_USER) == 0) {
                 LOG.info("msg: for (Role userRole: user.getRoles()) { if (userRole.getRoleName().compareTo(\"SuperUser\") == 0) { isAdmin = false; } }");
                 isAdmin = false;
                 isSuperUser = false;
@@ -212,7 +212,7 @@ public class UserController {
 
         if (isSuperUser == true) {
             LOG.info("msg: if (isSuperUser == true) { model.addAttribute(\"superUser\", \"yes\"); }");
-            model.addAttribute("superUser", "isSuperUser");
+            model.addAttribute(Role.ROLE_SUPER_USER, "isSuperUser");
         }
         if (isAdmin == true) {
             LOG.info("msg: if (isAdmin == true) { model.addAttribute(\"admin\", \"yes\"); }");

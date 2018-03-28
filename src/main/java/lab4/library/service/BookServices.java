@@ -54,6 +54,10 @@ public class BookServices {
         return bookRepository.findOne(id);
     }
 
+    public List<Book> findAll(Iterable<Integer> ids) {
+        return bookRepository.findAll(ids);
+    }
+
     public List<Book> findByYearAndGenreName(String genreName, int year) {
         return bookRepository.findByYearAndGenreName(genreName, year);
     }

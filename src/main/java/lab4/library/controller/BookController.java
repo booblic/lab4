@@ -8,33 +8,48 @@ import lab4.library.controller.convert.FormBook;
 import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
 import lab4.library.review.Review;
-import lab4.library.service.*;
+import lab4.library.service.AuthorService;
+import lab4.library.service.BookServices;
+import lab4.library.service.GenreService;
+import lab4.library.service.PublisherService;
+import lab4.library.service.ReviewService;
+import lab4.library.service.UserServiceImpl;
 import lab4.library.user.User;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.http.*;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
+import javax.validation.constraints.NotNull;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/book")
@@ -120,12 +135,27 @@ public class BookController {
             LOG.info("msg: if (bookList.size() != 0) { model.addAttribute(\"books\", bookList); }");
             model.addAttribute("books", bookList);
         } else {
-            LOG.info("msg: if (bookList.size() == 0) { model.addAttribute(\"error\", \"Sorry, books with name \" + bookName + \" a not found.\"); }", bookName);
+            LOG.info("msg: if (bookList.size() == 0) { model.addAttribute(\"error\", \"Sorry, books with name \"{}\" a not found.\"); }", bookName);
             model.addAttribute("error", "Sorry, books with name " + bookName + " a not found.");
             model.addAttribute("bookName", bookName);
         }
         LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
+    }
+
+    @GetMapping("/formviewbook")
+    public String getFormviewbook(@RequestParam("id") @NotNull Integer bookId, Model model) {
+        LOG.info("msg: Book book = bookServices.findBook(bookId);", bookId);
+        Book book = bookServices.findBook(bookId);
+        LOG.info("msg:  if (kind.compareTo(\"View\") == 0) { Set<Review> reviews = book.getReviews(); }");
+        Set<Review> reviews = book.getReviews();
+        LOG.info("msg: model.addAttribute(\"reviews\", reviews);");
+        model.addAttribute("reviews", reviews);
+        LOG.info("msg: model.addAttribute(\"user\", userService.getCurrentUser());");
+        model.addAttribute("user", userService.getCurrentUser());
+        LOG.info("msg: return \"book/formviewbook\";");
+        model.addAttribute("book", book);
+        return "book/formviewbook";
     }
 
     @PostMapping(value = "/formedit")
@@ -134,16 +164,16 @@ public class BookController {
         Book book = bookServices.findBook(bookId);
         model.addAttribute("book", book);
 
-        if (kind.compareTo("View") == 0) {
-            LOG.info("msg:  if (kind.compareTo(\"View\") == 0) { Set<Review> reviews = book.getReviews(); }");
-            Set<Review> reviews = book.getReviews();
-            LOG.info("msg: model.addAttribute(\"reviews\", reviews);");
-            model.addAttribute("reviews", reviews);
-            LOG.info("msg: model.addAttribute(\"user\", userService.getCurrentUser());");
-            model.addAttribute("user", userService.getCurrentUser());
-            LOG.info("msg: return \"book/formviewbook\";");
-            return "book/formviewbook";
-        }
+//        if (kind.compareTo("View") == 0) {
+//            LOG.info("msg:  if (kind.compareTo(\"View\") == 0) { Set<Review> reviews = book.getReviews(); }");
+//            Set<Review> reviews = book.getReviews();
+//            LOG.info("msg: model.addAttribute(\"reviews\", reviews);");
+//            model.addAttribute("reviews", reviews);
+//            LOG.info("msg: model.addAttribute(\"user\", userService.getCurrentUser());");
+//            model.addAttribute("user", userService.getCurrentUser());
+//            LOG.info("msg: return \"book/formviewbook\";");
+//            return "book/formviewbook";
+//        }
 
         if (kind.compareTo("Delete") == 0) {
             LOG.info("msg:  if (kind.compareTo(\"Delete\") == 0) {  bookServices.deleteBook(bookId); }");
@@ -253,51 +283,50 @@ public class BookController {
     }
 
     @PostMapping(value = "/exportbooks")
-    public HttpEntity<byte[]> exportBooks(@RequestParam Integer[] id) throws IOException {
+    public StreamingResponseBody exportBooks(@RequestParam List<Integer> id) throws IOException {
+        // todo: throw exception if id is empty
 
         LOG.info("msg: List<Book> books = new ArrayList<>();");
-        List<Book> books = new ArrayList<>();
+        List<Book> books = bookServices.findAll(id);
+
+        LOG.info("msg: StringBuilder stringBuilder = new StringBuilder();");
+        final File csvFile = File.createTempFile("book_csv", "tmp");
 
         LOG.info("msg: String lineSeparator = System.getProperty(\"line.separator\");");
         String lineSeparator = System.getProperty("line.separator");
 
-        for (Integer bookId: id) {
-            if (bookServices.findBook(bookId) != null) {
-                LOG.info("msg: for (Integer bookId: id) { books.add(bookServices.findBook(bookId)); }", bookId);
-                books.add(bookServices.findBook(bookId));
-            }
-        }
-
-        LOG.info("msg: StringBuilder stringBuilder = new StringBuilder();");
-        StringBuilder stringBuilder = new StringBuilder();
-
-        if (books.size() != 0) {
-
+        LOG.info("msg: Writer file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(\"books.csv\"), \"utf-8\"));");
+        try(Writer out = new FileWriter(csvFile)) {
             for (Book book : books) {
                 LOG.info("msg: stringBuilder.append(book.getBookName()).append(\",\").append(book.getIsbn()).append(\",\").append(book.getYear()).append(lineSeparator);", book);
-                stringBuilder.append(book.getBookName()).append(",").append(book.getIsbn()).append(",").append(book.getYear()).append(lineSeparator);
+                out.append(book.getBookName())
+                        .append(",")
+                        .append(book.getIsbn())
+                        .append(",")
+                        .append(String.valueOf(book.getYear()))
+                        .append(lineSeparator);
             }
-
-        }
-
-        LOG.info("msg: Writer file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(\"books.csv\"), \"utf-8\"));");
-        try(Writer file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("books.csv"), "utf-8"));) {
-
-            LOG.info("msg: file.write(stringBuilder.toString());", stringBuilder.toString());
-            file.write(stringBuilder.toString());
-
         } catch (IOException exception) {
             LOG.error("msg: exception.printStackTrace();", exception);
-            exception.printStackTrace();
         }
 
         LOG.info("msg: HttpHeaders httpHeaders = new HttpHeaders();");
         HttpHeaders httpHeaders = new HttpHeaders();
+
         LOG.info("httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, \"attachment; filename=books.csv\");");
         httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=books.csv");
 
         LOG.info("msg: return new HttpEntity<>(Files.readAllBytes(Paths.get(\"books.csv\")), httpHeaders);");
-        return new HttpEntity<>(Files.readAllBytes(Paths.get("books.csv")), httpHeaders);
+        return new StreamingResponseBody() {
+            @Override
+            public void writeTo(OutputStream outputStream) throws IOException {
+                StreamUtils.copy(
+                        new BufferedInputStream(new FileInputStream(csvFile)),
+                        outputStream
+                );
+                csvFile.delete();
+            }
+        };
     }
 
     @PostMapping(value = "/getfindbookform")
@@ -307,7 +336,7 @@ public class BookController {
     }
 
     @PostMapping(value = "/findbook")
-    public String findBook(@RequestParam String bookName, Model model) {
+    public String findBook(@RequestParam String bookName, Model model) throws Exception {
 
         String lineSeparator = System.getProperty("line.separator");
 

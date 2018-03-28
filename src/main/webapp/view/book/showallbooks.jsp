@@ -27,15 +27,21 @@
                 </tr>
                     <c:forEach  items="${books}" var ="book">
                     <tr>
-
-                      <form action="${path}/book/formedit" method="POST">
                         <td><input type="checkbox" form="export" name="id" value="${book.bookId}"/></td>
-                        <td><input type="text" name="bookId" value="${book.bookId}" readonly/></td>
+                        <td>${book.bookId}</td>
                         <td>${book.bookName}</td>
                         <td>${book.year}</td>
-                        <td><input type="submit" name="kind" align="center" value="Edit"/></td>
+
+                        <td>
+                            <a href="${path}/book/formviewbook?id=${book.bookId}">View</a>
+                        </td>
+
+
                         <td><input type="submit" name="kind" align="center" value="View"/></td>
                         <td><input type="submit" name="kind" align="center" value="Delete"/></td>
+
+                      <form action="${path}/book/formedit" method="POST">
+
                       </form>
 
                     </tr>
