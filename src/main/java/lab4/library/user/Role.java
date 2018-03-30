@@ -1,8 +1,10 @@
 package lab4.library.user;
 
+import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -11,6 +13,8 @@ import java.util.Set;
 @Table
 public class Role implements GrantedAuthority {
 
+    public static final String ROLE_SUPER_USER = "SuperUser";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer roleId;
@@ -18,12 +22,13 @@ public class Role implements GrantedAuthority {
     private String roleName;
 
     @Column(unique = true)
+    @NaturalId
     private String authority;
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 
-    public Role() {};
+    public Role() {}
 
     public Role(String roleName) {
         this.roleName = roleName;
