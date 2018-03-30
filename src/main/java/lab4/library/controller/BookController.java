@@ -23,7 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
@@ -283,7 +285,7 @@ public class BookController {
     }
 
     @PostMapping(value = "/exportbooks")
-    public StreamingResponseBody exportBooks(@RequestParam List<Integer> id) throws IOException {
+    public ResponseEntity<StreamingResponseBody> exportBooks(@RequestParam List<Integer> id) throws IOException {
         // todo: throw exception if id is empty
 
         LOG.info("msg: List<Book> books = new ArrayList<>();");
@@ -310,23 +312,18 @@ public class BookController {
             LOG.error("msg: exception.printStackTrace();", exception);
         }
 
-        LOG.info("msg: HttpHeaders httpHeaders = new HttpHeaders();");
-        HttpHeaders httpHeaders = new HttpHeaders();
-
-        LOG.info("httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, \"attachment; filename=books.csv\");");
-        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=books.csv");
-
-        LOG.info("msg: return new HttpEntity<>(Files.readAllBytes(Paths.get(\"books.csv\")), httpHeaders);");
-        return new StreamingResponseBody() {
-            @Override
-            public void writeTo(OutputStream outputStream) throws IOException {
-                StreamUtils.copy(
-                        new BufferedInputStream(new FileInputStream(csvFile)),
-                        outputStream
-                );
-                csvFile.delete();
-            }
-        };
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=books.csv")
+                .body(new StreamingResponseBody() {
+                    @Override
+                    public void writeTo(OutputStream outputStream) throws IOException {
+                        StreamUtils.copy(
+                                new BufferedInputStream(new FileInputStream(csvFile)),
+                                outputStream
+                        );
+                        csvFile.delete();
+                    }
+                });
     }
 
     @PostMapping(value = "/getfindbookform")
