@@ -11,6 +11,12 @@ import java.util.Set;
 @Table
 public class Role implements GrantedAuthority {
 
+    public static final String ROLE_SUPER_USER = "ROLE_SU";
+
+    public static final String ROLE_ADMINISTRATOR = "ROLE_ADMIN";
+
+    public static final String ROLE_USER = "ROLE_USER";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer roleId;
@@ -23,7 +29,7 @@ public class Role implements GrantedAuthority {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 
-    public Role() {};
+    public Role() {}
 
     public Role(String roleName) {
         this.roleName = roleName;
@@ -69,8 +75,7 @@ public class Role implements GrantedAuthority {
         Role role = (Role) o;
         return Objects.equals(roleId, role.roleId) &&
                 Objects.equals(roleName, role.roleName) &&
-                Objects.equals(authority, role.authority) &&
-                Objects.equals(users, role.users);
+                Objects.equals(authority, role.authority);
     }
 
     @Override

@@ -84,9 +84,7 @@ public class Author extends Description {
         Author author = (Author) o;
         return Objects.equals(authorId, author.authorId) &&
                 Objects.equals(firstName, author.firstName) &&
-                Objects.equals(lastName, author.lastName) &&
-                Objects.equals(middleName, author.middleName) &&
-                Objects.equals(books, author.books);
+                Objects.equals(lastName, author.lastName);
     }
 
     @Override

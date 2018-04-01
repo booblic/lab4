@@ -22,6 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,9 +47,9 @@ public class UserController {
     @GetMapping(value = "/getregistrationform")
     public String getRegistrationForm(Model model) {
         LOG.info("msg:  model.addAttribute(\"user\", new User());");
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new FormUser());
         LOG.info("msg: return \"user/registration\";");
-        return "user/registration";
+        return "user/registrationform";
     }
 
     @PostMapping(value = "/registeruser")
@@ -56,15 +57,17 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
             LOG.info("msg: if (bindingResult.hasErrors()) { return \"user/registration\"; }");
-            return "user/registration";
+            return "user/registrationform";
         }
 
         if (formUser.getPassword().compareTo(formUser.getConfirmedPassword()) != 0) {
-            model.addAttribute("differentPassword", "Passwords are different!");
-            return "user/registration";
+            model.addAttribute("invalidPassword", "Passwords are different!");
+            return "user/registrationform";
         }
         LOG.info("msg: User user = conversionService.convert(formUser, User.class); " + ReflectionToString.reflectionToString(formUser));
         User user = conversionService.convert(formUser, User.class);
+
+        user.setPassword(formUser.getPassword());
 
         try {
             LOG.info("msg: userService.singupUser(user); " + ReflectionToString.reflectionToString(user));
@@ -73,17 +76,15 @@ public class UserController {
             LOG.error("msg: DataIntegrityViolationException", exception);
             if (exception.getMessage().contains("org.hibernate.exception.ConstraintViolationException")) {
                 LOG.info("msg: if (exception.getMessage().contains(\"org.hibernate.exception.ConstraintViolationException\")) { model.addAttribute(\"NotUniqeUsername\", \"This username already exists\"); model.addAttribute(\"user\", formUser); }");
-                model.addAttribute("NotUniqeUsername", "This username already exists");
+                model.addAttribute("InvalidUsername", "This username already exists");
                 model.addAttribute("user", formUser);
                 LOG.info("msg: return \"user/registration\";");
-                return "user/registration";
+                return "user/registrationform";
             }
         }
-        LOG.info("msg: model.addAttribute(\"registrationMessage\", \"You have successfully registered, now sign in to your account\");");
-        model.addAttribute("registrationMessage", "You have successfully registered, now sign in to your account");
         LOG.info("mgs: return \"startpage\";");
 
-        return "startpage";
+        return "redirect:/user/login";
     }
 
     @GetMapping(value = "/login")
@@ -91,13 +92,9 @@ public class UserController {
 
         if (error != null) {
             LOG.info("msg: if (error != null) { model.addAttribute(\"error\", \"Your username and password is invalid.\"); }");
-            model.addAttribute("error", "Your username and password is invalid.");
+            model.addAttribute("error", "Username or password is invalid");
         }
 
-        if (logout != null) {
-            LOG.info("msg: if (logout != null) { model.addAttribute(\"logout\", \"You have been successfully logged out.\"); }");
-            model.addAttribute("logout", "You have been successfully logged out.");
-        }
         LOG.info("msg: return \"user/login\";");
         return "user/login";
     }
@@ -112,7 +109,7 @@ public class UserController {
         return "user/formshowuser";
     }
 
-    @PostMapping(value = "/getedituserform")
+    @GetMapping(value = "/getedituserform")
     public String getEditUserForm(Model model) {
         LOG.info("msg: Integer id = userService.getCurrentUser().getUserId();");
         Integer id = userService.getCurrentUser().getUserId();
@@ -174,14 +171,11 @@ public class UserController {
         return "user/showalluserform";
     }
 
-    @PostMapping(value = "/getformedituserbyadmin")
-    public String getFormEditUserByAdmin(@RequestParam Integer userId, Model model) {
+    @GetMapping(value = "/getformedituserbyadmin")
+    public String getFormEditUserByAdmin(@RequestParam("id") @NotNull Integer userId, Model model) {
 
         User user = userService.getUser(userId);
         LOG.info("msg: User user = userService.getUser(userId); " + userId + " " + ReflectionToString.reflectionToString(user));
-
-        /*User user = userService.getCurrentUser();
-        LOG.info("msg: User user = userService.getCurrentUser(); " + userId + " " + ReflectionToString.reflectionToString(user));*/
 
         LOG.info("msg: Boolean isSuperUser = false;");
         Boolean isSuperUser = false;
@@ -191,7 +185,7 @@ public class UserController {
 
         for (Role userRole: userService.getCurrentUser().getRoles()) {
 
-            if (userRole.getRoleName().compareTo("SuperUser") == 0) {
+            if (userRole.getAuthority().compareTo(Role.ROLE_SUPER_USER) == 0) {
                 LOG.info("msg: for (Role userRole: user.getRoles()) { if (userRole.getRoleName().compareTo(\"SuperUser\") == 0) { isSuperUser = true; } }");
                 isSuperUser = true;
             }
@@ -199,11 +193,11 @@ public class UserController {
 
         for (Role userRole: user.getRoles()) {
 
-            if (userRole.getRoleName().compareTo("SuperUser") == 0) {
+            if (userRole.getAuthority().compareTo(Role.ROLE_SUPER_USER) == 0) {
                 LOG.info("msg: for (Role userRole: user.getRoles()) { if (userRole.getRoleName().compareTo(\"SuperUser\") == 0) { isAdmin = false; } }");
                 isAdmin = false;
                 isSuperUser = false;
-            } else if (userRole.getRoleName().compareTo("Administrator") == 0) {
+            } else if (userRole.getAuthority().compareTo(Role.ROLE_ADMINISTRATOR) == 0) {
                 LOG.info("msg: for (Role userRole: user.getRoles()) { if (userRole.getRoleName().compareTo(\"Administrator\") == 0) { isAdmin = true; } }");
                 isAdmin = true;
             }
@@ -216,12 +210,8 @@ public class UserController {
         }
         if (isAdmin == true) {
             LOG.info("msg: if (isAdmin == true) { model.addAttribute(\"admin\", \"yes\"); }");
-            model.addAttribute("admin", "yes");
+            model.addAttribute("admin", "isAdministrator");
         }
-       /* else {
-            LOG.info("msg: if (isSuperUser == false) { model.addAttribute(\"userRole\", \"yes\"); }");
-            model.addAttribute("userRole", "yes");
-        }*/
         LOG.info("msg: model.addAttribute(\"user\", user); " + ReflectionToString.reflectionToString(user));
         model.addAttribute("user", user);
         LOG.info("msg: return \"user/formedituserbyadmin\";");

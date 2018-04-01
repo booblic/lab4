@@ -10,8 +10,10 @@ public class FormUser {
     private Integer userId;
 
     @ToString
+    @NotEmpty
     private String username;
 
+    @NotEmpty
     private String password;
 
     private String oldPassword;

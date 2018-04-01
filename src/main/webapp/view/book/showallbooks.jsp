@@ -27,17 +27,13 @@
                 </tr>
                     <c:forEach  items="${books}" var ="book">
                     <tr>
-
-                      <form action="${path}/book/formedit" method="POST">
                         <td><input type="checkbox" form="export" name="id" value="${book.bookId}"/></td>
-                        <td><input type="text" name="bookId" value="${book.bookId}" readonly/></td>
+                        <td>${book.bookId}</td>
                         <td>${book.bookName}</td>
                         <td>${book.year}</td>
-                        <td><input type="submit" name="kind" align="center" value="Edit"/></td>
-                        <td><input type="submit" name="kind" align="center" value="View"/></td>
-                        <td><input type="submit" name="kind" align="center" value="Delete"/></td>
-                      </form>
-
+                        <td><a href="${path}/book/formedit?id=${book.bookId}">Edit</a></td>
+                        <td><a href="${path}/book/formviewbook?id=${book.bookId}">View</a></td>
+                        <td><a href="${path}/book/deletebook?id=${book.bookId}">Delete</a></td>
                     </tr>
                     </c:forEach>
               </table>
@@ -60,17 +56,11 @@
 
         <br><br>
 
-        <form action="${path}/book/getaddform" method="POST">
-            <input type="hidden" name="bookName" value="${bookName}" readonly/>
-            <input type="submit" align="center" value="Add this book"/>
-        </form>
+        <a href="${path}/book/getaddform">Add book yourself</a>
 
         <br><br>
 
-        <form action="${path}/book/getfindbookform" method="POST">
-            <input type="hidden" name="bookName" value="${bookName}" readonly/>
-            <input type="submit" align="center" value="Find this book"/>
-       </form>
+       <a href="${path}/book/getfindbookform">Find book on website mybook.ru</a>
 
         <p><a href="${path}/">Start Page</a></p>
 

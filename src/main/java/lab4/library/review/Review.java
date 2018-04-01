@@ -25,6 +25,7 @@ public class Review {
     private Book book;
 
     @ElementCollection(targetClass = String.class)
+    @MapKeyColumn(name = "textReview",length = 1000)
     private Map<String, String> bookReview = new HashMap<>();
 
     /*@Column(length = 1000)

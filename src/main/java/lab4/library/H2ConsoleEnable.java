@@ -16,4 +16,6 @@ public class H2ConsoleEnable {
         return registrationBean;
     }
 
+
+
 }

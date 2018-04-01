@@ -12,6 +12,9 @@ public class PatternBook {
     private String bookName;
 
     @ToString
+    private String isbn;
+
+    @ToString
     private String authorsNames;
 
     @ToString
@@ -42,6 +45,14 @@ public class PatternBook {
 
     public void setBookName(String bookName) {
         this.bookName = bookName;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public String getAuthorsNames() {

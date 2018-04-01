@@ -13,24 +13,22 @@ import lab4.library.user.User;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -74,11 +72,10 @@ public class BookController {
         return "book/showallbooks";
     }
 
-    @PostMapping(value = "/getaddform")
-    public String getAddForm(@RequestParam String bookName, Model model) {
+    @GetMapping(value = "/getaddform")
+    public String getAddForm(Model model) {
         LOG.info("Message: model.addAttribute(\"book\", new Book());");
         model.addAttribute("book", new Book());
-        model.addAttribute("bookName", bookName);
         LOG.info("Msg: return \"book/formaddbook\";");
         return "book/formaddbook";
     }
@@ -87,16 +84,8 @@ public class BookController {
     @PostMapping(value = "/addbook")
     public String addBook(@RequestParam String[] bookName, @RequestParam String[] isbn, @RequestParam Integer[] year) {
 
-        Set<Book> bookSet = new HashSet<>();
+        Set<Book> bookSet = bookServices.addBook(bookName, isbn, year);
 
-        for (int i = 0; i < bookName.length; i++) {
-            Book book = new Book();
-            book.setBookName(bookName[i]);
-            book.setIsbn(isbn[i]);
-            book.setYear(year[i]);
-            LOG.info("Add book in Set: " + ReflectionToString.reflectionToString(book));
-            bookSet.add(book);
-        }
         LOG.info("msg: bookServices.saveBook(bookSet);");
         bookServices.saveBooks(bookSet);
         LOG.info("return \"redirect:/book/show\";");
@@ -112,8 +101,8 @@ public class BookController {
         return "book/searchingform";
     }
 
-    @PostMapping(value = "/search")
-    public String searchBookByBookName(@RequestParam String bookName, Model model) {
+    @PostMapping(value = "/searchingbybookname")
+    public String searchingByBookName(@RequestParam String bookName, Model model) {
         LOG.info("msg: List<Book> bookList = bookServices.findByBookName(bookName);", bookName);
         List<Book> bookList = bookServices.findByBookName(bookName);
         if (bookList.size() != 0) {
@@ -128,33 +117,38 @@ public class BookController {
         return "book/showallbooks";
     }
 
-    @PostMapping(value = "/formedit")
-    public String editForm(@RequestParam Integer bookId, @RequestParam String kind, Model model) {
+    @GetMapping(value = "/formedit")
+    public String editForm(@RequestParam("id") @NotNull Integer bookId, Model model) {
         LOG.info("msg: Book book = bookServices.findBook(bookId);", bookId);
         Book book = bookServices.findBook(bookId);
         model.addAttribute("book", book);
-
-        if (kind.compareTo("View") == 0) {
-            LOG.info("msg:  if (kind.compareTo(\"View\") == 0) { Set<Review> reviews = book.getReviews(); }");
-            Set<Review> reviews = book.getReviews();
-            LOG.info("msg: model.addAttribute(\"reviews\", reviews);");
-            model.addAttribute("reviews", reviews);
-            LOG.info("msg: model.addAttribute(\"user\", userService.getCurrentUser());");
-            model.addAttribute("user", userService.getCurrentUser());
-            LOG.info("msg: return \"book/formviewbook\";");
-            return "book/formviewbook";
-        }
-
-        if (kind.compareTo("Delete") == 0) {
-            LOG.info("msg:  if (kind.compareTo(\"Delete\") == 0) {  bookServices.deleteBook(bookId); }");
-            bookServices.deleteBook(bookId);
-            LOG.info("msg: model.addAttribute(\"books\", bookServices.findAllBook());");
-            model.addAttribute("books", bookServices.findAllBook());
-            LOG.info("msg: return \"book/showallbooks\";");
-            return "book/showallbooks";
-        }
         LOG.info("msg: return \"book/formeditbook\";");
         return "book/formeditbook";
+    }
+
+    @GetMapping("/deletebook")
+    public String deletebook(@RequestParam("id") @NotNull Integer bookId, Model model) {
+        LOG.info("msg:  if (kind.compareTo(\"Delete\") == 0) {  bookServices.deleteBook(bookId); }");
+        bookServices.deleteBook(bookId);
+        LOG.info("msg: model.addAttribute(\"books\", bookServices.findAllBook());");
+        model.addAttribute("books", bookServices.findAllBook());
+        LOG.info("msg: return \"book/showallbooks\";");
+        return "book/showallbooks";
+    }
+
+    @GetMapping("/formviewbook")
+    public String getFormviewbook(@RequestParam("id") @NotNull Integer bookId, Model model) {
+        LOG.info("msg: Book book = bookServices.findBook(bookId);", bookId);
+        Book book = bookServices.findBook(bookId);
+        LOG.info("msg:  if (kind.compareTo(\"View\") == 0) { Set<Review> reviews = book.getReviews(); }");
+        Set<Review> reviews = book.getReviews();
+        LOG.info("msg: model.addAttribute(\"reviews\", reviews);");
+        model.addAttribute("reviews", reviews);
+        LOG.info("msg: model.addAttribute(\"user\", userService.getCurrentUser());");
+        model.addAttribute("user", userService.getCurrentUser());
+        LOG.info("msg: return \"book/formviewbook\";");
+        model.addAttribute("book", book);
+        return "book/formviewbook";
     }
 
     //@PreAuthorize("hasRole('ADMIN')")
@@ -171,27 +165,7 @@ public class BookController {
     @PostMapping(value = "/{id}/addreview")
     public String addReview(@PathVariable Integer id, @RequestParam String textReview, @RequestParam String rating) {
 
-        Review review = null;
-        LOG.info("msg: User user = userService.getCurrentUser();");
-        User user = userService.getCurrentUser();
-        LOG.info("msg: Book book = bookServices.findBook(id);", id);
-        Book book = bookServices.findBook(id);
-
-        Map<String, String> bookReview = new HashMap<>();
-        LOG.info("msg: bookReview.put(textReview, rating);", textReview, rating);
-        bookReview.put(textReview, rating);
-
-        if (reviewService.findByBookAndUser(book, user) != null) {
-            LOG.info("msg: if (reviewService.findByBookAndUser(book, user) != null) { review.setBookReview(bookReview); }", bookReview);
-            review = reviewService.findByBookAndUser(book, user);
-            review.setBookReview(bookReview);
-        } else {
-            review = new Review();
-            LOG.info("if (reviewService.findByBookAndUser(book, user) == null) { review.setUser(user); review.setBook(book); review.setBookReview(bookReview); }");
-            review.setUser(user);
-            review.setBook(book);
-            review.setBookReview(bookReview);
-        }
+        Review review = reviewService.addReview(id, textReview, rating);
         LOG.info("msg: reviewService.saveReview(review);");
         reviewService.saveReview(review);
         LOG.info("msg: return \"redirect:/book/show\";");
@@ -206,22 +180,9 @@ public class BookController {
 
     @PostMapping(value = "/searchingbygenreandyear")
     public String searchingByGenreAndYear(@RequestParam String genreName, @RequestParam int year, Model model) {
-/*        LOG.info("msg: Book book = new Book();");
-        Book book = new Book();
-        LOG.info("msg:  book.setYear(year);", year);
-        book.setYear(year);
-        Set<Genre> genreSet = new HashSet<>();
-        LOG.info("msg:  genreSet.add(genreService.findByGenreName(genreName));", genreName);
-        genreSet.add(genreService.findByGenreName(genreName));
-        LOG.info("msg:  book.setGenres(genreSet);");
-        book.setGenres(genreSet);
-        LOG.info("msg:  Example<Book> example = Example.of(book, ExampleMatcher.matching().withIgnorePaths(\"bookRating\"));");
-        Example<Book> example = Example.of(book, ExampleMatcher.matching().withIgnorePaths("bookRating"));*/
         LOG.info("msg: model.addAttribute(\"books\", bookServices.findByYearAndGenreName(genreName, year));", genreName, year);
         model.addAttribute("books", bookServices.findByYearAndGenreName(genreName, year));
         model.addAttribute("bookName", "");
-/*        LOG.info("msg: model.addAttribute(\"books\", bookServices.findBook(example));", genreName, year);
-        model.addAttribute("books", bookServices.findBook(example));*/
         LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
     }
@@ -240,38 +201,40 @@ public class BookController {
         return "book/showallbooks";
     }
 
-    @GetMapping(value = "/test")
-    public String test(Model model) {
-        model.addAttribute("value", "test js");
-        return "book/testjsp";
-    }
-
-    @PostMapping(value = "/params/arrays")
-    public String paramsAsArrays(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String genreName, Model model) {
-        model.addAttribute("books", bookServices.findByAuthorAndGenreName(firstName, lastName, genreName));
-        return "book/showallbooks";
-    }
-
     @PostMapping(value = "/exportbooks")
-    public HttpEntity<byte[]> exportBooks(@RequestParam Integer[] id) throws IOException {
+    public ResponseEntity<StreamingResponseBody> exportBooks(@RequestParam List<Integer> id) throws IOException {
 
-        LOG.info("msg: List<Book> books = new ArrayList<>();");
-        List<Book> books = new ArrayList<>();
+        List<Book> books = bookServices.findAll(id);
 
-        LOG.info("msg: String lineSeparator = System.getProperty(\"line.separator\");");
+        final File csvFile = File.createTempFile("book_csv", "tmp");
+
         String lineSeparator = System.getProperty("line.separator");
 
-        for (Integer bookId: id) {
-            if (bookServices.findBook(bookId) != null) {
-                LOG.info("msg: for (Integer bookId: id) { books.add(bookServices.findBook(bookId)); }", bookId);
-                books.add(bookServices.findBook(bookId));
+        try (Writer writer = new FileWriter(csvFile)) {
+            for (Book book : books) {
+                writer.append(book.getBookName())
+                        .append(",")
+                        .append(book.getIsbn())
+                        .append(",")
+                        .append(String.valueOf(book.getYear()))
+                        .append(lineSeparator);
             }
+        } catch (IOException exception) {
+            LOG.error("printStackTrace()", exception);
         }
 
-        LOG.info("msg: StringBuilder stringBuilder = new StringBuilder();");
-        StringBuilder stringBuilder = new StringBuilder();
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=books.csv").body((OutputStream outputStream) -> {
+            StreamUtils.copy(
+                    new BufferedInputStream(new FileInputStream(csvFile)),
+                    outputStream
+            );
+            csvFile.delete();
+        });
 
-        if (books.size() != 0) {
+
+        //ResponseEntity<StreamingResponseBody> responseEntity = new ResponseEntity<>(streamingResponseBody, httpHeaders);
+
+        /*if (books.size() != 0) {
 
             for (Book book : books) {
                 LOG.info("msg: stringBuilder.append(book.getBookName()).append(\",\").append(book.getIsbn()).append(\",\").append(book.getYear()).append(lineSeparator);", book);
@@ -297,56 +260,31 @@ public class BookController {
         httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=books.csv");
 
         LOG.info("msg: return new HttpEntity<>(Files.readAllBytes(Paths.get(\"books.csv\")), httpHeaders);");
-        return new HttpEntity<>(Files.readAllBytes(Paths.get("books.csv")), httpHeaders);
+        return new HttpEntity<>(Files.readAllBytes(Paths.get("books.csv")), httpHeaders);*/
     }
 
-    @PostMapping(value = "/getfindbookform")
-    public String getFindForm(@RequestParam String bookName, Model model) {
-        model.addAttribute("bookName", bookName);
+    @GetMapping(value = "/getfindbookform")
+    public String getFindForm() {
         return "book/findbookform";
     }
 
     @PostMapping(value = "/findbook")
     public String findBook(@RequestParam String bookName, Model model) {
 
-        String lineSeparator = System.getProperty("line.separator");
-
         List<PatternBook> books = new ArrayList<>();
 
-//jsoup get
-/*      try {
-            Document doc  = Jsoup.connect("https://mybook.ru/search/books/?q=" + bookName).get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-//restTemplate get
         Map<String, String> vars = new HashMap<>();
         vars.put("name", bookName);
 
-        String result = restTemplate.getForObject(
-                "https://mybook.ru/search/books/?q={name}", String.class, vars);
-/*        String line = null;
-        String result = null;
-
-
-        try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream("test.txt"), "windows-1251"))) {
-
-            while((line = bufferedReader.readLine()) != null){
-                result += line;
-            }
-        } catch (IOException exc) {
-            exc.printStackTrace();
-        }*/
+        String result = restTemplate.getForObject("https://mybook.ru/search/books/?q={name}", String.class, vars);
 
         Document document = Jsoup.parse(result);
 
-        //Elements SearchResultItemSearchResultItemBookFirstChilds = document.getElementsByClass("search-result__item search-result__item_book first_child");
         Elements searchResultItemInfos = document.getElementsByClass("search-result__item-info");
 
         int count = 1;
 
-        for (Element searchResultItemInfo: searchResultItemInfos) {
+        for (Element searchResultItemInfo : searchResultItemInfos) {
 
             PatternBook book = new PatternBook();
 
@@ -354,58 +292,38 @@ public class BookController {
 
             Elements searchResultItemMores = searchResultItemInfo.getElementsByClass("search-result__item_more");
 
-            for (Element searchResultItemInfoAuthor: searchResultItemInfoAuthors) {
-
-
-                /*System.out.println("-------------------------------------------");
-                System.out.println(searchResultItemInfoAuthor.text());
-                System.out.println(searchResultItemInfoAuthor.attr("href"));
-                System.out.println("-------------------------------------------");*/
-
+            for (Element searchResultItemInfoAuthor : searchResultItemInfoAuthors) {
                 book.setBookName(searchResultItemInfoAuthor.text());
                 book.setHref("https://mybook.ru/" + searchResultItemInfoAuthor.attr("href"));
                 book.setCount(count++);
             }
 
-            for (Element searchResultItemMore: searchResultItemMores) {
+            for (Element searchResultItemMore : searchResultItemMores) {
 
                 Elements elementsTagPs = searchResultItemMore.getElementsByTag("p");
 
-                for (Element elementsTagP: elementsTagPs) {
+                for (Element elementsTagP : elementsTagPs) {
                     String info = elementsTagP.text();
 
                     if (info.toLowerCase().contains("Год издания:".toLowerCase())) {
-                        /*System.out.println("-------------------------------------------");
-                        System.out.println(info);
-                        System.out.println("-------------------------------------------");*/
-
                         book.setYear(info.replace("Год издания:", "").trim());
                     }
 
                     if (info.toLowerCase().contains("Правообладатель:".toLowerCase())) {
-/*                        System.out.println("-------------------------------------------");
-                        System.out.println(info);
-                        System.out.println("-------------------------------------------");*/
                         book.setPublishersNames(info.replace("Правообладатель:", "").trim());
                     }
 
                     if (info.toLowerCase().contains("Жанр:".toLowerCase())) {
-/*                        System.out.println("-------------------------------------------");
-                        System.out.println(info);
-                        System.out.println("-------------------------------------------");*/
                         book.setGenresNames(info.replace("Жанр:", "").trim());
                     }
 
                     Elements elementsTagAs = elementsTagP.getElementsByTag("a");
 
-                    for (Element elementsTagA: elementsTagAs) {
+                    for (Element elementsTagA : elementsTagAs) {
 
                         Elements authorsNames = elementsTagA.getElementsByAttributeValueMatching("href", "/author/");
 
-                        for (Element authorName: authorsNames) {
-/*                            System.out.println("-------------------------------------------");
-                            System.out.println(authorName.text());
-                            System.out.println("-------------------------------------------");*/
+                        for (Element authorName : authorsNames) {
                             if (book.getAuthorsNames() != null) {
                                 book.setAuthorsNames(book.getAuthorsNames() + ", " + authorName.text());
                             } else {
@@ -416,183 +334,36 @@ public class BookController {
                 }
             }
             books.add(book);
-
-/*            System.out.println("-------------------------------------------");
-            System.out.println(ReflectionToString.reflectionToString(b1));
-            System.out.println("-------------------------------------------");*/
-
         }
-
-/*        int count = 0;
-
-        for (Element SearchResultItemSearchResultItemBookFirstChild: SearchResultItemSearchResultItemBookFirstChilds) {
-
-            Elements booksItemInfoNames = SearchResultItemSearchResultItemBookFirstChild.getElementsByClass("books__item__info-name");
-
-            Elements booksItemInfoAuthors = SearchResultItemSearchResultItemBookFirstChild.getElementsByClass("books__item__info-authors");
-
-            Elements searchResultItemMores = SearchResultItemSearchResultItemBookFirstChild.getElementsByClass("search-result__item_more");
-
-            PatternBook b = new PatternBook();
-
-            count++;
-
-            for (Element booksItemInfoName: booksItemInfoNames) {
-                Elements elementsTagAs = booksItemInfoName.getElementsByTag("a");
-
-                for (Element elementsTagA: elementsTagAs) {
-                    String book = elementsTagA.text();
-                    b.setCount(count);
-                    b.setBookName(book);
-
-                }
-            }
-
-            for (Element booksItemInfoAuthor: booksItemInfoAuthors) {
-                Elements elementsTagAs = booksItemInfoAuthor.getElementsByTag("a");
-
-                for (Element elementsTagA: elementsTagAs) {
-                    String author = elementsTagA.text();
-
-                    //b.setAuthorsNames(author);
-
-                }
-            }
-
-            for (Element searchResultItemMore: searchResultItemMores) {
-
-                Elements elementsTagPs = searchResultItemMore.getElementsByTag("p");
-
-                for (Element elementsTagP: elementsTagPs) {
-                    String info = elementsTagP.text();
-
-                    if (info.toLowerCase().contains("Год издания".toLowerCase())) {
-                        b.setYear(info);
-                    }
-
-                    if (info.toLowerCase().contains("Правообладатель".toLowerCase())) {
-                        b.setPublishersNames(info);
-                    }
-
-                    if (info.toLowerCase().contains("Жанр".toLowerCase())) {
-                        b.setGenresNames(info);
-                    }
-
-                    Elements elementsTagAs = elementsTagP.getElementsByTag("a");
-
-                    for (Element elementsTagA: elementsTagAs) {
-
-                        Elements authorsNames = elementsTagA.getElementsByAttributeValueMatching("href", "/author/");
-
-                        for (Element authorName: authorsNames) {
-                            if (b.getAuthorsNames() != null) {
-                                b.setAuthorsNames(b.getAuthorsNames() + ", " + authorName.text());
-                            } else {
-                                b.setAuthorsNames(authorsNames.text());
-                            }
-                        }
-                    }
-                }
-            }
-            books.add(b);
-        }*/
-
-/*        try(Writer file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("import.txt", true), "utf-8"));) {
-
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }*/
-
         model.addAttribute("books", books);
 
         return "book/findingresult";
     }
 
     @PostMapping(value = "addfindingbook")
-    public String addFindingBook(@ModelAttribute PatternBook patternBook, Model model) {
-
-        Book book = new Book();
-
-        book.setBookName(patternBook.getBookName());
-
-        if (patternBook.getYear() != null) {
-            Integer year = Integer.parseInt(patternBook.getYear());
-            book.setYear(year);
-        }
-
-        if (patternBook.getAuthorsNames() != null) {
-            Set<Author> authorSet = new HashSet<>();
-            for (String authorName: patternBook.getAuthorsNames().trim().split(",")) {
-                String[] authorNameMassif = new String[2];
-                int i = 0;
-                for (String name: authorName.trim().split(" ")) {
-                    authorNameMassif[i] = name;
-                    i++;
-                }
-                Author existingAuthor = authorService.findByFirstNameAndLastName(authorNameMassif[0], authorNameMassif[1]);
-
-                if (existingAuthor != null) {
-                    authorSet.add(existingAuthor);
-                } else {
-                    Author author = new Author();
-                    author.setFirstName(authorNameMassif[0]);
-                    author.setLastName(authorNameMassif[1]);
-                    authorSet.add(authorService.saveAuthor(author));
-                }
-            }
-            book.setAuthors(authorSet);
-        }
-
-        if (patternBook.getGenresNames() != null) {
-            Set<Genre> genreSet = new HashSet<>();
-            for (String genreName: patternBook.getGenresNames().split(",")) {
-                Genre existingGenre = genreService.findByGenreName(genreName.trim());
-                if (existingGenre != null) {
-                    genreSet.add(existingGenre);
-                } else {
-                    Genre genre = new Genre();
-                    genre.setGenreName(genreName.trim());
-                    genreSet.add(genreService.saveGenre(genre));
-                }
-            }
-            book.setGenres(genreSet);
-        }
-
-        if (patternBook.getPublishersNames() != null) {
-            Set<Publisher> publisherSet = new HashSet<>();
-            for (String publisherName: patternBook.getPublishersNames().split(",")) {
-                Publisher existingPublisher = publisherService.findByPublisherName(publisherName.trim());
-                if (existingPublisher != null) {
-                    publisherSet.add(existingPublisher);
-                } else {
-                    Publisher publisher = new Publisher();
-                    publisher.setPublisherName(publisherName.trim());
-                    publisherSet.add(publisherService.savePublisher(publisher));
-                }
-            }
-            book.setPublishers(publisherSet);
-        }
+    public String addFindingBook(@ModelAttribute PatternBook patternBook) {
 
         Document doc = null;
 
         try {
-            doc  = Jsoup.connect(patternBook.getHref()).get();
+            doc = Jsoup.connect(patternBook.getHref()).get();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         Elements bookSummarys = doc.getElementsByClass("book-summary");
 
-        for (Element bookSummary: bookSummarys) {
+        for (Element bookSummary : bookSummarys) {
             Elements items = bookSummary.getElementsByClass("item");
 
-            for (Element item: items) {
+            for (Element item : items) {
                 if (item.text().contains("ISBN (EAN):")) {
-                    book.setIsbn(item.text().replace("ISBN (EAN):", "").trim());
+                    patternBook.setIsbn(item.text().replace("ISBN (EAN):", "").trim());
                 }
             }
         }
 
+        Book book = bookServices.addFindingBook(patternBook);
 
         bookServices.saveBook(book);
 

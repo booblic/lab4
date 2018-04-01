@@ -23,9 +23,11 @@ public class User implements UserDetails {
     private Integer userId;
 
     @Column(unique = true)
+    @NotEmpty
     @ToString
     private String username;
 
+    @NotEmpty
     private String password;
 
     @ToString
@@ -181,16 +183,12 @@ public class User implements UserDetails {
                 Objects.equals(password, user.password) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
-                Objects.equals(middleName, user.middleName) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(phoneNumber, user.phoneNumber) &&
-                Objects.equals(roles, user.roles) &&
-                Objects.equals(reviews, user.reviews);
+                Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(userId,username, password, email);
+        return Objects.hash(userId,username, password, firstName, lastName, email);
     }
 }

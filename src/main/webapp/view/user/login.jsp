@@ -7,24 +7,26 @@
 
 <html>
     <head>
-        <link rel="stylesheet" href="/css/test.css"/>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+        <link href="${path}/css/signin.css" rel="stylesheet">
     </head>
-    <body>
-        <h1>Login Page</h1>
+    <body class="text-center">
 
-        ${error}
-
-        ${logout}
-
-        <form action="${path}/user/login" method="POST">
-            User Name <input type="text" name="username"/>
-            Password <input type="text" name="password"/>
-            <input type="submit" align="center" value="Sign In"/>
+        <form class="form-signin" action="${path}/user/login" method="POST">
+            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+            <label for="inputEmail" class="sr-only">Login</label>
+            <input type="text" id="inputEmail" class="form-control" placeholder="Login" required="" autofocus="" name="username">
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" name="password">
+            <c:if test="${not empty error}">
+              <p class="error">${error}</p>
+            </c:if>
+            <button class="btn btn-success btn-lg btn-block" type="submit">Sign in</button>
+            <a class="btn btn-primary btn-lg btn-block" href="${path}/user/getregistrationform">Registration</a>
         </form>
-
-        <p><a href="${path}/">Start Page</a></p>
-
-        <p><a href="${path}/console">H2 Console</a></p>
 
     </body>
 </html>

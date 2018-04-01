@@ -17,7 +17,7 @@
             <div id="bookItems">
                 <div>
                     <b>Book:</b><br/>
-                    Name <input type="text" name="bookName" value="${bookName}"/>
+                    Name <input type="text" name="bookName"/>
                     ISBN <input type="text" name="isbn"/>
                     Year <input type="text" name="year"/>
                 </div>

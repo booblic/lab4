@@ -13,7 +13,7 @@
         <h1>Searching Books</h1>
 
         <form action="${path}/book/findbook" method="POST">
-            Book Name <input type="text" name="bookName" value="${bookName}"/>
+            Book Name <input type="text" name="bookName"/>
             <input type="submit" align="center" value="Find"/>
         </form>
 

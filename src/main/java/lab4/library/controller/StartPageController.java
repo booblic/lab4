@@ -27,24 +27,16 @@ public class StartPageController {
     @RequestMapping(value = "/")
     public String startPageMessage(Model model, String logout) {
 
-        if (logout != null) {
-            LOG.info("msg: model.addAttribute(\"logoutMessage\", \"You have been successfully logged out.\");");
-            model.addAttribute("logoutMessage", "You have been successfully logged out.");
-        }
-        //LOG.info("msg: User user = userService.getCurrentUser();");
-        User user = userService.getCurrentUser();
-
-        if (user != null) {
+        if (userService.getCurrentUser() != null) {
             LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
-            model.addAttribute("logout", "yes");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
         }
 
-        if (userService.hasRole("ROLE_ADMIN")) {
-            LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
-            model.addAttribute("admin", "yes");
-        }
-        LOG.info("msg:  model.addAttribute(\"startMessage\", \"Welcome to Library!\");");
-        model.addAttribute("startMessage", "Welcome to Library!");
         LOG.info("msg: return \"startpage\";");
         return "startpage";
     }
@@ -60,29 +52,5 @@ public class StartPageController {
         LOG.info("msg: model.addAttribute(\"message\", \"You have successfully logged into your account!\");");
         model.addAttribute("message", "You have successfully logged into your account!");
         return "";
-    }
-
-    @GetMapping(value = "/searchingform")
-    public String getSearchingForm() {
-        LOG.info("msg: return \"searching\";");
-        return "searching";
-    }
-
-    @PostMapping(value = "/searching")
-    public String searching(@RequestParam String bookName,
-                            @RequestParam String isbn,
-                            @RequestParam Integer year,
-                            @RequestParam String genreName,
-                            @RequestParam String firstName,
-                            @RequestParam String lastName,
-                            @RequestParam String middleName,
-                            @RequestParam String publisherName, Model model) {
-        LOG.info("msg: List<Book> books = bookServices.searching(bookName, isbn, year, genreName, firstName, lastName, middleName, publisherName); " + bookName + isbn + year + genreName + firstName + lastName + middleName + publisherName);
-        List<Book> books = bookServices.searching(bookName, isbn, year, genreName, firstName, lastName, middleName, publisherName);
-        LOG.info("msg: model.addAttribute(\"books\", books);");
-        model.addAttribute("books", books);
-        model.addAttribute("bookName", "");
-        LOG.info("msg: return \"book/showallbooks\";");
-        return "book/showallbooks";
     }
 }

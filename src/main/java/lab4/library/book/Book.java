@@ -194,16 +194,10 @@ public class Book extends Description {
         if (!(o instanceof Book)) return false;
         if (!super.equals(o)) return false;
         Book book = (Book) o;
-        return year == book.year &&
-                Objects.equals(bookId, book.bookId) &&
+        return Objects.equals(bookId, book.bookId) &&
                 Objects.equals(bookName, book.bookName) &&
                 Objects.equals(isbn, book.isbn) &&
-                Objects.equals(genres, book.genres) &&
-                Objects.equals(authors, book.authors) &&
-                Objects.equals(publishers, book.publishers) &&
-                Objects.equals(reviews, book.reviews) &&
-                Objects.equals(bookRating, book.bookRating) &&
-                Objects.equals(periodicity, book.periodicity);
+                Objects.equals(year, book.year);
     }
 
     @Override

@@ -59,8 +59,7 @@ public class Genre extends Description {
         if (!(o instanceof Genre)) return false;
         Genre genre = (Genre) o;
         return Objects.equals(genreId, genre.genreId) &&
-                Objects.equals(genreName, genre.genreName) &&
-                Objects.equals(books, genre.books);
+                Objects.equals(genreName, genre.genreName);
     }
 
     @Override

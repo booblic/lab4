@@ -60,8 +60,7 @@ public class Publisher extends Description {
         if (!(o instanceof Publisher)) return false;
         Publisher publisher = (Publisher) o;
         return Objects.equals(publisherId, publisher.publisherId) &&
-                Objects.equals(publisherName, publisher.publisherName) &&
-                Objects.equals(books, publisher.books);
+                Objects.equals(publisherName, publisher.publisherName);
     }
 
     @Override

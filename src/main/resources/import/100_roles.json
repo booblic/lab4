@@ -15,6 +15,6 @@
     "_class": "lab4.library.user.Role",
     "roleId": 3,
     "roleName": "SuperUser",
-    "authority": "ROLE_SUPERUSER"
+    "authority": "ROLE_SU"
   }
 ]

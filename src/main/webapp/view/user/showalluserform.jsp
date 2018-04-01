@@ -26,13 +26,10 @@
                     <th>Phone Number</th>
                     <th>Role</th>
                     <th>Edit</th>
-                    <th>Delete</th>
                 </tr>
                     <c:forEach  items="${users}" var ="user">
                     <tr>
-
-                      <form action="${path}/user/getformedituserbyadmin" method="POST">
-                        <td><input type="text" name="userId" value="${user.userId}" readonly/></td>
+                        <td>${user.userId}</td>
                         <td>${user.username}</td>
                         <td>${user.firstName}</td>
                         <td>${user.lastName}</td>
@@ -44,10 +41,7 @@
                             ${role.roleName}
                         </c:forEach>
                         </td>
-
-                        <td><input type="submit" name="kind" align="center" value="Edit"/></td>
-                        <td><input type="submit" name="kind" align="center" value="Delete"/></td>
-                      </form>
+                        <td><a href="${path}/user/getformedituserbyadmin?id=${user.userId}">Edit</a></td>
 
                     </tr>
                     </c:forEach>
