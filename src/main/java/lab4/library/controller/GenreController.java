@@ -39,7 +39,7 @@ public class GenreController {
         }
 
         LOG.info("msg: return \"genre/searchingform\";");
-        return "genre/searchingform";
+        return "genre/searchingformbygenre";
     }
 
     @PostMapping(value = "/searchingbygenre")

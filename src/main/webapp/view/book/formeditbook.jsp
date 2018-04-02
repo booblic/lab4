@@ -97,19 +97,19 @@
 						<div class="row">
 							<c:forEach items="${book.authors}" var="author">
 								<div class="col-md-3">
-									<p>First Name</p>
+									<p>First name</p>
 									<p>
 										<input type="text" class="form-control" name="authorsFirstNames" value="${author.firstName}" />
 									</p>
 								</div>
 								<div class="col-md-3">
-									<p>Last Name</p>
+									<p>Last name</p>
 									<p>
 										<input type="text" class="form-control" name="authorsLastNames" value="${author.lastName}" />
 									</p>
 								</div>
 								<div class="col-md-3">
-									<p>Last Name</p>
+									<p>Middle name</p>
 									<p>
 										<input type="text" name="authorsMiddleNames" value="${author.middleName}" />
 									</p>

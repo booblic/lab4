@@ -5,23 +5,68 @@
 		<html>
 
 		<head>
-		    <link rel="stylesheet" href="/css/test.css"/>
+			<meta charset="utf-8" />
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+			<meta name="viewport" content="width=device-width, initial-scale=1" />
+			<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+			<script type="text/javascript" src="${path}/js/addbook.js"></script>
+			<link href="${path}/css/searching.css" rel="stylesheet"> </head>
 		</head>
 
 		<body>
-			<h1>Genre and year search</h1>
-			<p>
-				<form action="${path}/book/searchingbygenreandyear" method="POST">
-					<div id="bookItems">
-						<div> <b>Entry the data:</b>
-						    <br>
-						    Genre Name <input type="text" name="genreName" />
-						    <br><br>
-							Year <input type="text" name="year" /> </div>
+			<nav class="navbar navbar-inverse navbar-fixed-top">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> </button>
+						<a class="navbar-brand" href="${path}/"> <span class="glyphicon glyphicon-book"></span> Library </a>
 					</div>
-					<br>
-					<input type="submit" align="center" value="Search" /> </form>
-			</p>
+					<div id="navbar" class="collapse navbar-collapse">
+						<ul class="nav navbar-nav">
+							<c:choose>
+								<c:when test="${not empty username}">
+									<li><a href="${path}/user/showuserprofile">${username}</a></li>
+									<c:if test="${role eq 'admin'}">
+										<li><a href="${path}/user/getshowalluserform">Show all user</a></li>
+									</c:if>
+									<li><a href="${path}/logout">Logout</a></li>
+									<br> </c:when>
+							</c:choose>
+						</ul>
+					</div>
+					<!--/.nav-collapse -->
+				</div>
+			</nav>
+			<div class="container">
+				<h2 class="h2 page-header">Searching by genre and year</h2>
+				<form action="${path}/book/searchingbygenreandyear" method="POST">
+					<div class="row">
+						<div class="col-md-6">
+							<p>
+								<label for="genreName">Genre name</label>
+							</p>
+							<p>
+								<input type="text" class="form-control" name="genreName" />
+							</p>
+						</div>
+						<div class="col-md-6">
+							<p>
+								<label for="year">Year</label>
+							</p>
+							<p>
+								<input type="text" class="form-control" name="year" /> </p>
+						</div>
+					</div>
+					<p>
+						<button type="submit" class="btn btn-primary btn-lg btn-block">Searching</button>
+					</p>
+			</div>
+			<footer class="my-5 pt-5 text-muted text-center text-small">
+				<br>
+				<p class="mb-1">© 2018 Library</p>
+				<ul class="list-inline">
+					<li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
+				</ul>
+			</footer>
 		</body>
 
 		</html>

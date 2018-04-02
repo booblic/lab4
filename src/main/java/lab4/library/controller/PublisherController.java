@@ -39,7 +39,7 @@ public class PublisherController {
         }
 
         LOG.info("msg: ");
-        return "publisher/searchingform";
+        return "publisher/searchingformbypublisher";
     }
 
     @PostMapping(value = "/searchingbypublisher")

@@ -10,7 +10,8 @@
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
 			<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
 			<script type="text/javascript" src="${path}/js/addbook.js"></script>
-			<link href="${path}/css/searching.css" rel="stylesheet"> </head>
+			<link href="${path}/css/searching.css" rel="stylesheet">
+		</head>
 
 		<body>
 			<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -36,13 +37,29 @@
 				</div>
 			</nav>
 			<div class="container">
-				<h2 class="h2 page-header">Searching by name</h2>
-				<form action="${path}/book/searchingbybookname" method="POST">
-					<label for="Name">Name</label>
+				<h2 class="h2 page-header">Searching by author</h2>
+				<form action="${path}/author/searchingbyauthor" method="POST">
+					<div class="row">
+						<div class="col-md-6">
+							<p>
+								<label for="firstName">First name</label>
+							</p>
+							<p>
+								<input type="text" class="form-control" name="firstName" />
+							</p>
+						</div>
+						<div class="col-md-6">
+							<p>
+								<label for="lastName">Last name</label>
+							</p>
+							<p>
+								<input type="text" class="form-control" name="lastName" />
+							</p>
+						</div>
+					</div>
 					<p>
-						<input type="text" class="form-control" name="bookName" />
+						<button type="submit" class="btn btn-primary btn-lg btn-block">Searching</button>
 					</p>
-					<button type="submit" class="btn btn-primary btn-lg btn-block">Searching</button>
 				</form>
 			</div>
 			<footer class="my-5 pt-5 text-muted text-center text-small">

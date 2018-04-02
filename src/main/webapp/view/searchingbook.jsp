@@ -50,7 +50,7 @@
                 <h2 class="h2 page-header">Searching Book</h2>
 
                 <h3 class="mb-0">
-            <p><a href="${path}/book/getsearchingform" class="text-dark">By name</a></p>
+            <p><a href="${path}/book/getsearchingbybooknameform" class="text-dark">By name</a></p>
 
             <p><a href="${path}/genre/getsearchingbygenreform" class="text-dark">By genre</a></p>
 

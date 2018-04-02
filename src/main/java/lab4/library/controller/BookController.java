@@ -118,7 +118,7 @@ public class BookController {
         return "redirect:/book/show";
     }
 
-    @GetMapping(value = "/getsearchingform")
+    @GetMapping(value = "/getsearchingbybooknameform")
     public String getSearchingForm(Model model) {
 
         if (userService.getCurrentUser() != null) {
@@ -131,7 +131,7 @@ public class BookController {
             }
         }
         LOG.info("msg: return \"book/searchingform\";");
-        return "book/searchingform";
+        return "book/searchingbybooknameform";
     }
 
     @PostMapping(value = "/searchingbybookname")
@@ -179,14 +179,29 @@ public class BookController {
 
     @GetMapping("/getformviewbook")
     public String getFormViewbook(@RequestParam("id") @NotNull Integer bookId, Model model) {
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
+
         LOG.info("msg: Book book = bookServices.findBook(bookId);", bookId);
         Book book = bookServices.findOne(bookId);
+
         LOG.info("msg:  if (kind.compareTo(\"View\") == 0) { Set<Review> reviews = book.getReviews(); }");
         Set<Review> reviews = book.getReviews();
+
         LOG.info("msg: model.addAttribute(\"reviews\", reviews);");
         model.addAttribute("reviews", reviews);
+
         LOG.info("msg: model.addAttribute(\"user\", userService.getCurrentUser());");
         model.addAttribute("user", userService.getCurrentUser());
+
         LOG.info("msg: return \"book/formviewbook\";");
         model.addAttribute("book", book);
         return "book/formviewbook";

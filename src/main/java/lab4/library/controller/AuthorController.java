@@ -39,7 +39,7 @@ public class AuthorController {
         }
 
         LOG.info("msg: return \"author/searchingform\";");
-        return "author/searchingform";
+        return "author/searchingformbyauthor";
     }
 
     @PostMapping(value = "/searchingbyauthor")
