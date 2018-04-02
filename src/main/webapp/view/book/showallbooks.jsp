@@ -48,7 +48,7 @@
             <div class="table-responsive">
 
                 <c:if test="${not empty books}">
-                    <h2 class="h2">Book List</h2>
+                    <h2 class="h2 page-header">Book List</h2>
                     <table class="table table-striped table-sm">
                         <thead>
                             <tr>
@@ -72,8 +72,8 @@
                                     <td>${book.bookName}</td>
                                     <td>${book.isbn}</td>
                                     <td>${book.year}</td>
-                                    <td><a href="${path}/book/formedit?id=${book.bookId}">Edit</a></td>
-                                    <td><a href="${path}/book/formviewbook?id=${book.bookId}">View</a></td>
+                                    <td><a href="${path}/book/getformedit?id=${book.bookId}">Edit</a></td>
+                                    <td><a href="${path}/book/getformviewbook?id=${book.bookId}">View</a></td>
                                     <td><a href="${path}/book/deletebook?id=${book.bookId}">Delete</a></td>
                                 </tr>
                             </c:forEach>

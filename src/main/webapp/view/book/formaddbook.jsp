@@ -47,7 +47,7 @@
             </nav>
 
             <div class="container">
-                <h2 class="h2">Add Books</h2>
+                <h2 class="h2 page-header">Add Books</h2>
 
                 <c:if test="${not empty error}">
                     <p class="error">${error}</p>

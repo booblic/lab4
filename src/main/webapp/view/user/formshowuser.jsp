@@ -59,7 +59,7 @@
 
             User Name: ${user.username}<br><br>
 
-        <p><a href="${path}/user/getedituserform" class="text-dark">Edit profile</a></p>
+        <p><a href="${path}/user/getedituserform" class="btn btn-primary">Edit profile</a></p>
 
     <div>
 

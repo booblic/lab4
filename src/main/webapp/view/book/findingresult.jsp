@@ -11,7 +11,7 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
-            <link href="${path}/css/showbooks.css" rel="stylesheet">
+            <link href="${path}/css/searchingresult.css" rel="stylesheet">
     </head>
     <body>
 
@@ -47,7 +47,7 @@
 
 
                 <c:if test="${not empty books}">
-                    <h2 class="h2">Searching results</h2>
+                    <h2 class="h2 page-header">Searching results</h2>
                     <table class="table table-striped table-sm">
                     <thead>
                         <tr>

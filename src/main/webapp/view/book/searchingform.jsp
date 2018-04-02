@@ -36,7 +36,7 @@
 				</div>
 			</nav>
 			<div class="container">
-				<h2 class="h2">Searching by name</h2>
+				<h2 class="h2 page-header">Searching by name</h2>
 				<form action="${path}/book/searchingbybookname" method="POST">
 					<label for="Name">Name</label>
 					<p>

@@ -47,7 +47,7 @@
             </nav>
 
             <div class="container">
-                <h2 class="h2">Searching Book</h2>
+                <h2 class="h2 page-header">Searching Book</h2>
 
                 <h3 class="mb-0">
             <p><a href="${path}/book/getsearchingform" class="text-dark">By name</a></p>

@@ -149,11 +149,20 @@ public class BookController {
         return "book/showallbooks";
     }
 
-    @GetMapping(value = "/formedit")
-    public String editForm(@RequestParam("id") @NotNull Integer bookId, Model model) {
-        LOG.info("msg: Book book = bookServices.findBook(bookId);", bookId);
-        Book book = bookServices.findOne(bookId);
-        model.addAttribute("book", book);
+    @GetMapping(value = "/getformedit")
+    public String getEditForm(@RequestParam("id") @NotNull Integer bookId, Model model) {
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
+
+        model.addAttribute("book", bookServices.findOne(bookId));
         LOG.info("msg: return \"book/formeditbook\";");
         return "book/formeditbook";
     }
@@ -168,8 +177,8 @@ public class BookController {
         return "book/showallbooks";
     }
 
-    @GetMapping("/formviewbook")
-    public String getFormviewbook(@RequestParam("id") @NotNull Integer bookId, Model model) {
+    @GetMapping("/getformviewbook")
+    public String getFormViewbook(@RequestParam("id") @NotNull Integer bookId, Model model) {
         LOG.info("msg: Book book = bookServices.findBook(bookId);", bookId);
         Book book = bookServices.findOne(bookId);
         LOG.info("msg:  if (kind.compareTo(\"View\") == 0) { Set<Review> reviews = book.getReviews(); }");

@@ -11,7 +11,6 @@
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
 			<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
 			<link href="${path}/css/startpage.css" rel="stylesheet"> </head>
-
 		<body>
 			<nav class="navbar navbar-inverse navbar-fixed-top">
 				<div class="container">
@@ -36,12 +35,12 @@
 				</div>
 			</nav>
 			<div class="container">
+			    <h2 class="my_header">Welcome to the library!</h2>
 				<p>${message}</p>
 				<p>${registrationMessage}</p>
 				<c:choose>
 					<c:when test="${empty username}">
 						<div class="my">
-							<h1 class="my">Welcome!</h1>
 							<p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/login">Sign in or Registration</a></p>
 						</div>
 					</c:when>

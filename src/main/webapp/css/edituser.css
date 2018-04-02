@@ -1,10 +1,7 @@
 body {
     padding-top: 60px;
-}
-
-.table-responsive {
-    margin-left: 30%;
-    margin-right: 30%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .error {

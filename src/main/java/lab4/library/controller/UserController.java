@@ -143,8 +143,6 @@ public class UserController {
     @PostMapping(value = "/edituserprofile")
     public String editUserProfile(@ModelAttribute("user") @Valid FormUser formUser, BindingResult bindingResult, Model model) {
 
-        System.out.println("------------------------------------");
-
         if (bindingResult.hasErrors()) {
             LOG.info("msg: return \"user/formedituser\";");
             return "user/formedituser";
@@ -155,8 +153,6 @@ public class UserController {
         User currentUser = userService.getUser(id);
         LOG.info("msg: User user = conversionService.convert(formUser, User.class); " + ReflectionToString.reflectionToString(formUser));
         User user = conversionService.convert(formUser, User.class);
-
-        System.out.println("------------------------------------");
 
         if (formUser.getOldPassword() != null && formUser.getPassword() != null && formUser.getConfirmedPassword() != null) {
             if (passwordEncoder.matches(formUser.getOldPassword(), userService.getCurrentUser().getPassword()) && formUser.getPassword().compareTo(formUser.getConfirmedPassword()) == 0) {
@@ -184,7 +180,7 @@ public class UserController {
         LOG.info("msg: user.setUserId(currentUser.getUserId());", currentUser.getUserId());
         user.setUserId(currentUser.getUserId());
 
-        /*try {
+        try {
             LOG.info("msg: userService.updateUser(user); " + ReflectionToString.reflectionToString(user));
             userService.updateUser(user);
         } catch (DataIntegrityViolationException exception) {
@@ -196,11 +192,7 @@ public class UserController {
                 LOG.info("msg: return \"user/registration\";");
                 return "user/formedituser";
             }
-        }*/
-
-        System.out.println("------------------------------------");
-
-        userService.updateUser(user);
+        }
 
         LOG.info("msg: return \"redirect:/user/showuserprofile\";");
         return "redirect:/user/showuserprofile";
