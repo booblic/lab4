@@ -32,7 +32,7 @@ public class BookServices {
     @Autowired
     private PublisherService publisherService;
 
-    public List<Book> findAll(Iterable<Integer> id) {
+    public List<Book> findAllBookByCollectionId(Iterable<Integer> id) {
         return bookRepository.findAll(id);
     }
 
@@ -48,10 +48,6 @@ public class BookServices {
         return bookRepository.save(book);
     }
 
-    public Book editBook(Book book) {
-        return bookRepository.save(book);
-    }
-
     public void deleteBook(Integer id) {
         bookRepository.delete(id);
     }
@@ -60,7 +56,7 @@ public class BookServices {
         return bookRepository.findByBookName(bookName);
     }
 
-    public Book findBook(Integer id) {
+    public Book findOne(Integer id) {
         return bookRepository.findOne(id);
     }
 
@@ -72,7 +68,7 @@ public class BookServices {
         return bookRepository.findByAuthorAndGenreName(firstName, lastName, genreName);
     }
 
-    public Book addFindingBook(PatternBook patternBook) {
+    public void addFindingBook(PatternBook patternBook) {
 
         Book book = new Book();
 
@@ -88,7 +84,7 @@ public class BookServices {
         if (patternBook.getAuthorsNames() != null) {
             Set<Author> authorSet = new HashSet<>();
             for (String authorName : patternBook.getAuthorsNames().trim().split(",")) {
-                String[] authorNameMassif = new String[2];
+                String[] authorNameMassif = new String[3];
                 int i = 0;
                 for (String name : authorName.trim().split(" ")) {
                     authorNameMassif[i] = name;
@@ -102,6 +98,7 @@ public class BookServices {
                     Author author = new Author();
                     author.setFirstName(authorNameMassif[0]);
                     author.setLastName(authorNameMassif[1]);
+                    author.setMiddleName(authorNameMassif[2]);
                     authorSet.add(authorService.saveAuthor(author));
                 }
             }
@@ -138,10 +135,10 @@ public class BookServices {
             book.setPublishers(publisherSet);
         }
 
-        return book;
+        saveBook(book);
     }
 
-    public Set<Book> addBook(String[] bookName, String[] isbn, Integer[] year) {
+    public void addBook(String[] bookName, String[] isbn, Integer[] year) {
 
         Set<Book> bookSet = new HashSet<>();
 
@@ -154,6 +151,10 @@ public class BookServices {
             bookSet.add(book);
         }
 
-        return bookSet;
+        saveBooks(bookSet);
+    }
+
+    public Book findByIsbn(String isbn) {
+        return bookRepository.findByIsbn(isbn);
     }
 }

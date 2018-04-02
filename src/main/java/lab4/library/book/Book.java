@@ -21,7 +21,7 @@ public class Book extends Description {
     @ToString
     private String bookName;
 
-    @Column(length = 17)
+    @Column(length = 13)
     @ToString
     private String isbn;
 

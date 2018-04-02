@@ -7,10 +7,19 @@
 
 <html>
     <head>
-        <link rel="stylesheet" href="/css/test.css"/>
+		    <meta charset="utf-8"/>
+		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+		    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
     </head>
     <body>
-        <h1>Sorry, resource not found 404 (((</h1>
-        hthtr
+        <h1 class="h1">Sorry, resource not found 404</h1>
+
+        	<footer class="my-5 pt-5 text-muted text-center text-small">
+                    <p class="mb-1">© 2018 Library</p>
+                    <ul class="list-inline">
+                      <li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
+                    </ul>
+            </footer>
     </body>
 </html>

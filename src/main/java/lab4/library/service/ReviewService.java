@@ -40,7 +40,7 @@ public class ReviewService {
 
         User user = userService.getCurrentUser();
         LOG.info("msg: Book book = bookServices.findBook(id);", id);
-        Book book = bookServices.findBook(id);
+        Book book = bookServices.findOne(id);
 
         Map<String, String> bookReview = new HashMap<>();
         LOG.info("msg: bookReview.put(textReview, rating);", textReview, rating);

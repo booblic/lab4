@@ -14,9 +14,10 @@ public interface BookRepository extends JpaRepository<Book, Integer>, QueryByExa
 
     List<Book> findByBookName(String bookName);
 
-    List<Book> findByIsbn(String isbn);
+    Book findByIsbn(String isbn);
 
     List<Book> findByYear(int year);
+
 
     @Query("select b from Book b inner join b.genres g where g.genreName = :genreName and b.year = :year")
     List<Book> findByYearAndGenreName(@Param("genreName") String genreName, @Param("year") int year);

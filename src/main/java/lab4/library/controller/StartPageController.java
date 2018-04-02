@@ -42,7 +42,18 @@ public class StartPageController {
     }
 
     @GetMapping(value = "/searchbookoptions")
-    public String searchBookOptions() {
+    public String searchBookOptions(Model model) {
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
+
         LOG.info("msg: return \"searchingbook\";");
         return "searchingbook";
     }

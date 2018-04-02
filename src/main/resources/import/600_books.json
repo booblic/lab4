@@ -2,7 +2,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Руслан и Людмила",
-    "isbn": "978-5-7793-4296-4",
+    "isbn": "9785779342964",
     "year": "2013",
     "genres": [
       {
@@ -31,7 +31,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Евгений Онегин",
-    "isbn": "978-5-389-04903-1",
+    "isbn": "9785389049031",
     "year": "2016",
     "genres": [
       {
@@ -60,7 +60,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Война и мир",
-    "isbn": "978-5-699-08860-7",
+    "isbn": "9785699088607",
     "year": "2004",
     "genres": [
       {
@@ -89,7 +89,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Герой нашего времени",
-    "isbn": "978-5-389-01927-0",
+    "isbn": "9785389019270",
     "year": "2011",
     "genres": [
       {
@@ -118,7 +118,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Преступление и наказание",
-    "isbn": "978-5-699-22189-9",
+    "isbn": "9785699221899",
     "year": "2016",
     "genres": [
       {

@@ -2,6 +2,7 @@ package lab4.library.controller;
 
 import lab4.library.publisher.Publisher;
 import lab4.library.service.PublisherService;
+import lab4.library.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,22 @@ public class PublisherController {
     @Autowired
     private PublisherService publisherService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping(value = "/getsearchingbypublisherform")
-    public String getSearchingByPublisherForm() {
+    public String getSearchingByPublisherForm(Model model) {
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
+
         LOG.info("msg: ");
         return "publisher/searchingform";
     }
@@ -36,8 +51,7 @@ public class PublisherController {
             model.addAttribute("books", publisher.getBooks());
         } else {
             LOG.info("msg: model.addAttribute(\"error\", \"Sorry, books by publisher \" + publisherName + \" a not found.\");", publisherName);
-            model.addAttribute("error", "Sorry, books by publisher " + publisherName + " a not found.");
-            model.addAttribute("bookName", "");
+            model.addAttribute("error", "Sorry, books by publisher " + publisherName + " a not found");
         }
         LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";

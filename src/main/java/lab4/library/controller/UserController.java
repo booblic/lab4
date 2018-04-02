@@ -101,6 +101,17 @@ public class UserController {
 
     @GetMapping(value = "/showuserprofile")
     public String showUserProfile(Model model) {
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
+
         LOG.info("msg: Integer id = userService.getCurrentUser().getUserId();");
         Integer id = userService.getCurrentUser().getUserId();
         LOG.info("msg: model.addAttribute(\"user\", userService.getUser(id));", id);
@@ -111,15 +122,28 @@ public class UserController {
 
     @GetMapping(value = "/getedituserform")
     public String getEditUserForm(Model model) {
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
+
         LOG.info("msg: Integer id = userService.getCurrentUser().getUserId();");
         Integer id = userService.getCurrentUser().getUserId();
         LOG.info("msg: model.addAttribute(\"user\", userService.getUser(id));", id);
-        model.addAttribute("user", userService.getUser(id));
+        model.addAttribute("user", conversionService.convert(userService.getUser(id), FormUser.class));
         return "user/formedituser";
     }
 
     @PostMapping(value = "/edituserprofile")
     public String editUserProfile(@ModelAttribute("user") @Valid FormUser formUser, BindingResult bindingResult, Model model) {
+
+        System.out.println("------------------------------------");
 
         if (bindingResult.hasErrors()) {
             LOG.info("msg: return \"user/formedituser\";");
@@ -131,6 +155,8 @@ public class UserController {
         User currentUser = userService.getUser(id);
         LOG.info("msg: User user = conversionService.convert(formUser, User.class); " + ReflectionToString.reflectionToString(formUser));
         User user = conversionService.convert(formUser, User.class);
+
+        System.out.println("------------------------------------");
 
         if (formUser.getOldPassword() != null && formUser.getPassword() != null && formUser.getConfirmedPassword() != null) {
             if (passwordEncoder.matches(formUser.getOldPassword(), userService.getCurrentUser().getPassword()) && formUser.getPassword().compareTo(formUser.getConfirmedPassword()) == 0) {
@@ -158,7 +184,22 @@ public class UserController {
         LOG.info("msg: user.setUserId(currentUser.getUserId());", currentUser.getUserId());
         user.setUserId(currentUser.getUserId());
 
-        LOG.info("msg: userService.updateUser(user); " + ReflectionToString.reflectionToString(user));
+        /*try {
+            LOG.info("msg: userService.updateUser(user); " + ReflectionToString.reflectionToString(user));
+            userService.updateUser(user);
+        } catch (DataIntegrityViolationException exception) {
+            LOG.error("msg: DataIntegrityViolationException", exception);
+            if (exception.getMessage().contains("org.hibernate.exception.ConstraintViolationException")) {
+                LOG.info("msg: if (exception.getMessage().contains(\"org.hibernate.exception.ConstraintViolationException\")) { model.addAttribute(\"NotUniqeUsername\", \"This username already exists\"); model.addAttribute(\"user\", formUser); }");
+                model.addAttribute("error", "This username already exists");
+                model.addAttribute("user", formUser);
+                LOG.info("msg: return \"user/registration\";");
+                return "user/formedituser";
+            }
+        }*/
+
+        System.out.println("------------------------------------");
+
         userService.updateUser(user);
 
         LOG.info("msg: return \"redirect:/user/showuserprofile\";");

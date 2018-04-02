@@ -37,7 +37,7 @@
                 <form:input path="email" class="form-control" placeholder="example@gamil.com"/>
                 <p class="error"><form:errors path="email"/></p> <br>
 
-                <label for="email">Phone Number</label>
+                <label for="phone">Phone Number</label>
                 <form:input path="phoneNumber" class="form-control" placeholder="9271234567"/>
                 <p class="error"><form:errors path="phoneNumber"/></p> <br>
 

@@ -13,7 +13,6 @@ public class FormUser {
     @NotEmpty
     private String username;
 
-    @NotEmpty
     private String password;
 
     private String oldPassword;

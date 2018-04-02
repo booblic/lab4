@@ -1,5 +1,6 @@
 package lab4.library.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import lab4.library.ReflectionToString;
 import lab4.library.author.Author;
 import lab4.library.book.Book;
@@ -68,26 +69,50 @@ public class BookController {
     public String showBooks(Model model) {
         LOG.info("msg: model.addAttribute(\"books\", bookServices.findAllBook());");
         model.addAttribute("books", bookServices.findAllBook());
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
         LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
     }
 
     @GetMapping(value = "/getaddform")
     public String getAddForm(Model model) {
-        LOG.info("Message: model.addAttribute(\"book\", new Book());");
-        model.addAttribute("book", new Book());
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
+
         LOG.info("Msg: return \"book/formaddbook\";");
         return "book/formaddbook";
     }
 
     //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/addbook")
-    public String addBook(@RequestParam String[] bookName, @RequestParam String[] isbn, @RequestParam Integer[] year) {
+    public String addBook(@RequestParam String[] bookName, @RequestParam String[] isbn,  @RequestParam Integer[] year, Model model) {
 
-        Set<Book> bookSet = bookServices.addBook(bookName, isbn, year);
+        for (int i = 0; i < isbn.length; i++) {
+            if (bookServices.findByIsbn(isbn[i]) != null) {
+               model.addAttribute("error", "Book with isbn " + isbn[i] + " already exist");
+               return "book/formaddbook";
+            }
+        }
 
-        LOG.info("msg: bookServices.saveBook(bookSet);");
-        bookServices.saveBooks(bookSet);
+        bookServices.addBook(bookName, isbn, year);
+
         LOG.info("return \"redirect:/book/show\";");
 
         return "redirect:/book/show";
@@ -95,8 +120,16 @@ public class BookController {
 
     @GetMapping(value = "/getsearchingform")
     public String getSearchingForm(Model model) {
-        LOG.info("msg: model.addAttribute(\"book\", new Book());");
-        model.addAttribute("book", new Book());
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
         LOG.info("msg: return \"book/searchingform\";");
         return "book/searchingform";
     }
@@ -110,8 +143,7 @@ public class BookController {
             model.addAttribute("books", bookList);
         } else {
             LOG.info("msg: if (bookList.size() == 0) { model.addAttribute(\"error\", \"Sorry, books with name \" + bookName + \" a not found.\"); }", bookName);
-            model.addAttribute("error", "Sorry, books with name " + bookName + " a not found.");
-            model.addAttribute("bookName", bookName);
+            model.addAttribute("error", "Sorry, books with name " + bookName + " a not found");
         }
         LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
@@ -120,7 +152,7 @@ public class BookController {
     @GetMapping(value = "/formedit")
     public String editForm(@RequestParam("id") @NotNull Integer bookId, Model model) {
         LOG.info("msg: Book book = bookServices.findBook(bookId);", bookId);
-        Book book = bookServices.findBook(bookId);
+        Book book = bookServices.findOne(bookId);
         model.addAttribute("book", book);
         LOG.info("msg: return \"book/formeditbook\";");
         return "book/formeditbook";
@@ -139,7 +171,7 @@ public class BookController {
     @GetMapping("/formviewbook")
     public String getFormviewbook(@RequestParam("id") @NotNull Integer bookId, Model model) {
         LOG.info("msg: Book book = bookServices.findBook(bookId);", bookId);
-        Book book = bookServices.findBook(bookId);
+        Book book = bookServices.findOne(bookId);
         LOG.info("msg:  if (kind.compareTo(\"View\") == 0) { Set<Review> reviews = book.getReviews(); }");
         Set<Review> reviews = book.getReviews();
         LOG.info("msg: model.addAttribute(\"reviews\", reviews);");
@@ -157,7 +189,7 @@ public class BookController {
         LOG.info("msg: Book book = conversionService.convert(formBook, Book.class); " + ReflectionToString.reflectionToString(formBook));
         Book book = conversionService.convert(formBook, Book.class);
         LOG.info("msg: bookServices.editBook(book); " + ReflectionToString.reflectionToString(book));
-        bookServices.editBook(book);
+        bookServices.saveBook(book);
         LOG.info("msg: return \"redirect:/book/show\";");
         return "redirect:/book/show";
     }
@@ -173,30 +205,69 @@ public class BookController {
     }
 
     @GetMapping(value = "/genreandyearsearchingform")
-    public String genreAndYearSearchingForm() {
+    public String genreAndYearSearchingForm(Model model) {
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
+
         LOG.info("msg: return \"book/genreandyearsearchingform\";");
         return "book/genreandyearsearchingform";
     }
 
     @PostMapping(value = "/searchingbygenreandyear")
     public String searchingByGenreAndYear(@RequestParam String genreName, @RequestParam int year, Model model) {
-        LOG.info("msg: model.addAttribute(\"books\", bookServices.findByYearAndGenreName(genreName, year));", genreName, year);
-        model.addAttribute("books", bookServices.findByYearAndGenreName(genreName, year));
-        model.addAttribute("bookName", "");
+
+        List<Book> bookList = bookServices.findByYearAndGenreName(genreName, year);
+
+        if (bookList.size() != 0) {
+            LOG.info("msg: if (bookList.size() != 0) { model.addAttribute(\"books\", bookList); }");
+            model.addAttribute("books", bookList);
+        } else {
+            LOG.info("msg: if (bookList.size() == 0) { model.addAttribute(\"error\", \"Sorry, books with name \" + bookName + \" a not found.\"); }");
+            model.addAttribute("error", "Sorry, books with genre " + genreName + " and  year " + year + " a not found");
+        }
+
         LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
     }
 
     @GetMapping(value = "/authorandgenresearchingform")
-    public String authorAndGenreSearchingForm() {
+    public String authorAndGenreSearchingForm(Model model) {
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
+
         LOG.info("msg: return \"book/authorandgenreform\";");
         return "book/authorandgenreform";
     }
 
     @PostMapping(value = "/searhcingbyauthorandgenre")
     public String searchingByAuthorAndGenre(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String genreName, Model model) {
-        LOG.info("msg: model.addAttribute(\"books\", bookServices.findByAuthorAndGenreName(firstName, lastName, genreName));", firstName, lastName, genreName);
-        model.addAttribute("books", bookServices.findByAuthorAndGenreName(firstName, lastName, genreName));
+
+        List<Book> bookList = bookServices.findByAuthorAndGenreName(firstName, lastName, genreName);
+
+        if (bookList.size() != 0) {
+            LOG.info("msg: if (bookList.size() != 0) { model.addAttribute(\"books\", bookList); }");
+            model.addAttribute("books", bookList);
+        } else {
+            LOG.info("msg: if (bookList.size() == 0) { model.addAttribute(\"error\", \"Sorry, books with name \" + bookName + \" a not found.\"); }");
+            model.addAttribute("error", "Sorry, books with author " + firstName + " " + lastName + " and  genre " + genreName + " a not found");
+        }
+
         model.addAttribute("bookName", "");
         return "book/showallbooks";
     }
@@ -204,7 +275,7 @@ public class BookController {
     @PostMapping(value = "/exportbooks")
     public ResponseEntity<StreamingResponseBody> exportBooks(@RequestParam List<Integer> id) throws IOException {
 
-        List<Book> books = bookServices.findAll(id);
+        List<Book> books = bookServices.findAllBookByCollectionId(id);
 
         final File csvFile = File.createTempFile("book_csv", "tmp");
 
@@ -230,41 +301,19 @@ public class BookController {
             );
             csvFile.delete();
         });
-
-
-        //ResponseEntity<StreamingResponseBody> responseEntity = new ResponseEntity<>(streamingResponseBody, httpHeaders);
-
-        /*if (books.size() != 0) {
-
-            for (Book book : books) {
-                LOG.info("msg: stringBuilder.append(book.getBookName()).append(\",\").append(book.getIsbn()).append(\",\").append(book.getYear()).append(lineSeparator);", book);
-                stringBuilder.append(book.getBookName()).append(",").append(book.getIsbn()).append(",").append(book.getYear()).append(lineSeparator);
-            }
-
-        }
-
-        LOG.info("msg: Writer file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(\"books.csv\"), \"utf-8\"));");
-        try(Writer file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("books.csv"), "utf-8"));) {
-
-            LOG.info("msg: file.write(stringBuilder.toString());", stringBuilder.toString());
-            file.write(stringBuilder.toString());
-
-        } catch (IOException exception) {
-            LOG.error("msg: exception.printStackTrace();", exception);
-            exception.printStackTrace();
-        }
-
-        LOG.info("msg: HttpHeaders httpHeaders = new HttpHeaders();");
-        HttpHeaders httpHeaders = new HttpHeaders();
-        LOG.info("httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, \"attachment; filename=books.csv\");");
-        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=books.csv");
-
-        LOG.info("msg: return new HttpEntity<>(Files.readAllBytes(Paths.get(\"books.csv\")), httpHeaders);");
-        return new HttpEntity<>(Files.readAllBytes(Paths.get("books.csv")), httpHeaders);*/
     }
 
     @GetMapping(value = "/getfindbookform")
-    public String getFindForm() {
+    public String getFindForm(Model model) {
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
         return "book/findbookform";
     }
 
@@ -335,7 +384,24 @@ public class BookController {
             }
             books.add(book);
         }
-        model.addAttribute("books", books);
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
+
+        if (books.size() != 0) {
+            LOG.info("msg: if (bookList.size() != 0) { model.addAttribute(\"books\", bookList); }");
+            model.addAttribute("books", books);
+        } else {
+            LOG.info("msg: if (bookList.size() == 0) { model.addAttribute(\"error\", \"Sorry, books with name \" + bookName + \" a not found.\"); }", bookName);
+            model.addAttribute("error", "Sorry, books with name " + bookName + " a not found on mybook.ru");
+        }
 
         return "book/findingresult";
     }
@@ -363,9 +429,7 @@ public class BookController {
             }
         }
 
-        Book book = bookServices.addFindingBook(patternBook);
-
-        bookServices.saveBook(book);
+        bookServices.addFindingBook(patternBook);
 
         return "redirect:/book/show";
     }

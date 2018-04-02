@@ -7,10 +7,45 @@
 
 <html>
     <head>
-        <link rel="stylesheet" href="/css/test.css"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+        <script type="text/javascript" src="${path}/js/addbook.js"></script>
+        <link href="${path}/css/searching.css" rel="stylesheet">
     </head>
     <body>
-    <h1>Searching Book</h1>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+            		<div class="container">
+            			<div class="navbar-header">
+            				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+            						data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            					<span class="sr-only">Toggle navigation</span>
+            				</button>
+            				<a class="navbar-brand" href="${path}/">
+                                <span class="glyphicon glyphicon-book"></span> Library
+                            </a>
+            			</div>
+            			<div id="navbar" class="collapse navbar-collapse">
+            				<ul class="nav navbar-nav">
+            					<c:choose>
+                                				<c:when test="${not empty username}">
+                                					<li><a href="${path}/user/showuserprofile">${username}</a></li>
+                                					<c:if test="${role eq 'admin'}">
+                                						<li><a href="${path}/user/getshowalluserform">Show all user</a></li>
+                                					</c:if>
+                                					<li><a href="${path}/logout">Logout</a></li>
+                                					<br>
+                                				</c:when>
+                                </c:choose>
+            				</ul>
+            			</div><!--/.nav-collapse -->
+            		</div>
+        </nav>
+
+        <div class="container">
+        <h2 class="h2">Searching Book</h1>
 
         <form action="${path}/searching" method="POST">
             <div id="bookItems">

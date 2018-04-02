@@ -10,56 +10,91 @@
 <html>
     <head>
         <script type="text/javascript" src="${path}/js/edituser.js"></script>
-        <link rel="stylesheet" href="/css/test.css"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+        <link href="${path}/css/showbooks.css" rel="stylesheet">
     </head>
     <body>
-        <h1>Edit Your Profile</h1>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        				<div class="container">
+        					<div class="navbar-header">
+        						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> </button>
+        						<a class="navbar-brand" href="${path}/"> <span class="glyphicon glyphicon-book"></span> Library </a>
+        					</div>
+        					<div id="navbar" class="collapse navbar-collapse">
+        						<ul class="nav navbar-nav">
+        							<c:choose>
+        								<c:when test="${not empty username}">
+        									<li><a href="${path}/user/showuserprofile">${username}</a></li>
+        									<c:if test="${role eq 'admin'}">
+        										<li><a href="${path}/user/getshowalluserform">Show all user</a></li>
+        									</c:if>
+        									<li><a href="${path}/logout">Logout</a></li>
+        									<br> </c:when>
+        							</c:choose>
+        						</ul>
+        					</div>
+        					<!--/.nav-collapse -->
+        				</div>
+        </nav>
+
+        <div class="container">
+            <h2 class="h2 page-header">Edit Your Profile</h2>
 
         <form:form action="${path}/user/edituserprofile" modelAttribute="user" method="POST">
+            <label for="firstName">First name</label>
+            <form:input path="firstName" class="form-control" value="${user.firstName}"/><br>
 
-            First Name:  <form:input path="firstName" value="${user.firstName}"/><br><br>
+            <label for="lastName">Last name</label>
+            <form:input path="lastName" class="form-control" value="${user.lastName}"/><br>
 
-            Last Name:  <form:input path="lastName" value="${user.lastName}"/><br><br>
+            <label for="middleName">Middle name</label>
+            <form:input path="middleName" class="form-control" value="${user.middleName}"/><br>
 
-            Middle Name:  <form:input path="middleName"  value="${user.middleName}"/><br><br>
+            <label for="email">Email</label>
+            <form:input path="email" class="form-control" value="${user.email}"/>
+            <form:errors path="email"/><br>
 
-            Email: <form:input path="email"  value="${user.email}"/><br><br>
-            <form:errors path="email"/><br><br>
+            <label for="phone">Phone Number</label>
+            <form:input path="phoneNumber" class="form-control" value="${user.phoneNumber}"/>
+            <form:errors path="phoneNumber"/><br>
 
-            Phone Number: <form:input path="phoneNumber"  value="${user.phoneNumber}"/><br><br>
-            <form:errors path="phoneNumber"/><br><br>
+            <label for="username">Username</label>
+            <form:input path="username" class="form-control" value="${user.username}"/>
+            <form:errors path="username"/><br>
 
-            User Name: <form:input path="username"  value="${user.username}"/><br><br>
-            <form:errors path="username"/><br><br>
-
-            <br>
 
             <c:if test="${not empty error}">
-                ${error}
+                <p class="error">${error}</p>
             </c:if>
 
             <div id="passwordItems">
 
             </div>
 
-            <br>
-
             <div id="but">
 
-                <input type="button" value="Change Password" onclick="addUserChangePasswordForm()"/>
+                <button type="button" class="btn btn-primary" onclick="addUserChangePasswordForm()">Change Password</button>
 
             </div>
 
             <br>
-            <br>
 
-            <input type="submit" value="Edit"/>
+            <button type="submit" class="btn btn-success btn-lg btn-block">Edit</button>
+
+        </div>
 
         </form:form>
 
-        <p><a href="${path}/">Start Page</a></p>
-
-        <p><a href="${path}/console">H2 Console</a></p>
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <br>
+                <p class="mb-1">© 2018 Library</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
+                </ul>
+            </footer>
 
     </body>
 </html>

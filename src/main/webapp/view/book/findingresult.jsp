@@ -7,49 +7,96 @@
 
 <html>
     <head>
-        <link rel="stylesheet" href="/css/test.css"/>
+            <meta charset="utf-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+            <link href="${path}/css/showbooks.css" rel="stylesheet">
     </head>
     <body>
-        <h1>Finding Result</h1>
-            <c:if test="${not empty books}">
-                <br/><br/>
-                <div>
-                  <table border="1">
-                    <tr>
-                        <th>№</th>
-                        <th>Name</th>
-                        <th>Genres</th>
-                        <th>Authors</th>
-                        <th>Publishers</th>
-                        <th>Year</th>
-                        <th>Add</th>
-                    </tr>
-                        <c:forEach  items="${books}" var ="book">
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+                        <div class="container">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                                    <span class="sr-only">Toggle navigation</span>
+                                </button>
+                                <a class="navbar-brand" href="${path}/">
+                                    <span class="glyphicon glyphicon-book"></span> Library
+                                </a>
+                            </div>
+                            <div id="navbar" class="collapse navbar-collapse">
+                                <ul class="nav navbar-nav">
+                                    <c:choose>
+                                        <c:when test="${not empty username}">
+                                            <li><a href="${path}/user/showuserprofile">${username}</a></li>
+                                            <c:if test="${role eq 'admin'}">
+                                                <li><a href="${path}/user/getshowalluserform">Show all user</a></li>
+                                            </c:if>
+                                            <li><a href="${path}/logout">Logout</a></li>
+                                            <br>
+                                        </c:when>
+                                    </c:choose>
+                                </ul>
+                            </div>
+                            <!--/.nav-collapse -->
+                        </div>
+        </nav>
+
+        <div class="table-responsive">
+
+
+                <c:if test="${not empty books}">
+                    <h2 class="h2">Searching results</h2>
+                    <table class="table table-striped table-sm">
+                    <thead>
                         <tr>
-
-                          <form action="${path}/book/addfindingbook" method="POST">
-                            <td>${book.count}</td>
-                            <td><input type="text" name="bookName" value="${book.bookName}"/></td>
-                            <td><input type="text" name="genresNames" value="${book.genresNames}"/></td>
-                            <td><input type="text" name="authorsNames" value="${book.authorsNames}"/></td>
-                            <td><input type="text" name="publishersNames" value="${book.publishersNames}"/></td>
-                            <td><input type="text" name="year" value="${book.year}"/></td>
-                            <input type="hidden" name="href" value="${book.href}"/>
-                            <td><input type="submit" align="center" value="Add"/></td>
-                          </form>
-
+                            <th>№</th>
+                            <th>Name</th>
+                            <th>Genres</th>
+                            <th>Authors</th>
+                            <th>Publishers</th>
+                            <th>Year</th>
+                            <th>Add</th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach  items="${books}" var ="book">
+                            <tr>
+                                <form action="${path}/book/addfindingbook" method="POST">
+                                <td>${book.count}</td>
+                                <td><input type="text" class="form-control" name="bookName" value="${book.bookName}"/></td>
+                                <td><input type="text" class="form-control" name="genresNames" value="${book.genresNames}"/></td>
+                                <td><input type="text" class="form-control" name="authorsNames" value="${book.authorsNames}"/></td>
+                                <td><input type="text" class="form-control" name="publishersNames" value="${book.publishersNames}"/></td>
+                                <td><input type="text" class="form-control" name="year" value="${book.year}"/></td>
+                                <input type="hidden" name="href" value="${book.href}"/>
+                                <td><button type="submit" class="btn btn-primary">Add</button></td>
+                              </form>
+                            </tr>
                         </c:forEach>
-                  </table>
-                </div>
+                    </tbody>
+                    </table>
 
-            </c:if>
+                </c:if>
 
-            <br>
+                <c:if test="${empty books}">
+                    <c:if test="${not empty error}">
+                        <p class="error">${error}</p>
+                    </c:if>
 
-        <p><a href="${path}/">Start Page</a></p>
+                    <br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getaddform">Add book</a>
+                </c:if>
+            </div>
 
-        <p><a href="${path}/console">H2 Console</a></p>
+
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <br>
+                <p class="mb-1">© 2018 Library</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
+                </ul>
+            </footer>
 
     </body>
 </html>
