@@ -200,12 +200,33 @@ public class UserController {
 
     @GetMapping(value = "/getshowalluserform")
     public String getshowalluserform(Model model) {
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
+
         model.addAttribute("users", userService.getAllUsers());
         return "user/showalluserform";
     }
 
     @GetMapping(value = "/getformedituserbyadmin")
     public String getFormEditUserByAdmin(@RequestParam("id") @NotNull Integer userId, Model model) {
+
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
+            }
+        }
 
         User user = userService.getUser(userId);
         LOG.info("msg: User user = userService.getUser(userId); " + userId + " " + ReflectionToString.reflectionToString(user));
@@ -264,25 +285,11 @@ public class UserController {
         User user = conversionService.convert(formUser, User.class);
         LOG.info("msg: User user = conversionService.convert(formUser, User.class); " + ReflectionToString.reflectionToString(user));
 
-        if (formUser.getOldPassword() != null && formUser.getPassword() != null && formUser.getConfirmedPassword() != null) {
-
-            if (passwordEncoder.matches(formUser.getOldPassword(), currentUser.getPassword()) && formUser.getPassword().compareTo(formUser.getConfirmedPassword()) == 0) {
-                LOG.info("msg: if (formUser.getOldPassword() != null && formUser.getPassword() != null && formUser.getConfirmedPassword() != null) { " +
-                        "if (passwordEncoder.matches(formUser.getOldPassword(), userService.getCurrentUser().getPassword()) && formUser.getPassword().compareTo(formUser.getConfirmedPassword()) == 0) { " +
-                        "user.setPassword(passwordEncoder.encode(formUser.getPassword()));");
-                user.setPassword(passwordEncoder.encode(formUser.getPassword()));
-
-            } else {
-                LOG.info("msg: model.addAttribute(\"error\", \"Invalid password\");");
-                model.addAttribute("error", "The current password is incorrect or new passwords are different");
-                LOG.info("msg: return \"user/formedituser\";");
-                return "user/formedituser";
-            }
-        }
-
-        if (user.getPassword() == null) {
+        if (formUser.getDropPassword() == null) {
             LOG.info("msg: user.setPassword(currentUser.getPassword());");
             user.setPassword(currentUser.getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode("12345"));
         }
 
         Set<Role> roleSet = new HashSet<>();

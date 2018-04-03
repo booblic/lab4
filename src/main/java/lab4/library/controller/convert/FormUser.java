@@ -19,6 +19,8 @@ public class FormUser {
 
     private String confirmedPassword;
 
+    private String dropPassword;
+
     @ToString
     private String firstName;
 
@@ -89,6 +91,14 @@ public class FormUser {
 
     public void setConfirmedPassword(String confirmedPassword) {
         this.confirmedPassword = confirmedPassword;
+    }
+
+    public String getDropPassword() {
+        return dropPassword;
+    }
+
+    public void setDropPassword(String dropPassword) {
+        this.dropPassword = dropPassword;
     }
 
     public String getFirstName() {

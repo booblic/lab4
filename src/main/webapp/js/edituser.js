@@ -42,12 +42,3 @@ function addUserChangePasswordForm() {
     removeElement("but");
 }
 
-function addRoleForm() {
-    with(document) {
-        var div = createElement("div");
-        div.appendChild(createElement("br"));
-        div.appendChild(createTextNode("Role: "));
-        div.appendChild(createInputElement("text", "roles"));
-        getElementById("roleItems").appendChild(div);
-    }
-}
