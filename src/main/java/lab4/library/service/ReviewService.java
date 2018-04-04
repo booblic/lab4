@@ -38,26 +38,30 @@ public class ReviewService {
 
         Review review;
 
+        LOG.info("msg: getCurrentUser()");
         User user = userService.getCurrentUser();
-        LOG.info("msg: Book book = bookServices.findBook(id);", id);
+
+        LOG.info("msg: findBook({});", id);
         Book book = bookServices.findOne(id);
 
         Map<String, String> bookReview = new HashMap<>();
-        LOG.info("msg: bookReview.put(textReview, rating);", textReview, rating);
+        LOG.info("msg: bookReview.put({}, {});", textReview, rating);
         bookReview.put(textReview, rating);
 
         if (findByBookAndUser(book, user) != null) {
-            LOG.info("msg: if (reviewService.findByBookAndUser(book, user) != null) { review.setBookReview({}); }", bookReview);
+            LOG.info("msg: review.setBookReview({})", bookReview);
             review = findByBookAndUser(book, user);
             review.setBookReview(bookReview);
         } else {
             review = new Review();
-            LOG.info("if (reviewService.findByBookAndUser(book, user) == null) { review.setUser(user); review.setBook(book); review.setBookReview(bookReview); }");
+            LOG.info("msg: review.setUser({})", bookReview);
             review.setUser(user);
+            LOG.info("msg: review.setBook({})", book);
             review.setBook(book);
+            LOG.info("review.setBookReview({})", bookReview);
             review.setBookReview(bookReview);
         }
 
-        return review;
+        return saveReview(review);
     }
 }

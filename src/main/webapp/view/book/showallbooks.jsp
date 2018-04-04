@@ -95,7 +95,7 @@
 
                  <br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getaddform">Add book</a>
 
-                 <br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getfindbookform">Searching book on mybook.ru</a>
+                 <br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getsearchbookinternetform">Searching book on mybook.ru</a>
 
              </div>
 

@@ -37,12 +37,16 @@ public class BookConverter implements Converter<FormBook, Book> {
 
         LOG.info("msg: book.setBookId(formBook.getBookId());");
         book.setBookId(formBook.getBookId());
+
         LOG.info("msg: book.setBookName(formBook.getBookName());");
         book.setBookName(formBook.getBookName());
+
         LOG.info("msg: book.setIsbn(formBook.getIsbn());");
         book.setIsbn(formBook.getIsbn());
+
         LOG.info("msg: book.setYear(formBook.getYear());");
         book.setYear(formBook.getYear());
+
         LOG.info("msg: book.setDescription(formBook.getDescription());");
         book.setDescription(formBook.getDescription());
 

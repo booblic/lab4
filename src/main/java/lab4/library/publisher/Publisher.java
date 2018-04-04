@@ -1,6 +1,7 @@
 package lab4.library.publisher;
 
 import lab4.library.Description;
+import lab4.library.ReflectionToString;
 import lab4.library.annotation.ToString;
 import lab4.library.book.Book;
 
@@ -67,5 +68,10 @@ public class Publisher extends Description {
     public int hashCode() {
 
         return Objects.hash(publisherId, publisherName);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.reflectionToString(this);
     }
 }

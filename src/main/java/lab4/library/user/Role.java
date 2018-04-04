@@ -1,5 +1,7 @@
 package lab4.library.user;
 
+import lab4.library.ReflectionToString;
+import lab4.library.annotation.ToString;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -21,8 +23,10 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer roleId;
 
+    @ToString
     private String roleName;
 
+    @ToString
     @Column(unique = true)
     private String authority;
 
@@ -82,5 +86,10 @@ public class Role implements GrantedAuthority {
     public int hashCode() {
 
         return Objects.hash(roleId, roleName, authority);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.reflectionToString(this);
     }
 }

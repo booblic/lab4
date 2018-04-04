@@ -1,6 +1,7 @@
 package lab4.library.book;
 
 import lab4.library.Description;
+import lab4.library.ReflectionToString;
 import lab4.library.annotation.ToString;
 import lab4.library.author.Author;
 import lab4.library.genre.Genre;
@@ -48,8 +49,6 @@ public class Book extends Description {
     private Set<Review> reviews = new HashSet<>();
 
     private Double bookRating;
-
-    private String periodicity;
 
     public Book() {}
 
@@ -118,40 +117,6 @@ public class Book extends Description {
         this.publishers = publishers;
     }
 
-    public String getPeriodicity() {
-        /*StringBuilder stringBuilder = new StringBuilder();
-        for (String layout: periodicity.split("/")){
-            switch (layout) {
-                case "1":
-                    stringBuilder.append("One once a ");
-                case "2":
-                    stringBuilder.append("Two once a ");
-                case "3":
-                    stringBuilder.append("Three once a ");
-                case "4":
-                    stringBuilder.append("Four once a ");
-                case "5":
-                    stringBuilder.append("Five once a ");
-                case "6":
-                    stringBuilder.append("Six once a ");
-                case "7":
-                    stringBuilder.append("Seven once a ");
-                case "w":
-                    stringBuilder.append("week");
-                case "m":
-                    stringBuilder.append("month");
-                case "y":
-                    stringBuilder.append("year");
-            }
-        }
-        return stringBuilder.toString();*/
-        return periodicity;
-    }
-
-    public void setPeriodicity(String periodicity) {
-        this.periodicity = periodicity;
-    }
-
     public Set<Review> getReviews() {
         return reviews;
     }
@@ -204,5 +169,10 @@ public class Book extends Description {
     public int hashCode() {
 
         return Objects.hash(bookId, bookName, isbn, year);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.reflectionToString(this);
     }
 }

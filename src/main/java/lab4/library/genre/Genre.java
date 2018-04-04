@@ -1,6 +1,7 @@
 package lab4.library.genre;
 
 import lab4.library.Description;
+import lab4.library.ReflectionToString;
 import lab4.library.annotation.ToString;
 import lab4.library.book.Book;
 
@@ -66,5 +67,10 @@ public class Genre extends Description {
     public int hashCode() {
 
         return Objects.hash(genreId, genreName);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.reflectionToString(this);
     }
 }

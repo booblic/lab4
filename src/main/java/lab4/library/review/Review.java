@@ -1,5 +1,7 @@
 package lab4.library.review;
 
+import lab4.library.ReflectionToString;
+import lab4.library.annotation.ToString;
 import lab4.library.book.Book;
 import lab4.library.user.User;
 
@@ -16,14 +18,17 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer reviewId;
 
+    @ToString
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
 
+    @ToString
     @ManyToOne
     @JoinColumn(name = "bookId")
     private Book book;
 
+    @ToString
     @ElementCollection(targetClass = String.class)
     @MapKeyColumn(name = "textReview",length = 1000)
     private Map<String, String> bookReview = new HashMap<>();
@@ -102,5 +107,10 @@ public class Review {
     public int hashCode() {
 
         return Objects.hash(reviewId, user, book);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.reflectionToString(this);
     }
 }

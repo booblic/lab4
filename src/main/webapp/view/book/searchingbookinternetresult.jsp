@@ -63,7 +63,7 @@
                     <tbody>
                         <c:forEach  items="${books}" var ="book">
                             <tr>
-                                <form action="${path}/book/addfindingbook" method="POST">
+                                <form action="${path}/book/addsearchingbook" method="POST">
                                 <td>${book.count}</td>
                                 <td><input type="text" class="form-control" name="bookName" value="${book.bookName}"/></td>
                                 <td><input type="text" class="form-control" name="genresNames" value="${book.genresNames}"/></td>

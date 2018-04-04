@@ -1,6 +1,7 @@
 package lab4.library.author;
 
 import lab4.library.Description;
+import lab4.library.ReflectionToString;
 import lab4.library.annotation.ToString;
 import lab4.library.book.Book;
 import sun.security.krb5.internal.crypto.Des;
@@ -91,5 +92,10 @@ public class Author extends Description {
     public int hashCode() {
 
         return Objects.hash(authorId, firstName, lastName);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.reflectionToString(this);
     }
 }

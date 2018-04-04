@@ -8,16 +8,18 @@ import java.util.Objects;
 public class ReflectionToString {
     public static String reflectionToString(Object o) {
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(o.getClass()).append(": ");
         for (Field field: o.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(ToString.class)) {
                 field.setAccessible(true);
                 try {
-                    stringBuilder.append(" / ").append(Objects.toString(field.get(o)));
+                    stringBuilder.append(Objects.toString(field.get(o))).append(",");
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
         }
+        stringBuilder.append(".");
         return stringBuilder.toString();
     }
 }

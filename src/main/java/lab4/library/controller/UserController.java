@@ -2,6 +2,7 @@ package lab4.library.controller;
 
 import lab4.library.ReflectionToString;
 import lab4.library.controller.convert.FormUser;
+import lab4.library.exception.PasswordException;
 import lab4.library.service.RoleService;
 import lab4.library.service.UserServiceImpl;
 import lab4.library.user.Role;
@@ -46,8 +47,10 @@ public class UserController {
 
     @GetMapping(value = "/getregistrationform")
     public String getRegistrationForm(Model model) {
+
         LOG.info("msg:  model.addAttribute(\"user\", new User());");
         model.addAttribute("user", new FormUser());
+
         LOG.info("msg: return \"user/registration\";");
         return "user/registrationform";
     }
@@ -72,18 +75,24 @@ public class UserController {
         try {
             LOG.info("msg: userService.singupUser(user); " + ReflectionToString.reflectionToString(user));
             userService.singupUser(user);
+
         } catch (DataIntegrityViolationException exception) {
+
             LOG.error("msg: DataIntegrityViolationException", exception);
+
             if (exception.getMessage().contains("org.hibernate.exception.ConstraintViolationException")) {
-                LOG.info("msg: if (exception.getMessage().contains(\"org.hibernate.exception.ConstraintViolationException\")) { model.addAttribute(\"NotUniqeUsername\", \"This username already exists\"); model.addAttribute(\"user\", formUser); }");
+
+                LOG.info("msg: model.addAttribute(\"NotUniqeUsername\", \"This username already exists\")");
                 model.addAttribute("InvalidUsername", "This username already exists");
+
+                LOG.info("msg: model.addAttribute(\"user\", formUser)");
                 model.addAttribute("user", formUser);
+
                 LOG.info("msg: return \"user/registration\";");
                 return "user/registrationform";
             }
         }
         LOG.info("mgs: return \"startpage\";");
-
         return "redirect:/user/login";
     }
 
@@ -114,8 +123,10 @@ public class UserController {
 
         LOG.info("msg: Integer id = userService.getCurrentUser().getUserId();");
         Integer id = userService.getCurrentUser().getUserId();
+
         LOG.info("msg: model.addAttribute(\"user\", userService.getUser(id));", id);
         model.addAttribute("user", userService.getUser(id));
+
         LOG.info("msg: return \"user/formshowuser\";");
         return "user/formshowuser";
     }
@@ -135,8 +146,9 @@ public class UserController {
 
         LOG.info("msg: Integer id = userService.getCurrentUser().getUserId();");
         Integer id = userService.getCurrentUser().getUserId();
-        LOG.info("msg: model.addAttribute(\"user\", userService.getUser(id));", id);
+
         model.addAttribute("user", conversionService.convert(userService.getUser(id), FormUser.class));
+
         return "user/formedituser";
     }
 
@@ -147,51 +159,28 @@ public class UserController {
             LOG.info("msg: return \"user/formedituser\";");
             return "user/formedituser";
         }
-        LOG.info("msg: Integer id = userService.getCurrentUser().getUserId();");
-        Integer id = userService.getCurrentUser().getUserId();
-        LOG.info("msg: User currentUser = userService.getUser(id);", id);
-        User currentUser = userService.getUser(id);
-        LOG.info("msg: User user = conversionService.convert(formUser, User.class); " + ReflectionToString.reflectionToString(formUser));
-        User user = conversionService.convert(formUser, User.class);
-
-        if (formUser.getOldPassword() != null && formUser.getPassword() != null && formUser.getConfirmedPassword() != null) {
-            if (passwordEncoder.matches(formUser.getOldPassword(), userService.getCurrentUser().getPassword()) && formUser.getPassword().compareTo(formUser.getConfirmedPassword()) == 0) {
-                LOG.info("msg: if (formUser.getOldPassword() != null && formUser.getPassword() != null && formUser.getConfirmedPassword() != null) { " +
-                        "if (passwordEncoder.matches(formUser.getOldPassword(), userService.getCurrentUser().getPassword()) && formUser.getPassword().compareTo(formUser.getConfirmedPassword()) == 0) { " +
-                        "user.setPassword(passwordEncoder.encode(formUser.getPassword()));");
-                user.setPassword(passwordEncoder.encode(formUser.getPassword()));
-
-            } else {
-                LOG.info("msg: model.addAttribute(\"error\", \"Invalid password\");");
-                model.addAttribute("error", "The current password is incorrect or new passwords are different");
-                LOG.info("msg: return \"user/formedituser\";");
-                return "user/formedituser";
-            }
-        }
-
-        if (user.getPassword() == null) {
-            LOG.info("msg: user.setPassword(currentUser.getPassword());");
-            user.setPassword(currentUser.getPassword());
-        }
-        LOG.info("msg: user.setRoles(currentUser.getRoles());", currentUser.getRoles());
-        user.setRoles(currentUser.getRoles());
-        LOG.info("msg: user.setReviews(currentUser.getReviews());", currentUser.getReviews());
-        user.setReviews(currentUser.getReviews());
-        LOG.info("msg: user.setUserId(currentUser.getUserId());", currentUser.getUserId());
-        user.setUserId(currentUser.getUserId());
 
         try {
-            LOG.info("msg: userService.updateUser(user); " + ReflectionToString.reflectionToString(user));
-            userService.updateUser(user);
+            userService.editUserProfile(formUser);
+
         } catch (DataIntegrityViolationException exception) {
+
             LOG.error("msg: DataIntegrityViolationException", exception);
+
             if (exception.getMessage().contains("org.hibernate.exception.ConstraintViolationException")) {
-                LOG.info("msg: if (exception.getMessage().contains(\"org.hibernate.exception.ConstraintViolationException\")) { model.addAttribute(\"NotUniqeUsername\", \"This username already exists\"); model.addAttribute(\"user\", formUser); }");
+
+                LOG.info("msg: model.addAttribute(\"NotUniqeUsername\", \"This username already exists\")");
                 model.addAttribute("error", "This username already exists");
+
+                LOG.info("msg: model.addAttribute(\"user\", formUser)");
                 model.addAttribute("user", formUser);
+
                 LOG.info("msg: return \"user/registration\";");
                 return "user/formedituser";
             }
+        } catch (PasswordException exception) {
+            model.addAttribute("error", "The current password is incorrect or new passwords are different");
+            return "user/formedituser";
         }
 
         LOG.info("msg: return \"redirect:/user/showuserprofile\";");
@@ -199,7 +188,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/getshowalluserform")
-    public String getshowalluserform(Model model) {
+    public String getShowAllUserform(Model model) {
 
         if (userService.getCurrentUser() != null) {
             LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
@@ -229,18 +218,18 @@ public class UserController {
         }
 
         User user = userService.getUser(userId);
-        LOG.info("msg: User user = userService.getUser(userId); " + userId + " " + ReflectionToString.reflectionToString(user));
+        LOG.info("msg: userService.getUser({})", userId);
 
-        LOG.info("msg: Boolean isSuperUser = false;");
+        LOG.info("msg: isSuperUser = false");
         Boolean isSuperUser = false;
 
-        LOG.info("msg: Boolean isAdmin = false;");
+        LOG.info("msg: isAdmin = false");
         Boolean isAdmin = false;
 
         for (Role userRole: userService.getCurrentUser().getRoles()) {
 
             if (userRole.getAuthority().compareTo(Role.ROLE_SUPER_USER) == 0) {
-                LOG.info("msg: for (Role userRole: user.getRoles()) { if (userRole.getRoleName().compareTo(\"SuperUser\") == 0) { isSuperUser = true; } }");
+                LOG.info("msg: isSuperUser = true");
                 isSuperUser = true;
             }
         }
@@ -248,68 +237,59 @@ public class UserController {
         for (Role userRole: user.getRoles()) {
 
             if (userRole.getAuthority().compareTo(Role.ROLE_SUPER_USER) == 0) {
-                LOG.info("msg: for (Role userRole: user.getRoles()) { if (userRole.getRoleName().compareTo(\"SuperUser\") == 0) { isAdmin = false; } }");
+                LOG.info("msg: isAdmin = false");
                 isAdmin = false;
                 isSuperUser = false;
             } else if (userRole.getAuthority().compareTo(Role.ROLE_ADMINISTRATOR) == 0) {
-                LOG.info("msg: for (Role userRole: user.getRoles()) { if (userRole.getRoleName().compareTo(\"Administrator\") == 0) { isAdmin = true; } }");
+                LOG.info("msg: isAdmin = true");
                 isAdmin = true;
             }
         }
 
 
         if (isSuperUser == true) {
-            LOG.info("msg: if (isSuperUser == true) { model.addAttribute(\"superUser\", \"yes\"); }");
+            LOG.info("msg: model.addAttribute(\"superUser\", \"yes\")");
             model.addAttribute("superUser", "isSuperUser");
         }
         if (isAdmin == true) {
-            LOG.info("msg: if (isAdmin == true) { model.addAttribute(\"admin\", \"yes\"); }");
+            LOG.info("msg: model.addAttribute(\"admin\", \"yes\")");
             model.addAttribute("admin", "isAdministrator");
         }
-        LOG.info("msg: model.addAttribute(\"user\", user); " + ReflectionToString.reflectionToString(user));
+        LOG.info("msg: model.addAttribute(\"user\", {}); ", user.toString());
         model.addAttribute("user", user);
+
         LOG.info("msg: return \"user/formedituserbyadmin\";");
         return "user/formedituserbyadmin";
     }
 
     @PostMapping(value = "/edituserbyadmin")
-    public String editUserByAdminForm(@ModelAttribute("user") @Valid FormUser formUser, BindingResult bindingResult, Model model) {
+    public String editUserByAdmin(@ModelAttribute("user") @Valid FormUser formUser, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             LOG.info("msg: return \"user/formedituser\";");
             return "user/formedituser";
         }
-        LOG.info("msg: formUser; " + ReflectionToString.reflectionToString(formUser));
-        User currentUser = userService.getUser(formUser.getUserId());
-        LOG.info("msg: User currentUser = userService.getUser(formUser.getUserId()); " + ReflectionToString.reflectionToString(currentUser));
-        User user = conversionService.convert(formUser, User.class);
-        LOG.info("msg: User user = conversionService.convert(formUser, User.class); " + ReflectionToString.reflectionToString(user));
 
-        if (formUser.getDropPassword() == null) {
-            LOG.info("msg: user.setPassword(currentUser.getPassword());");
-            user.setPassword(currentUser.getPassword());
-        } else {
-            user.setPassword(passwordEncoder.encode("12345"));
+
+        try {
+            userService.editUserByAdmin(formUser);
+
+        } catch (DataIntegrityViolationException exception) {
+
+            LOG.error("msg: DataIntegrityViolationException", exception);
+
+            if (exception.getMessage().contains("org.hibernate.exception.ConstraintViolationException")) {
+
+                LOG.info("msg: model.addAttribute(\"NotUniqeUsername\", \"This username already exists\")");
+                model.addAttribute("error", "This username already exists");
+
+                LOG.info("msg: model.addAttribute(\"user\", formUser)");
+                model.addAttribute("user", formUser);
+
+                LOG.info("msg: return \"user/registration\";");
+                return "user/formedituserbyadmin";
+            }
         }
-
-        Set<Role> roleSet = new HashSet<>();
-        if (formUser.getRole() != null) {
-            LOG.info("msg: if (formUser.getRole() != null) { roleSet.add(roleService.getRoleByAuthority(formUser.getRole())); }", formUser.getRole());
-            roleSet.add(roleService.getRoleByAuthority(formUser.getRole()));
-        }
-        LOG.info("msg: roleSet.add(roleService.getRoleByAuthority(\"ROLE_USER\"));");
-        roleSet.add(roleService.getRoleByAuthority("ROLE_USER"));
-
-        LOG.info("msg: user.setRoles(roleSet);", roleSet);
-        user.setRoles(roleSet);
-
-        LOG.info("msg: user.setReviews(currentUser.getReviews());");
-        user.setReviews(currentUser.getReviews());
-        LOG.info("msg: user.setUserId(currentUser.getUserId());");
-        user.setUserId(currentUser.getUserId());
-
-        LOG.info("msg: userService.updateUser(user); " + ReflectionToString.reflectionToString(user));
-        userService.updateUser(user);
 
         LOG.info("msg: return \"redirect:/user/getshowalluserform\";");
         return "redirect:/user/getshowalluserform";

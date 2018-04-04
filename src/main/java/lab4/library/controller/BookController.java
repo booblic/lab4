@@ -62,9 +62,6 @@ public class BookController {
     @Autowired
     private ConversionService conversionService;
 
-    @Autowired
-    private RestTemplate restTemplate;
-
     @GetMapping(value = "/show")
     public String showBooks(Model model) {
         LOG.info("msg: model.addAttribute(\"books\", bookServices.findAllBook());");
@@ -136,15 +133,18 @@ public class BookController {
 
     @PostMapping(value = "/searchingbybookname")
     public String searchingByBookName(@RequestParam String bookName, Model model) {
-        LOG.info("msg: List<Book> bookList = bookServices.findByBookName(bookName);", bookName);
+
+        LOG.info("msg: bookServices.findByBookName({})", bookName);
         List<Book> bookList = bookServices.findByBookName(bookName);
+
         if (bookList.size() != 0) {
-            LOG.info("msg: if (bookList.size() != 0) { model.addAttribute(\"books\", bookList); }");
+            LOG.info("msg: model.addAttribute(\"books\", bookList)");
             model.addAttribute("books", bookList);
         } else {
-            LOG.info("msg: if (bookList.size() == 0) { model.addAttribute(\"error\", \"Sorry, books with name \" + bookName + \" a not found.\"); }", bookName);
+            LOG.info("msg: model.addAttribute(\"error\", \"Sorry, books with name \" + {} + \" a not found.\"); }", bookName);
             model.addAttribute("error", "Sorry, books with name " + bookName + " a not found");
         }
+        
         LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
     }
@@ -163,18 +163,19 @@ public class BookController {
         }
 
         model.addAttribute("book", bookServices.findOne(bookId));
+
         LOG.info("msg: return \"book/formeditbook\";");
         return "book/formeditbook";
     }
 
     @GetMapping("/deletebook")
-    public String deletebook(@RequestParam("id") @NotNull Integer bookId, Model model) {
-        LOG.info("msg:  if (kind.compareTo(\"Delete\") == 0) {  bookServices.deleteBook(bookId); }");
+    public String deleteBook(@RequestParam("id") @NotNull Integer bookId, Model model) {
+
+        LOG.info("msg:  bookServices.deleteBook({})", bookId);
         bookServices.deleteBook(bookId);
-        LOG.info("msg: model.addAttribute(\"books\", bookServices.findAllBook());");
-        model.addAttribute("books", bookServices.findAllBook());
+
         LOG.info("msg: return \"book/showallbooks\";");
-        return "book/showallbooks";
+        return "redirect:/book/show";
     }
 
     @GetMapping("/getformviewbook")
@@ -210,10 +211,9 @@ public class BookController {
     //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/editbook")
     public String editBook(@ModelAttribute FormBook formBook) {
-        LOG.info("msg: Book book = conversionService.convert(formBook, Book.class); " + ReflectionToString.reflectionToString(formBook));
-        Book book = conversionService.convert(formBook, Book.class);
-        LOG.info("msg: bookServices.editBook(book); " + ReflectionToString.reflectionToString(book));
-        bookServices.saveBook(book);
+
+        Book book = bookServices.editBook(formBook);
+
         LOG.info("msg: return \"redirect:/book/show\";");
         return "redirect:/book/show";
     }
@@ -222,8 +222,7 @@ public class BookController {
     public String addReview(@PathVariable Integer id, @RequestParam String textReview, @RequestParam String rating) {
 
         Review review = reviewService.addReview(id, textReview, rating);
-        LOG.info("msg: reviewService.saveReview(review);");
-        reviewService.saveReview(review);
+
         LOG.info("msg: return \"redirect:/book/show\";");
         return "redirect:/book/show";
     }
@@ -297,38 +296,22 @@ public class BookController {
     }
 
     @PostMapping(value = "/exportbooks")
-    public ResponseEntity<StreamingResponseBody> exportBooks(@RequestParam List<Integer> id) throws IOException {
+    public ResponseEntity<StreamingResponseBody> exportBooks(@RequestParam List<Integer> id) {
 
-        List<Book> books = bookServices.findAllBookByCollectionId(id);
+        ResponseEntity<StreamingResponseBody> responseEntity = null;
 
-        final File csvFile = File.createTempFile("book_csv", "tmp");
-
-        String lineSeparator = System.getProperty("line.separator");
-
-        try (Writer writer = new FileWriter(csvFile)) {
-            for (Book book : books) {
-                writer.append(book.getBookName())
-                        .append(",")
-                        .append(book.getIsbn())
-                        .append(",")
-                        .append(String.valueOf(book.getYear()))
-                        .append(lineSeparator);
-            }
+        try {
+            responseEntity = bookServices.exportBooks(id);
         } catch (IOException exception) {
             LOG.error("printStackTrace()", exception);
         }
 
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=books.csv").body((OutputStream outputStream) -> {
-            StreamUtils.copy(
-                    new BufferedInputStream(new FileInputStream(csvFile)),
-                    outputStream
-            );
-            csvFile.delete();
-        });
+        return responseEntity;
     }
 
-    @GetMapping(value = "/getfindbookform")
+    @GetMapping(value = "/getsearchbookinternetform")
     public String getFindForm(Model model) {
+
         if (userService.getCurrentUser() != null) {
             LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
             model.addAttribute("username", userService.getCurrentUser().getUsername());
@@ -338,86 +321,13 @@ public class BookController {
                 model.addAttribute("role", "admin");
             }
         }
-        return "book/findbookform";
+        return "book/searchbookinternetform";
     }
 
-    @PostMapping(value = "/findbook")
-    public String findBook(@RequestParam String bookName, Model model) {
+    @PostMapping(value = "/searchbookinternet")
+    public String searchBookInternet(@RequestParam String bookName, Model model) {
 
-        List<PatternBook> books = new ArrayList<>();
-
-        Map<String, String> vars = new HashMap<>();
-        vars.put("name", bookName);
-
-        String result = restTemplate.getForObject("https://mybook.ru/search/books/?q={name}", String.class, vars);
-
-        Document document = Jsoup.parse(result);
-
-        Elements searchResultItemInfos = document.getElementsByClass("search-result__item-info");
-
-        int count = 1;
-
-        for (Element searchResultItemInfo : searchResultItemInfos) {
-
-            PatternBook book = new PatternBook();
-
-            Elements searchResultItemInfoAuthors = searchResultItemInfo.getElementsByClass("search-result__item-info_author");
-
-            Elements searchResultItemMores = searchResultItemInfo.getElementsByClass("search-result__item_more");
-
-            for (Element searchResultItemInfoAuthor : searchResultItemInfoAuthors) {
-                book.setBookName(searchResultItemInfoAuthor.text());
-                book.setHref("https://mybook.ru/" + searchResultItemInfoAuthor.attr("href"));
-                book.setCount(count++);
-            }
-
-            for (Element searchResultItemMore : searchResultItemMores) {
-
-                Elements elementsTagPs = searchResultItemMore.getElementsByTag("p");
-
-                for (Element elementsTagP : elementsTagPs) {
-                    String info = elementsTagP.text();
-
-                    if (info.toLowerCase().contains("Год издания:".toLowerCase())) {
-                        book.setYear(info.replace("Год издания:", "").trim());
-                    }
-
-                    if (info.toLowerCase().contains("Правообладатель:".toLowerCase())) {
-                        book.setPublishersNames(info.replace("Правообладатель:", "").trim());
-                    }
-
-                    if (info.toLowerCase().contains("Жанр:".toLowerCase())) {
-                        book.setGenresNames(info.replace("Жанр:", "").trim());
-                    }
-
-                    Elements elementsTagAs = elementsTagP.getElementsByTag("a");
-
-                    for (Element elementsTagA : elementsTagAs) {
-
-                        Elements authorsNames = elementsTagA.getElementsByAttributeValueMatching("href", "/author/");
-
-                        for (Element authorName : authorsNames) {
-                            if (book.getAuthorsNames() != null) {
-                                book.setAuthorsNames(book.getAuthorsNames() + ", " + authorName.text());
-                            } else {
-                                book.setAuthorsNames(authorsNames.text());
-                            }
-                        }
-                    }
-                }
-            }
-            books.add(book);
-        }
-
-        if (userService.getCurrentUser() != null) {
-            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
-            model.addAttribute("username", userService.getCurrentUser().getUsername());
-
-            if (userService.hasRole("ROLE_ADMIN")) {
-                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
-                model.addAttribute("role", "admin");
-            }
-        }
+        List<PatternBook> books = bookServices.searchBookInternet(bookName);
 
         if (books.size() != 0) {
             LOG.info("msg: if (bookList.size() != 0) { model.addAttribute(\"books\", bookList); }");
@@ -427,33 +337,23 @@ public class BookController {
             model.addAttribute("error", "Sorry, books with name " + bookName + " a not found on mybook.ru");
         }
 
-        return "book/findingresult";
-    }
+        if (userService.getCurrentUser() != null) {
+            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
 
-    @PostMapping(value = "addfindingbook")
-    public String addFindingBook(@ModelAttribute PatternBook patternBook) {
-
-        Document doc = null;
-
-        try {
-            doc = Jsoup.connect(patternBook.getHref()).get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Elements bookSummarys = doc.getElementsByClass("book-summary");
-
-        for (Element bookSummary : bookSummarys) {
-            Elements items = bookSummary.getElementsByClass("item");
-
-            for (Element item : items) {
-                if (item.text().contains("ISBN (EAN):")) {
-                    patternBook.setIsbn(item.text().replace("ISBN (EAN):", "").trim());
-                }
+            if (userService.hasRole("ROLE_ADMIN")) {
+                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+                model.addAttribute("role", "admin");
             }
         }
 
-        bookServices.addFindingBook(patternBook);
+        return "book/searchingbookinternetresult";
+    }
+
+    @PostMapping(value = "addsearchingbook")
+    public String addSearchingBook(@ModelAttribute PatternBook patternBook) {
+
+        Book book = bookServices.addSearchingBook(patternBook);
 
         return "redirect:/book/show";
     }

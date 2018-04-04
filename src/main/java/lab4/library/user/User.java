@@ -1,5 +1,6 @@
 package lab4.library.user;
 
+import lab4.library.ReflectionToString;
 import lab4.library.annotation.ToString;
 import lab4.library.review.Review;
 import lab4.library.annotation.Phone;
@@ -190,5 +191,10 @@ public class User implements UserDetails {
     public int hashCode() {
 
         return Objects.hash(userId,username, password, firstName, lastName, email);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.reflectionToString(this);
     }
 }

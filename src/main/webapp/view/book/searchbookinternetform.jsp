@@ -39,7 +39,7 @@
 			</nav>
 			<div class="container">
 				<h2 class="h2 page-header">Searching on mybook.ru</h2>
-				<form action="${path}/book/findbook" method="POST">
+				<form action="${path}/book/searchbookinternet" method="POST">
 					<label for="Name">Name</label>
 					<p>
 						<input type="text" class="form-control" name="bookName" />
