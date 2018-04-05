@@ -93,8 +93,8 @@
 			</p>
 			<div id="authorItems">
 				<label for="genre">Author</label>
-				<div class="row">
-					<c:forEach items="${book.authors}" var="author">
+				<c:forEach items="${book.authors}" var="author">
+				    <div class="row">
 						<div class="col-md-3">
 							<p>First name</p>
 							<p>
@@ -110,8 +110,8 @@
 							<p>
 								<input type="text" class="form-control" name="authorsMiddleNames" value="${author.middleName}" /> </p>
 						</div>
-					</c:forEach>
-				</div>
+				    </div>
+				</c:forEach>
 			</div>
 			<p>
 				<button type="button" class="btn btn-primary" onclick="addAuthorFormItem()">Add author</button>

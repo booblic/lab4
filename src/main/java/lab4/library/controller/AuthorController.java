@@ -42,10 +42,11 @@ public class AuthorController {
     }
 
     @PostMapping(value = "/searchingbyauthor")
-    public String searchingByAuthor(@RequestParam String firstName, @RequestParam String lastName, Model model) {
+    public String searchingByAuthor(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String middleName, Model model) {
 
         LOG.info("msg: findByFirstNameAndLastName({}, {});", firstName, lastName);
         Author author = authorService.findByFirstNameAndLastName(firstName, lastName);
+
         if (author != null) {
 
             model.addAttribute("books", author.getBooks());

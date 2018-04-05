@@ -15,7 +15,7 @@ public class FormBook {
     private String isbn;
 
     @ToString
-    private int year;
+    private Integer year;
 
     private String[] genresNames;
 
@@ -55,11 +55,11 @@ public class FormBook {
         this.isbn = isbn;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 

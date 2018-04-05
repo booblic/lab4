@@ -154,9 +154,10 @@ public class BookServiceImpl implements BookService {
             book.setGenres(genreSet);
         }
 
-        if (formBook.getAuthorsFirstNames() != null || formBook.getAuthorsLastNames() != null) {
+        if (formBook.getAuthorsFirstNames().length != 0 || formBook.getAuthorsLastNames().length != 0 || formBook.getAuthorsMiddleNames().length != 0) {
 
             Set<Author> authorSet = new HashSet<>();
+
 
             LOG.info("msg: formBook.getAuthorsFirstNames()");
             String[] authorsFirstNames = formBook.getAuthorsFirstNames();
@@ -167,12 +168,63 @@ public class BookServiceImpl implements BookService {
             LOG.info("msg: formBook.getAuthorsMiddleNames()");
             String[] authorsMiddleNames = formBook.getAuthorsMiddleNames();
 
-            for (int i = 0; i < authorsFirstNames.length; i++) {
+            if (authorsFirstNames.length != 0) {
 
-                if (authorsFirstNames[i].compareTo("") != 0) {
+                for (int i = 0; i < authorsFirstNames.length; i++) {
 
-                    LOG.info("msg: authorService.findByFirstNameAndLastName({}, {}); ", authorsFirstNames[i], authorsLastNames[i]);
-                    Author author = authorService.findByFirstNameAndLastName(authorsFirstNames[i], authorsLastNames[i]);
+                    if (authorsFirstNames[i].compareTo("") != 0) {
+
+                        if (authorsLastNames.length != 0) {
+
+                            LOG.info("msg: authorService.findByFirstNameAndLastName({}, {}); ", authorsFirstNames[i], authorsLastNames[i]);
+                            Author author = authorService.findByLastName(authorsLastNames[i]);
+
+                            if (author != null) {
+
+                                LOG.info("msg: authorSet.add({})", author);
+                                authorSet.add(author);
+
+                            } else {
+
+                                if (authorsMiddleNames.length != 0) {
+                                    LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({}, {}, {})))", authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i]);
+                                    authorSet.add(authorService.saveAuthor(new Author(authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i])));
+                                } else {
+                                    LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({}, {}, {})))", authorsFirstNames[i], authorsLastNames[i]);
+                                    authorSet.add(authorService.saveAuthor(new Author(authorsFirstNames[i], authorsLastNames[i], "")));
+                                }
+                            }
+                        }
+                    } else if (authorsLastNames[i].compareTo("") != 0) {
+
+                        LOG.info("msg: authorService.findByLastName({}); ", authorsLastNames[i]);
+                        Author author = authorService.findByFirstNameAndLastName(authorsFirstNames[i], authorsLastNames[i]);
+
+                        if (author != null) {
+
+                            LOG.info("msg: authorSet.add({})", author);
+                            authorSet.add(author);
+
+                        } else {
+
+                            if (authorsMiddleNames.length != 0) {
+                                LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({}, {}, {})))", authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i]);
+                                authorSet.add(authorService.saveAuthor(new Author(authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i])));
+                            } else {
+                                LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({}, {}, {})))", authorsFirstNames[i], authorsLastNames[i]);
+                                authorSet.add(authorService.saveAuthor(new Author(authorsFirstNames[i], authorsLastNames[i], "")));
+                            }
+                        }
+                    }
+                }
+            } else if (authorsLastNames.length != 0) {
+
+                System.out.println("-----------------------------------");
+
+                for (int i = 0; i < authorsLastNames.length; i++) {
+
+                    LOG.info("msg: authorService.findByLastName({}); ",authorsLastNames[i]);
+                    Author author = authorService.findByLastName(authorsLastNames[i]);
 
                     if (author != null) {
 
@@ -181,11 +233,17 @@ public class BookServiceImpl implements BookService {
 
                     } else {
 
-                        LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({}, {}, {})))", authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i]);
-                        authorSet.add(authorService.saveAuthor(new Author(authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i])));
+                        if (authorsMiddleNames.length != 0) {
+                            LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({}, {})))", authorsLastNames[i], authorsMiddleNames[i]);
+                            authorSet.add(authorService.saveAuthor(new Author("", authorsLastNames[i], authorsMiddleNames[i])));
+                        } else {
+                            LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({})))", authorsLastNames[i]);
+                            authorSet.add(authorService.saveAuthor(new Author("", authorsLastNames[i], "")));
+                        }
                     }
                 }
             }
+
             LOG.info("msg: book.setAuthors(authorSet)");
             book.setAuthors(authorSet);
         }

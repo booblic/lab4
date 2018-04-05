@@ -20,4 +20,8 @@ public class AuthorServiceImpl implements AuthorService {
     public Author findByFirstNameAndLastName(String firstName, String lastName) {
         return authorRepository.findByFirstNameAndLastName(firstName, lastName);
     }
+
+    public Author findByLastName(String lastName) {
+        return authorRepository.findByLastName(lastName);
+    }
 }

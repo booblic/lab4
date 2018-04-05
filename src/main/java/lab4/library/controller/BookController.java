@@ -75,22 +75,26 @@ public class BookController {
                 model.addAttribute("role", "admin");
             }
         }
+        model.addAttribute("book", new FormBook());
+
         return "book/formaddbook";
     }
 
     //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/addbook")
-    public String addBook(@RequestParam String[] bookName, @RequestParam String[] isbn,  @RequestParam Integer[] year, Model model) {
+    public String addBook(@ModelAttribute FormBook formBook, Model model) {
 
-        for (int i = 0; i < isbn.length; i++) {
-            if (bookServices.findByIsbn(isbn[i]) != null) {
-               model.addAttribute("error", "Book with isbn " + isbn[i] + " already exist");
-               return "book/formaddbook";
-            }
+        if (bookServices.findByIsbn(formBook.getIsbn()) != null) {
+
+            model.addAttribute("error", "Book with isbn " + formBook.getIsbn() + " already exist");
+
+            model.addAttribute("book", formBook);
+
+            return "book/formaddbook";
         }
 
         LOG.info("msg: addBook(bookName, isbn, year)");
-        bookServices.addBook(bookName, isbn, year);
+        bookServices.editBook(formBook);
 
         return "redirect:/book/show";
     }
