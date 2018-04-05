@@ -1,5 +1,6 @@
-package lab4.library.controller.convert;
+package lab4.library.book;
 
+import lab4.library.ReflectionToString;
 import lab4.library.annotation.ToString;
 
 public class FormBook {
@@ -108,5 +109,10 @@ public class FormBook {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.reflectionToString(this);
     }
 }

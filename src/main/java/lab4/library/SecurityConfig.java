@@ -10,9 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -20,9 +17,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //http.authorizeRequests().antMatchers("/resource/**", "/webapp/**", "/user/registrationform", "/user/registeruser", "/").permitAll().antMatchers("/console/").hasRole("ADMIN").anyRequest().authenticated();
-        //http.formLogin().loginPage("/user/login").successForwardUrl("/success").permitAll();
-        //http.authorizeRequests().antMatchers("/resource/**", "/webapp/**", "/user/registrationform", "/user/registeruser", "/").permitAll().antMatchers("/console/").hasRole("ADMIN").anyRequest().authenticated();
         http.authorizeRequests().antMatchers("/resource/**", "/webapp/**", "/user/getregistrationform", "/user/registrationform", "/user/registeruser", "/console/**", "/").permitAll().anyRequest().authenticated();
         http.formLogin().loginPage("/user/login").permitAll();
         http.logout().permitAll();

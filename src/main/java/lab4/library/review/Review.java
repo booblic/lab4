@@ -29,9 +29,9 @@ public class Review {
     private Book book;
 
     @ToString
-    @ElementCollection(targetClass = String.class)
+    @ElementCollection(targetClass = Integer.class)
     @MapKeyColumn(name = "textReview",length = 1000)
-    private Map<String, String> bookReview = new HashMap<>();
+    private Map<String, Integer> bookReview = new HashMap<>();
 
     /*@Column(length = 1000)
     private String text;
@@ -85,11 +85,11 @@ public class Review {
         this.rating = rating;
     }*/
 
-    public Map<String, String> getBookReview() {
+    public Map<String, Integer> getBookReview() {
         return bookReview;
     }
 
-    public void setBookReview(Map<String, String> bookReview) {
+    public void setBookReview(Map<String, Integer> bookReview) {
         this.bookReview = bookReview;
     }
 

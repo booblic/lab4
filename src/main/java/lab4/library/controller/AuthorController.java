@@ -2,6 +2,7 @@ package lab4.library.controller;
 
 import lab4.library.author.Author;
 import lab4.library.service.AuthorService;
+import lab4.library.service.AuthorServiceImpl;
 import lab4.library.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ public class AuthorController {
     private static final Logger LOG = LoggerFactory.getLogger(AuthorController.class);
 
     @Autowired
-    private AuthorService authorService;
+    private AuthorServiceImpl authorService;
 
     @Autowired
     private UserService userService;
@@ -29,31 +30,30 @@ public class AuthorController {
     public String getSearchingByAuthorForm(Model model) {
 
         if (userService.getCurrentUser() != null) {
-            LOG.info("msg: model.addAttribute(\"logout\", \"yes\");");
+
             model.addAttribute("username", userService.getCurrentUser().getUsername());
 
             if (userService.hasRole("ROLE_ADMIN")) {
-                LOG.info("msg: model.addAttribute(\"admin\", \"yes\");");
+
                 model.addAttribute("role", "admin");
             }
         }
-
-        LOG.info("msg: return \"author/searchingform\";");
         return "author/searchingformbyauthor";
     }
 
     @PostMapping(value = "/searchingbyauthor")
     public String searchingByAuthor(@RequestParam String firstName, @RequestParam String lastName, Model model) {
-        LOG.info("msg: Author author = authorService.findByFirstNameAndLastName(firstName, lastName);", firstName, lastName);
+
+        LOG.info("msg: findByFirstNameAndLastName({}, {});", firstName, lastName);
         Author author = authorService.findByFirstNameAndLastName(firstName, lastName);
         if (author != null) {
-            LOG.info("msg: if (author != null) { model.addAttribute(\"books\", author.getBooks()); }");
+
             model.addAttribute("books", author.getBooks());
+
         } else {
-            LOG.info("msg: if (author == null) { model.addAttribute(\"error\", \"Sorry, books by author \" + firstName + \" \" + lastName + \" a not found.\"); }", lastName, firstName);
+
             model.addAttribute("error", "Sorry, books by author " + firstName + " " + lastName + " a not found");
         }
-        LOG.info("msg: return \"book/showallbooks\";");
         return "book/showallbooks";
     }
 }

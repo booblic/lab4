@@ -50,7 +50,7 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "userRole", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
     private Set<Review> reviews = new HashSet<>();
@@ -190,7 +190,7 @@ public class User implements UserDetails {
     @Override
     public int hashCode() {
 
-        return Objects.hash(userId,username, password, firstName, lastName, email);
+        return Objects.hash(userId, username, password, firstName, lastName, email);
     }
 
     @Override

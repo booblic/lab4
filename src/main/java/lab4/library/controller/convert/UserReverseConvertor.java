@@ -16,17 +16,22 @@ public class UserReverseConvertor implements Converter<User, FormUser> {
 
         FormUser formUser = new FormUser();
 
-
+        LOG.info("msg: formUser.setUsername({})", user.getUsername());
         formUser.setUsername(user.getUsername());
 
+        LOG.info("msg: formUser.setFirstName({})", user.getFirstName());
         formUser.setFirstName(user.getFirstName());
 
+        LOG.info("msg: formUser.setLastName({})", user.getLastName());
         formUser.setLastName(user.getLastName());
 
+        LOG.info("msg: formUser.setMiddleName({})", user.getMiddleName());
         formUser.setMiddleName(user.getMiddleName());
 
+        LOG.info("msg: formUser.setEmail({})", user.getEmail());
         formUser.setEmail(user.getEmail());
 
+        LOG.info("msg: formUser.setPhoneNumber({})", user.getPhoneNumber());
         formUser.setPhoneNumber(user.getPhoneNumber());
 
         return formUser;

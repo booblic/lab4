@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"firstName", "lastName", "middleName"})})
 public class Author extends Description {
 
     @Id
@@ -85,13 +85,14 @@ public class Author extends Description {
         Author author = (Author) o;
         return Objects.equals(authorId, author.authorId) &&
                 Objects.equals(firstName, author.firstName) &&
-                Objects.equals(lastName, author.lastName);
+                Objects.equals(lastName, author.lastName) &&
+                Objects.equals(middleName, author.middleName);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(authorId, firstName, lastName);
+        return Objects.hash(authorId, firstName, lastName, middleName);
     }
 
     @Override

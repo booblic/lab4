@@ -132,8 +132,8 @@ public class Book extends Description {
         List<Integer> reviewRating = new ArrayList<>();
 
         for (Review review: reviews) {
-            for (Map.Entry<String, String> pair : review.getBookReview().entrySet()) {
-                reviewRating.add(Integer.parseInt(pair.getValue()));
+            for (Map.Entry<String, Integer> pair : review.getBookReview().entrySet()) {
+                reviewRating.add(pair.getValue());
             }
         }
 
