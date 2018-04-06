@@ -17,7 +17,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/resource/**", "/webapp/**", "/user/getregistrationform", "/user/registrationform", "/user/registeruser", "/console/**", "/").permitAll().anyRequest().authenticated();
+        /*http.authorizeRequests().antMatchers("/resource/**", "/webapp/**",
+                "/user/getregistrationform", "/user/registeruser",
+                "/searchbookoptions",
+                "/book/show", "/book/getsearchingbybooknameform", "/book/searchingbybookname",
+                "/book/getformviewbook",
+                "/book/genreandyearsearchingform", "/book/searchingbygenreandyear",
+                "/book/authorandgenresearchingform", "/book/searhcingbyauthorandgenre",
+                "/publisher/getsearchingbypublisherform", "/publisher/searchingbypublisher",
+                "/genre/getsearchingbygenreform", "/genre/searchingbygenre",
+                "/author/getsearchingbyauthorform", "/author/searchingbyauthor",
+                "/console/**", "/").permitAll().anyRequest().authenticated();*/
+
+        http
+                .authorizeRequests().antMatchers("/resource/**", "/webapp/**",
+                "/user/getregistrationform", "/user/registeruser",
+                "/searchbookoptions",
+                "/book/show", "/book/getsearchingbybooknameform", "/book/searchingbybookname",
+                "/book/getformviewbook",
+                "/book/genreandyearsearchingform", "/book/searchingbygenreandyear",
+                "/book/authorandgenresearchingform", "/book/searhcingbyauthorandgenre",
+                "/publisher/getsearchingbypublisherform", "/publisher/searchingbypublisher",
+                "/genre/getsearchingbygenreform", "/genre/searchingbygenre",
+                "/author/getsearchingbyauthorform", "/author/searchingbyauthor",
+                "/console/**", "/").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/book/getaddform", "/book/addbook",
+                "/book/getformedit", "/book/editbook",
+                "/book/getsearchbookinternetform", "/book/searchbookinternet", "/book/addsearchingbook")
+                .hasAnyRole("MODER", "ADMIN")
+                .and().authorizeRequests().antMatchers("/user/getshowalluserform", "/user/getformedituserbyadmin", "/user/edituserbyadmin")
+                .hasRole("ADMIN")
+                .anyRequest()
+                .authenticated();
+
         http.formLogin().loginPage("/user/login").permitAll();
         http.logout().permitAll();
         http.csrf().disable();

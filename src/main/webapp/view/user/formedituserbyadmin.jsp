@@ -105,19 +105,19 @@
 				</div>
 				<div class="col-md-1">
 					<c:choose>
-						<c:when test="${not empty superUser}">
-							<c:if test="${not empty admin}">
+						<c:when test="${not empty admin}">
+							<c:if test="${not empty moder}">
 								<p>
-									<label for="role">Administrator</label>
+									<label for="role">Moderator</label>
 								</p>
-								<input type="checkbox" class="form-control" name="role" value="ROLE_ADMIN" checked/>
+								<input type="checkbox" class="form-control" name="role" value="ROLE_MODER" checked/>
 								<br>
 								<br> </c:if>
-							<c:if test="${empty admin}">
+							<c:if test="${empty moder}">
 								<p>
-									<label for="role">Administrator</label>
+									<label for="role">Moderator</label>
 								</p>
-								<input type="checkbox" class="form-control" name="role" value="ROLE_ADMIN" />
+								<input type="checkbox" class="form-control" name="role" value="ROLE_MODER" />
 								<br>
 								<br> </c:if>
 						</c:when>

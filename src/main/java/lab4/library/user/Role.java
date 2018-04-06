@@ -13,7 +13,7 @@ import java.util.Set;
 @Table
 public class Role implements GrantedAuthority {
 
-    public static final String ROLE_SUPER_USER = "ROLE_SU";
+    public static final String ROLE_MODERATOR = "ROLE_MODER";
 
     public static final String ROLE_ADMINISTRATOR = "ROLE_ADMIN";
 

@@ -16,7 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
@@ -44,6 +47,7 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Transactional
     public Book findOne(Integer id) {
         return bookRepository.findOne(id);
     }
@@ -52,34 +56,43 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll();
     }
 
+    @Transactional
     public List<Book> findByBookName(String bookName) {
         return bookRepository.findByBookName(bookName);
     }
 
+    @Transactional
     public Book findByIsbn(String isbn) {
         return bookRepository.findByIsbn(isbn);
     }
 
+    @Transactional
     public List<Book> findBookByIterableId(Iterable<Integer> id) {
         return bookRepository.findAll(id);
     }
 
+    @Transactional
     public List<Book> findByYearAndGenreName(String genreName, int year) {
         return bookRepository.findByYearAndGenreName(genreName, year);
     }
 
+    @Transactional
     public List<Book> findByAuthorAndGenreName(String firstName, String lastName, String genreName) {
         return bookRepository.findByAuthorAndGenreName(firstName, lastName, genreName);
     }
 
+    @Transactional
     public Book saveBook(Book book) {
         return bookRepository.save(book);
     }
 
+    @Transactional
     public List<Book> saveBooks(Set<Book> books) {
         return bookRepository.save(books);
     }
 
+    @Transactional
+    @PreAuthorize("hasAnyRole('[ROLE_MODER, ROLE_ADMIN]')")
     public void deleteBook(Integer id) {
         bookRepository.delete(id);
     }
@@ -108,6 +121,7 @@ public class BookServiceImpl implements BookService {
         saveBooks(bookSet);
     }
 
+    @PreAuthorize("hasAnyRole('[ROLE_MODER, ROLE_ADMIN]')")
     public Book editBook(FormBook formBook) {
 
         Book book = new Book();

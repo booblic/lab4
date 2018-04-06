@@ -7,7 +7,8 @@
 }
 
 .error {
-color: #ff0000;
+    color: #ff0000;
+    text-align:  center;
 }
 
 .border-top { border-top: 1px solid #e5e5e5; }

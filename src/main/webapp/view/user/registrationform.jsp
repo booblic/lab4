@@ -61,7 +61,7 @@
 			<label for="confirmedPassword">Confirmed Password</label>
 			<form:input type="password" path="confirmedPassword" class="form-control" />
 			<c:if test="${not empty invalidPassword}">
-				<p class="error">${invalidPassword}</p>
+				    <p class="error">${invalidPassword}</p>
 			</c:if>
 			<br>
 			<button class="btn btn-primary btn-lg btn-block" type="submit">Registration</button>

@@ -56,6 +56,8 @@ public class UserController {
 
         if (formUser.getPassword().compareTo(formUser.getConfirmedPassword()) != 0) {
 
+            model.addAttribute("invalidPassword", "Passwords are different");
+
             return "user/registrationform";
         }
         LOG.info("msg: conversionService.convert({}, {})", formUser.toString(), User.class);
@@ -203,44 +205,44 @@ public class UserController {
         LOG.info("msg: userService.getUser({})", userId);
         User user = userService.getUser(userId);
 
-        LOG.info("msg: isSuperUser = false");
-        Boolean isSuperUser = false;
-
         LOG.info("msg: isAdmin = false");
         Boolean isAdmin = false;
 
+        LOG.info("msg: isModer = false");
+        Boolean isModer = false;
+
         for (Role userRole: userService.getCurrentUser().getRoles()) {
 
-            if (userRole.getAuthority().compareTo(Role.ROLE_SUPER_USER) == 0) {
-
-                LOG.info("msg: isSuperUser = true");
-                isSuperUser = true;
-            }
-        }
-
-        for (Role userRole: user.getRoles()) {
-
-            if (userRole.getAuthority().compareTo(Role.ROLE_SUPER_USER) == 0) {
-
-                LOG.info("msg: isAdmin = false");
-                isAdmin = false;
-
-                LOG.info("msg: isSuperUser = false");
-                isSuperUser = false;
-
-            } else if (userRole.getAuthority().compareTo(Role.ROLE_ADMINISTRATOR) == 0) {
+            if (userRole.getAuthority().compareTo(Role.ROLE_ADMINISTRATOR) == 0) {
 
                 LOG.info("msg: isAdmin = true");
                 isAdmin = true;
             }
         }
-        if (isSuperUser == true) {
 
-            model.addAttribute("superUser", "isSuperUser");
+        for (Role userRole: user.getRoles()) {
+
+            if (userRole.getAuthority().compareTo(Role.ROLE_ADMINISTRATOR) == 0) {
+
+                LOG.info("msg: isModer = false");
+                isModer = false;
+
+                LOG.info("msg: isAdmin = false");
+                isAdmin = false;
+
+            } else if (userRole.getAuthority().compareTo(Role.ROLE_MODERATOR) == 0) {
+
+                LOG.info("msg: isModer = true");
+                isModer = true;
+            }
         }
         if (isAdmin == true) {
 
-            model.addAttribute("admin", "isAdministrator");
+            model.addAttribute("admin", "isAdmin");
+        }
+        if (isModer == true) {
+
+            model.addAttribute("moder", "isModer");
         }
         model.addAttribute("user", user);
 

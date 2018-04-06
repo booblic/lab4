@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -42,18 +43,17 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ConversionService conversionService;
 
+    @Transactional
     public User getUser(Integer id) {
         return userRepository.getOne(id);
     }
 
-    public User getUserByName(String username) {
-        return userRepository.findByUsername(username);
-    }
-
+    @Transactional
     public User updateUser(User user) {
         return userRepository.save(user);
     }
 
+    @Transactional
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -116,6 +116,7 @@ public class UserServiceImpl implements UserService {
         return hasRole;
     }
 
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 

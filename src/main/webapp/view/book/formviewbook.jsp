@@ -143,13 +143,15 @@
 		</div>
 		<form action="${path}/book/${book.bookId}/addreview" id="review" method="POST">
 			<div id="bookReview"> </div>
-			<c:if test="${empty rev}">
-				<div id="but">
-					<p>
-						<button type="button" class="btn btn-primary" onclick="addBookFormReview()">Add review</button>
-					</p>
-				</div>
-			</c:if>
+			<c:if test="${not empty username}">
+                <c:if test="${empty rev}">
+                    <div id="but">
+                        <p>
+                            <button type="button" class="btn btn-primary" onclick="addBookFormReview()">Add review</button>
+                        </p>
+                    </div>
+                </c:if>
+            </c:if>
 		</form>
 	</div>
 	<footer class="my-5 pt-5 text-muted text-center text-small">

@@ -8,13 +8,13 @@
   {
     "_class": "lab4.library.user.Role",
     "roleId": 2,
-    "roleName": "Administrator",
-    "authority": "ROLE_ADMIN"
+    "roleName": "Moderator",
+    "authority": "ROLE_MODER"
   },
   {
     "_class": "lab4.library.user.Role",
     "roleId": 3,
-    "roleName": "SuperUser",
-    "authority": "ROLE_SU"
+    "roleName": "Administrator",
+    "authority": "ROLE_ADMIN"
   }
 ]

@@ -1,5 +1,6 @@
 package lab4.library.controller;
 
+import lab4.library.exception.AccessDeniedException;
 import lab4.library.exception.ResourceNotFoundException;
 import lab4.library.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,22 @@ public class ExceptionHandlerController {
             }
         }
         return "error/404";
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public String accessDenied(Model model) {
+
+        if (userService.getCurrentUser() != null) {
+
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+
+                model.addAttribute("role", "admin");
+            }
+        }
+
+        return "error/403";
     }
 }

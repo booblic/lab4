@@ -11,11 +11,11 @@
     "roles": [
       {
         "_class": "lab4.library.user.Role",
-        "roleId": 2
+        "roleId": 1
       },
       {
         "_class": "lab4.library.user.Role",
-        "roleId": 1
+        "roleId": 2
       },
       {
         "_class": "lab4.library.user.Role",

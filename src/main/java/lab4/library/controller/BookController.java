@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -80,7 +82,6 @@ public class BookController {
         return "book/formaddbook";
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/addbook")
     public String addBook(@ModelAttribute FormBook formBook, Model model) {
 
@@ -186,7 +187,6 @@ public class BookController {
         return "book/formviewbook";
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/editbook")
     public String editBook(@ModelAttribute FormBook formBook) {
 
@@ -328,7 +328,7 @@ public class BookController {
         return "book/searchingbookinternetresult";
     }
 
-    @PostMapping(value = "addsearchingbook")
+    @PostMapping(value = "/addsearchingbook")
     public String addSearchingBook(@ModelAttribute PatternBook patternBook) {
 
         LOG.info("bookServices.addSearchingBook({})", patternBook.toString());
