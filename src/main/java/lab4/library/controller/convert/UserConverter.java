@@ -6,11 +6,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+/**
+ * Класс предназначенный для конвертации объекта FormUser в объект User
+ * @author Кирилл
+ * @version 1.0
+ */
 @Component
 public class UserConverter implements Converter<FormUser, User> {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserConverter.class);
 
+    /**
+     * Метод извлекает информацию из объекта formUser и формирует на ее основе объект user
+     * @param formUser - объект генерируемый при получении от пользователя заполненой формы
+     * @return user - объект сущности user
+     */
     @Override
     public User convert(FormUser formUser) {
 

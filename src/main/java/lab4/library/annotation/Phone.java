@@ -6,6 +6,11 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
+/**
+ * Кастомная аннотация для валидации поля номера телефона
+ * @author Кирилл
+ * @version 1.0
+ */
 @Documented
 @Constraint(validatedBy = PhoneValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})

@@ -72,7 +72,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Transactional
-    public List<Book> findByYearAndGenreName(String genreName, int year) {
+    public List<Book> findByYearAndGenreName(String genreName, Integer year) {
         return bookRepository.findByYearAndGenreName(genreName, year);
     }
 
@@ -87,42 +87,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Transactional
-    public List<Book> saveBooks(Set<Book> books) {
-        return bookRepository.save(books);
-    }
-
-    @Transactional
     @PreAuthorize("hasAnyRole('[ROLE_MODER, ROLE_ADMIN]')")
     public void deleteBook(Integer id) {
         bookRepository.delete(id);
     }
 
-    public void addBook(String[] bookName, String[] isbn, Integer[] year) {
-
-        Set<Book> bookSet = new HashSet<>();
-
-        for (int i = 0; i < bookName.length; i++) {
-
-            Book book = new Book();
-
-            LOG.info("msg: book.setBookName({})", bookName[i]);
-            book.setBookName(bookName[i]);
-
-            LOG.info("msg: book.setIsbn({})", isbn[i]);
-            book.setIsbn(isbn[i]);
-
-            LOG.info("msg: book.setYear({})", year[i]);
-            book.setYear(year[i]);
-
-            LOG.info("bookSet.add({})", book.toString());
-            bookSet.add(book);
-        }
-        LOG.info("saveBooks(bookSet)");
-        saveBooks(bookSet);
-    }
-
     @PreAuthorize("hasAnyRole('[ROLE_MODER, ROLE_ADMIN]')")
-    public Book editBook(FormBook formBook) {
+    public Book addOrEditBook(FormBook formBook) {
 
         Book book = new Book();
 

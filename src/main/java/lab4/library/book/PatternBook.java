@@ -3,6 +3,11 @@ package lab4.library.book;
 import lab4.library.annotation.ToString;
 import org.springframework.web.bind.annotation.PathVariable;
 
+/**
+ * Класс для работы с данными полученными из интернета (импорт информации о книги)
+ * @author Кирилл
+ * @version 1.0
+ */
 public class PatternBook {
 
     @ToString

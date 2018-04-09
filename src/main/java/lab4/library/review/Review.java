@@ -30,8 +30,8 @@ public class Review {
 
     @ToString
     @ElementCollection(targetClass = Integer.class)
-    @MapKeyColumn(name = "textReview",length = 1000)
-    private Map<String, Integer> bookReview = new HashMap<>();
+    @MapKeyColumn(name = "textReview", length = 1000)
+    private Map<String, Integer> rating = new HashMap<>();
 
     /*@Column(length = 1000)
     private String text;
@@ -86,11 +86,11 @@ public class Review {
     }*/
 
     public Map<String, Integer> getBookReview() {
-        return bookReview;
+        return rating;
     }
 
-    public void setBookReview(Map<String, Integer> bookReview) {
-        this.bookReview = bookReview;
+    public void setBookReview(Map<String, Integer> rating) {
+        this.rating = rating;
     }
 
     @Override

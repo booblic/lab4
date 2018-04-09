@@ -38,7 +38,7 @@ public class ReviewServiceImp implements ReviewService {
         return reviewRepository.findByBookAndUser(book, user);
     }
 
-    public Review addReview(Integer id, String textReview, String rating) {
+    public Review addReview(Integer id, String textReview, Integer rating) {
 
         Review review;
 
@@ -51,7 +51,7 @@ public class ReviewServiceImp implements ReviewService {
         Map<String, Integer> bookReview = new HashMap<>();
 
         LOG.info("msg: bookReview.put({}, {});", textReview, rating);
-        bookReview.put(textReview, Integer.parseInt(rating));
+        bookReview.put(textReview, rating);
 
         if (findByBookAndUser(book, user) != null) {
 

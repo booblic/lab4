@@ -21,33 +21,64 @@ import javax.validation.constraints.NotNull;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Spring MVC controller для сущности book
+ * @author Кирилл
+ * @version 1.0
+ */
 @Controller
 @RequestMapping(value = "/book")
 public class BookController {
 
     private static final Logger LOG = LoggerFactory.getLogger(BookController.class);
 
+    /**
+     * Объект сервиса, реализующего бизнес логики для book
+     */
     @Autowired
     private BookServiceImpl bookServices;
 
+    /**
+     * Объект сервиса, реализующего бизнес логики для author
+     */
     @Autowired
     private AuthorService authorService;
 
+    /**
+     * Объект сервиса, реализующего бизнес логики для review
+     */
     @Autowired
     private ReviewServiceImp reviewService;
 
+    /**
+     * Объект сервиса, реализующего бизнес логики для publisher
+     */
     @Autowired
     private PublisherService publisherService;
 
+    /**
+     * Объект сервиса, реализующего бизнес логики для user
+     */
     @Autowired
     private UserServiceImpl userService;
 
+    /**
+     * Объект сервиса, реализующего бизнес логики для genre
+     */
     @Autowired
     private GenreService genreService;
 
+    /**
+     * Объект сервиса для конвертаций
+     */
     @Autowired
     private ConversionService conversionService;
 
+    /**
+     * Метод получает все книги, добавляет их в holder for model attributes и возвращает имя jsp для отображения книг
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/show")
     public String showBooks(Model model) {
 
@@ -65,6 +96,11 @@ public class BookController {
         return "book/showallbooks";
     }
 
+    /**
+     * Метод возвращает имя jsp для добавления книги
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/getaddform")
     public String getAddForm(Model model) {
 
@@ -82,6 +118,12 @@ public class BookController {
         return "book/formaddbook";
     }
 
+    /**
+     * Метод получает объект, содержащий информацию о книги, перелдает ее на уровень сервисов и возвращает имя jsp для отображения книг
+     * @param model - defines a holder for model attributes
+     * @param formBook - объект, содержащий информацию о книги
+     * @return имя jsp
+     */
     @PostMapping(value = "/addbook")
     public String addBook(@ModelAttribute FormBook formBook, Model model) {
 
@@ -95,11 +137,16 @@ public class BookController {
         }
 
         LOG.info("msg: addBook(bookName, isbn, year)");
-        bookServices.editBook(formBook);
+        bookServices.addOrEditBook(formBook);
 
         return "redirect:/book/show";
     }
 
+    /**
+     * Метод возвращает имя jsp для поиска книги по имени
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/getsearchingbybooknameform")
     public String getSearchingForm(Model model) {
 
@@ -116,6 +163,12 @@ public class BookController {
         return "book/searchingbybooknameform";
     }
 
+    /**
+     * Метод получает книги с заданным именим, добавляет их в holder for model attributes и возвращает имя jsp для отображения книг
+     * @param model - defines a holder for model attributes
+     * @param bookName - имя книги
+     * @return имя jsp
+     */
     @PostMapping(value = "/searchingbybookname")
     public String searchingByBookName(@RequestParam String bookName, Model model) {
 
@@ -133,6 +186,12 @@ public class BookController {
         return "book/showallbooks";
     }
 
+    /**
+     * Метод возвращает имя jsp для редактирования книги
+     * @param bookId - id книги
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/getformedit")
     public String getEditForm(@RequestParam("id") @NotNull Integer bookId, Model model) {
 
@@ -150,8 +209,13 @@ public class BookController {
         return "book/formeditbook";
     }
 
+    /**
+     * Метод обращется к сервису для удаления книги и возвращает имя jsp для отображения книг
+     * @param bookId - id книги
+     * @return имя jsp
+     */
     @GetMapping("/deletebook")
-    public String deleteBook(@RequestParam("id") @NotNull Integer bookId, Model model) {
+    public String deleteBook(@RequestParam("id") @NotNull Integer bookId) {
 
         LOG.info("msg:  bookServices.deleteBook({})", bookId);
         bookServices.deleteBook(bookId);
@@ -159,6 +223,12 @@ public class BookController {
         return "redirect:/book/show";
     }
 
+    /**
+     * Метод заполняет holder for model attributes и возвращает имя jsp для просмотра информации о книги
+     * @param bookId - id книги
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping("/getformviewbook")
     public String getFormViewbook(@RequestParam("id") @NotNull Integer bookId, Model model) {
 
@@ -187,17 +257,29 @@ public class BookController {
         return "book/formviewbook";
     }
 
+    /**
+     * Метод обращается к сервису для редактирования полученной книги и возвращает имя jsp для отображения книг
+     * @param formBook - объект, содержащий информацию о книги
+     * @return имя jsp
+     */
     @PostMapping(value = "/editbook")
     public String editBook(@ModelAttribute FormBook formBook) {
 
         LOG.info("msg: bookServices.editBook({})", formBook.toString());
-        Book book = bookServices.editBook(formBook);
+        Book book = bookServices.addOrEditBook(formBook);
 
         return "redirect:/book/show";
     }
 
+    /**
+     * Метод обращается к сервису для создания или редактирования обзора и возвращает имя jsp для отображения книг
+     * @param id - id книги
+     * @param textReview - текст обзора
+     * @param rating - оценка
+     * @return имя jsp
+     */
     @PostMapping(value = "/{id}/addreview")
-    public String addReview(@PathVariable Integer id, @RequestParam String textReview, @RequestParam String rating) {
+    public String addReview(@PathVariable Integer id, @RequestParam String textReview, @RequestParam Integer rating) {
 
         LOG.info("msg: reviewService.addReview({}, {}, {})", id, textReview, rating);
         Review review = reviewService.addReview(id, textReview, rating);
@@ -205,6 +287,11 @@ public class BookController {
         return "redirect:/book/show";
     }
 
+    /**
+     * Метод возвращает имя jsp для поиска книги по году и жанру
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/genreandyearsearchingform")
     public String genreAndYearSearchingForm(Model model) {
 
@@ -220,8 +307,15 @@ public class BookController {
         return "book/genreandyearsearchingform";
     }
 
+    /**
+     * Метод получает книги с заданным годом и жанром, добавляет их в holder for model attributes и возвращает имя jsp для отображения книг
+     * @param genreName - имя жанра
+     * @param year - имя книги
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @PostMapping(value = "/searchingbygenreandyear")
-    public String searchingByGenreAndYear(@RequestParam String genreName, @RequestParam int year, Model model) {
+    public String searchingByGenreAndYear(@RequestParam String genreName, @RequestParam Integer year, Model model) {
 
         LOG.info("msg: bookServices.findByYearAndGenreName({}, {})", genreName, year);
         List<Book> bookList = bookServices.findByYearAndGenreName(genreName, year);
@@ -237,6 +331,11 @@ public class BookController {
         return "book/showallbooks";
     }
 
+    /**
+     * Метод возвращает имя jsp для поиска книги по автору и жанру
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/authorandgenresearchingform")
     public String authorAndGenreSearchingForm(Model model) {
 
@@ -252,6 +351,14 @@ public class BookController {
         return "book/authorandgenreform";
     }
 
+    /**
+     * Метод получает книги с заданным автором и жанром, добавляет их в holder for model attributes и возвращает имя jsp для отображения книг
+     * @param firstName - имя автора
+     * @param lastName - фамилия автора
+     * @param genreName - имя жанра
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @PostMapping(value = "/searhcingbyauthorandgenre")
     public String searchingByAuthorAndGenre(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String genreName, Model model) {
 
@@ -270,6 +377,11 @@ public class BookController {
         return "book/showallbooks";
     }
 
+    /**
+     * Метод обращается к сервису для получения файла с информацией о книгах
+     * @param id - список id книг
+     * @return файл с информацией о книгах
+     */
     @PostMapping(value = "/exportbooks")
     public ResponseEntity<StreamingResponseBody> exportBooks(@RequestParam List<Integer> id) {
 
@@ -286,6 +398,11 @@ public class BookController {
         return responseEntity;
     }
 
+    /**
+     * Метод возвращает имя jsp для поиска книги в интернете
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/getsearchbookinternetform")
     public String getFindForm(Model model) {
 
@@ -301,6 +418,12 @@ public class BookController {
         return "book/searchbookinternetform";
     }
 
+    /**
+     * Метод обращется к сервису для получения списка книг из внешнего источника и возвращает имя jsp для отображения книг
+     * @param model - defines a holder for model attributes
+     * @param bookName - имя книги
+     * @return имя jsp
+     */
     @PostMapping(value = "/searchbookinternet")
     public String searchBookInternet(@RequestParam String bookName, Model model) {
 
@@ -328,6 +451,11 @@ public class BookController {
         return "book/searchingbookinternetresult";
     }
 
+    /**
+     * Метод обращется к сервису чтобы добавить книгу и возвращает имя jsp для отображения книг
+     * @param patternBook - обект, содержащий информацию о книге
+     * @return имя jsp
+     */
     @PostMapping(value = "/addsearchingbook")
     public String addSearchingBook(@ModelAttribute PatternBook patternBook) {
 

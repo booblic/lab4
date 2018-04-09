@@ -3,6 +3,11 @@ package lab4.library.book;
 import lab4.library.ReflectionToString;
 import lab4.library.annotation.ToString;
 
+/**
+ * Класс объект которого генерируется при получении от пользователя заполненой формы
+ * @author Кирилл
+ * @version 1.0
+ */
 public class FormBook {
 
     @ToString
@@ -17,14 +22,29 @@ public class FormBook {
     @ToString
     private Integer year;
 
+    /**
+     * Массив с именами жанров, разделенных запятой
+     */
     private String[] genresNames;
 
+    /**
+     * Массив с именами авторов, разделенных запятой
+     */
     private String[] authorsFirstNames;
 
+    /**
+     * Массив с фамилиямя авторов, разделенных запятой
+     */
     private String[] authorsLastNames;
 
+    /**
+     * Массив с отчествами авторов, разделенных запятой
+     */
     private String[] authorsMiddleNames;
 
+    /**
+     * Массив с именами издательств, разделенных запятой
+     */
     private String[] publishersNames;
 
     private String description;

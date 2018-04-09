@@ -20,24 +20,46 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Spring MVC controller для сущности user
+ * @author Кирилл
+ * @version 1.0
+ */
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
+    /**
+     * Объект сервиса, реализующего бизнес логики для user
+     */
     @Autowired
     private UserServiceImpl userService;
 
+    /**
+     * Объект для кодирования паролей
+     */
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Объект сервиса, реализующего бизнес логики для role
+     */
     @Autowired
     private RoleServiceImp roleService;
 
+    /**
+     * Объект сервиса для конвертаций
+     */
     @Autowired
     private ConversionService conversionService;
 
+    /**
+     * Метод возвращает имя jsp для регистрации пользователей
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/getregistrationform")
     public String getRegistrationForm(Model model) {
 
@@ -46,6 +68,13 @@ public class UserController {
         return "user/registrationform";
     }
 
+    /**
+     * Метод проверяет правильность введенных данных, конвертирует объект FormUser в User, сохраняет его используя репозиторий и возвращает имя jsp для входа
+     * @param formUser - объект, содержащий информацию о пользователе
+     * @param bindingResult - аргумента для метода проверки Validator
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @PostMapping(value = "/registeruser")
     public String registerUser(@ModelAttribute("user") @Valid FormUser formUser, BindingResult bindingResult, Model model) {
 
@@ -86,8 +115,14 @@ public class UserController {
         return "redirect:/user/login";
     }
 
+    /**
+     * Метод сообщает пользователю об неправлиьно введных данных и/или возвращает имя jsp для входа
+     * @param error - содержит информацию об ошибки введных данных
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/login")
-    public String login(Model model, String error, String logout) {
+    public String login(Model model, String error) {
 
         if (error != null) {
 
@@ -96,6 +131,11 @@ public class UserController {
         return "user/login";
     }
 
+    /**
+     * Метод получает информацию о текущем пользователе, добаляет ее в defines a holder for model attributes и возвращает имя jsp для отображения профиля
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/showuserprofile")
     public String showUserProfile(Model model) {
 
@@ -118,6 +158,11 @@ public class UserController {
         return "user/formshowuser";
     }
 
+    /**
+     * Метод получает информацию о текущем пользователе, добаляет ее в defines a holder for model attributes и возвращает имя jsp для редактирования профиля
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/getedituserform")
     public String getEditUserForm(Model model) {
 
@@ -139,6 +184,13 @@ public class UserController {
         return "user/formedituser";
     }
 
+    /**
+     * Метод получает информацию о пользователе, проверяет правильность введенных данных, обращается к сервису для обновления профиля и возвращает имя jsp для отображения профиля
+     * @param formUser - объект, содержащий информацию о пользователе
+     * @param bindingResult - аргумента для метода проверки Validator
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @PostMapping(value = "/edituserprofile")
     public String editUserProfile(@ModelAttribute("user") @Valid FormUser formUser, BindingResult bindingResult, Model model) {
 
@@ -172,6 +224,11 @@ public class UserController {
         return "redirect:/user/showuserprofile";
     }
 
+    /**
+     * Метод получает информацию о всех пользователях, добаляет ее в defines a holder for model attributes и возвращает имя jsp для отображения всех пользователей
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/getshowalluserform")
     public String getShowAllUserform(Model model) {
 
@@ -190,6 +247,12 @@ public class UserController {
         return "user/showalluserform";
     }
 
+    /**
+     * Метод получает пользователя по id, определяет его роли и роли текущего пользователя, добавляет полученную информацию в defines a holder for model attributes и возвращает имя jsp для редактирования пользователя администратором
+     * @param userId - id поьзователя
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/getformedituserbyadmin")
     public String getFormEditUserByAdmin(@RequestParam("id") @NotNull Integer userId, Model model) {
 
@@ -249,6 +312,13 @@ public class UserController {
         return "user/formedituserbyadmin";
     }
 
+    /**
+     * Метод получает информацию о пользователе, проверяет правильность введенных данных, обращается к сервису для обновления профиля и возвращает имя jsp для отображения всех пользователей
+     * @param formUser - объект, содержащий информацию о пользователе
+     * @param bindingResult - аргумента для метода проверки Validator
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @PostMapping(value = "/edituserbyadmin")
     public String editUserByAdmin(@ModelAttribute("user") @Valid FormUser formUser, BindingResult bindingResult, Model model) {
 

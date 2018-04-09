@@ -11,19 +11,35 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
+/**
+ * Spring MVC controller для стартовой страницы
+ * @author Кирилл
+ * @version 1.0
+ */
 @Controller
 public class StartPageController {
 
     private static final Logger LOG = LoggerFactory.getLogger(StartPageController.class);
 
+    /**
+     * Объект сервиса, реализующего бизнес логики для user
+     */
     @Autowired
     private UserService userService;
 
+    /**
+     * Объект сервиса, реализующего бизнес логики для book
+     */
     @Autowired
     private BookServiceImpl bookServices;
 
+    /**
+     * Метод возвращает имя jsp стартовой страницы
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @RequestMapping(value = "/")
-    public String startPageMessage(Model model, String logout) {
+    public String startPageMessage(Model model) {
 
         if (userService.getCurrentUser() != null) {
 
@@ -37,6 +53,11 @@ public class StartPageController {
         return "startpage";
     }
 
+    /**
+     * Метод возвращает имя jsp для выбора типа поиска книг
+     * @param model - defines a holder for model attributes
+     * @return имя jsp
+     */
     @GetMapping(value = "/searchbookoptions")
     public String searchBookOptions(Model model) {
 

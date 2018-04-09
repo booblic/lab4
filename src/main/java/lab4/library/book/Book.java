@@ -11,6 +11,11 @@ import lab4.library.review.Review;
 import javax.persistence.*;
 import java.util.*;
 
+/**
+ * Класс представляющий сущность - книга
+ * @author Кирилл
+ * @version 1.0
+ */
 @Entity
 @Table
 public class Book extends Description {

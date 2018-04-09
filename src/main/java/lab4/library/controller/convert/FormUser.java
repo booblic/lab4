@@ -5,6 +5,11 @@ import lab4.library.annotation.ToString;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * Класс объект которого генерируется при получении от пользователя заполненой формы
+ * @author Кирилл
+ * @version 1.0
+ */
 public class FormUser {
 
     private Integer userId;
@@ -19,6 +24,9 @@ public class FormUser {
 
     private String confirmedPassword;
 
+    /**
+     * Содержит метку сброса пароля
+     */
     private String dropPassword;
 
     @ToString

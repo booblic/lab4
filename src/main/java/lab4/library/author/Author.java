@@ -11,6 +11,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Класс представляющий сущность - автор
+ * @author Кирилл
+ * @version 1.0
+ */
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"firstName", "lastName", "middleName"})})
 public class Author extends Description {

@@ -1,6 +1,7 @@
 package lab4.library.service;
 
 import lab4.library.book.Book;
+import lab4.library.book.FormBook;
 
 import java.util.List;
 import java.util.Set;
@@ -13,7 +14,7 @@ public interface BookService {
 
     Book saveBook(Book book);
 
-    List<Book> saveBooks(Set<Book> books);
+    Book addOrEditBook(FormBook formBook);
 
     void deleteBook(Integer id);
 }
