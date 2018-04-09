@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * A service that implements business logic for a role
+ * @author Кирилл
+ * @version 1.0
+ */
 @Service
 public class RoleServiceImp implements RoleService {
 

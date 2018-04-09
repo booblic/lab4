@@ -27,6 +27,11 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 import java.io.*;
 import java.util.*;
 
+/**
+ * A service that implements business logic for a book
+ * @author Кирилл
+ * @version 1.0
+ */
 @Service
 public class BookServiceImpl implements BookService {
 
@@ -92,6 +97,11 @@ public class BookServiceImpl implements BookService {
         bookRepository.delete(id);
     }
 
+    /**
+     * A method based on information from formBook forms a book object and stores / updates it in the database
+     * @param formBook - book information object
+     * @return object Book
+     */
     @PreAuthorize("hasAnyRole('[ROLE_MODER, ROLE_ADMIN]')")
     public Book addOrEditBook(FormBook formBook) {
 
@@ -263,6 +273,11 @@ public class BookServiceImpl implements BookService {
         return saveBook(book);
     }
 
+    /**
+     * The method uses a repository to retrieve books, generates a file with information about them
+     * @param id - list of id books
+     * @return file with information about books
+     */
     public ResponseEntity<StreamingResponseBody> exportBooks(List<Integer> id) throws IOException {
 
         LOG.info("msg: findBookByIterableId({})", id);
@@ -306,6 +321,11 @@ public class BookServiceImpl implements BookService {
         });
     }
 
+    /**
+     * The method makes an HTTP request, gets an html page containing information about books and on its basis forms a list of books
+     * @param bookName - name of the book
+     * @return list of PatternBook objects
+     */
     public List<PatternBook> searchBookInternet(String bookName) {
 
         List<PatternBook> books = new ArrayList<>();
@@ -407,6 +427,11 @@ public class BookServiceImpl implements BookService {
         return books;
     }
 
+    /**
+     * The method makes an HTTP request, receives an HTML page, extracts the ISBN of the book from it, based on the information contained in the PatternBook object it forms a Book object and stores it in the database
+     * @param patternBook - book information object
+     * @return object Book
+     */
     public Book addSearchingBook(PatternBook patternBook) {
 
         LOG.info("msg: restTemplate.getForObject({}, {})", patternBook.getHref(), String.class);

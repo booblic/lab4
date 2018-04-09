@@ -1,6 +1,5 @@
 package lab4.library;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +10,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * Class for security config
+ * @author Кирилл
+ * @version 1.0
+ */
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /**
+     * Method configures the access restriction, setting loging page
+     * @param http - this object allows configuring web based security for specific http requests
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         /*http.authorizeRequests().antMatchers("/resource/**", "/webapp/**",
@@ -66,6 +74,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /**
+     * Method configures authentication, setting userDetailsService and password encoder
+     * @param auth - object for configures authentication
+     */
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
         auth

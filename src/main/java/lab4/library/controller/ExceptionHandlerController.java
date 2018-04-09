@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Определяет контроллер для обработки ощибок
+ * Defines the controller for error handling
  * @author Кирилл
  * @version 1.0
  */
@@ -19,15 +19,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ExceptionHandlerController {
 
     /**
-     * Объект сервиса, реализующего бизнес логики для user
+     * The object of the service that implements the business logic for the user
      */
     @Autowired
     private UserServiceImpl userService;
 
     /**
-     * Метод возвращает имя jsp для отображения ошибки 404
+     * The method returns the name jsp to display error 404
      * @param model - defines a holder for model attributes
-     * @return имя jsp
+     * @return name jsp
      */
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -46,9 +46,9 @@ public class ExceptionHandlerController {
     }
 
     /**
-     * Метод возвращает имя jsp для отображения ошибки 403
+     * The method returns the name jsp to display error 403
      * @param model - defines a holder for model attributes
-     * @return имя jsp
+     * @return name jsp
      */
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)

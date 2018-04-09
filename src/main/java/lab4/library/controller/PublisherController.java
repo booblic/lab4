@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Spring MVC controller для сущности publisher
+ * Spring MVC controller for entity publisher
  * @author Кирилл
  * @version 1.0
  */
@@ -26,21 +26,21 @@ public class PublisherController {
     private static final Logger LOG = LoggerFactory.getLogger(PublisherController.class);
 
     /**
-     * Объект сервиса, реализующего бизнес логики для publisher
+     * The service object that implements the business logic for the publisher
      */
     @Autowired
     private PublisherServiceImpl publisherService;
 
     /**
-     * Объект сервиса, реализующего бизнес логики для user
+     * A service object that implements business logic for the user
      */
     @Autowired
     private UserService userService;
 
     /**
-     * Метод возвращает имя jsp для поиска книг по издателю
+     * The method returns the name jsp to search for books by the publisher
      * @param model - defines a holder for model attributes
-     * @return имя jsp
+     * @return name jsp
      */
     @GetMapping(value = "/getsearchingbypublisherform")
     public String getSearchingByPublisherForm(Model model) {
@@ -58,10 +58,10 @@ public class PublisherController {
     }
 
     /**
-     * Метод получает книги с заданным жанром, добавляет их в holder for model attributes и возвращает имя jsp для отображжения книг
-     * @param publisherName - имя издателя
+     * The method gets books with a given genre, adds them to the holder for model attributes, and returns the name jsp for displaying books
+     * @param publisherName - publisher name
      * @param model - defines a holder for model attributes
-     * @return имя jsp
+     * @return name jsp
      */
     @PostMapping(value = "/searchingbypublisher")
     public String searchByPublisher(@RequestParam String publisherName, Model model) {

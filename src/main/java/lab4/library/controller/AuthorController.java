@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Spring MVC controller для сущности author
+ * Spring MVC controller for entity author
  * @author Кирилл
  * @version 1.0
  */
@@ -26,21 +26,21 @@ public class AuthorController {
     private static final Logger LOG = LoggerFactory.getLogger(AuthorController.class);
 
     /**
-     * Объект сервиса, реализующего бизнес логики для author
+     * Object of service that implements business logic for author
      */
     @Autowired
     private AuthorServiceImpl authorService;
 
     /**
-     * Объект сервиса, реализующего бизнес логики для user
+     * The object of the service that implements the business logic for the user
      */
     @Autowired
     private UserService userService;
 
     /**
-     * Метод возвращает имя jsp для поиска книг по автору
+     * The method returns the name jsp for searching books by author
      * @param model - defines a holder for model attributes
-     * @return имя jsp
+     * @return name jsp
      */
     @GetMapping(value = "/getsearchingbyauthorform")
     public String getSearchingByAuthorForm(Model model) {
@@ -58,11 +58,11 @@ public class AuthorController {
     }
 
     /**
-     * Метод получает книги с заданным автором, добавляет их в holder for model attributes и возвращает имя jsp для отображжения книг
-     * @param firstName - имя автора
-     * @param lastName - фамилия автора
+     * The method receives books with the given author, adds them to the holder for model attributes, and returns the name jsp for displaying books
+     * @param firstName - name of the author
+     * @param lastName - surname of the author
      * @param model - defines a holder for model attributes
-     * @return имя jsp
+     * @return name jsp
      */
     @PostMapping(value = "/searchingbyauthor")
     public String searchingByAuthor(@RequestParam String firstName, @RequestParam String lastName, Model model) {

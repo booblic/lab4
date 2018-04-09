@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Service that implements business logic for the publisher
+ * @author Кирилл
+ * @version 1.0
+ */
 @Service
 public class PublisherServiceImpl implements PublisherService {
 

@@ -17,8 +17,8 @@ public class PhoneValidator implements ConstraintValidator<Phone, String> {
     }
 
     /**
-     * Метод проверяющий валидность номера телефона путем сравнения его с щаблонами
-     * @param phoneNo - номер телефона
+     * Method that verifies the validity of the phone number by comparing it with the templates
+     * @param phoneNo - phone number
      * @param ctx - provides contextual data and operation when applying a given constraint validator
      * @return boolean
      */

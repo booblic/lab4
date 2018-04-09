@@ -25,7 +25,7 @@ public class FormUser {
     private String confirmedPassword;
 
     /**
-     * Содержит метку сброса пароля
+     * Contains the password reset mark
      */
     private String dropPassword;
 

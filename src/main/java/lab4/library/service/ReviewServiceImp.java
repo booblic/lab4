@@ -14,6 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Service that implements business logic for review
+ * @author Кирилл
+ * @version 1.0
+ */
 @Service
 public class ReviewServiceImp implements ReviewService {
 
@@ -38,7 +43,14 @@ public class ReviewServiceImp implements ReviewService {
         return reviewRepository.findByBookAndUser(book, user);
     }
 
-    public Review addReview(Integer id, String textReview, Integer rating) {
+    /**
+     * The method receives the current user, a book by id, creates and preserves a new overview, or unveils an existing one
+     * @param id - book id
+     * @param textReview - text review
+     * @param rating - rating
+     * @return review
+     */
+    public Review addOrEditReview(Integer id, String textReview, Integer rating) {
 
         Review review;
 

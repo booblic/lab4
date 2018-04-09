@@ -1,5 +1,10 @@
 package lab4.library.exception;
 
+/**
+ * Exception class incorrect password
+ * @author Кирилл
+ * @version 1.0
+ */
 public class PasswordException extends RuntimeException {
 
     public PasswordException() {

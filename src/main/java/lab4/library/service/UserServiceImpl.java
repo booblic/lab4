@@ -21,6 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+/**
+ * Service that implements business logic for the user
+ * @author Кирилл
+ * @version 1.0
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -37,9 +42,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+    /**
+     * The service object that implements the business logic for role
+     */
     @Autowired
     private RoleServiceImp roleService;
 
+    /**
+     * The object of the service for converting
+     */
     @Autowired
     private ConversionService conversionService;
 
@@ -58,6 +69,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    /**
+     * The method, using the password encoder passwordEncoder, encodes the password for the user object, sets the role for it and stores it in the database
+     * @param user - object containing information about the user
+     * @return object User
+     */
     @Override
     public User singupUser(User user) throws DataIntegrityViolationException {
 
@@ -73,6 +89,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    /**
+     * The method creates a User object for the current user
+     * @return object User
+     */
     @Override
     public User getCurrentUser() {
 
@@ -95,6 +115,11 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    /**
+     * The method checks if the current user has a role
+     * @param role - role name
+     * @return object User
+     */
     @Override
     public boolean hasRole(String role) {
 
@@ -116,6 +141,11 @@ public class UserServiceImpl implements UserService {
         return hasRole;
     }
 
+    /**
+     * The method, using the repository, gets the user by username
+     * @param username - user name
+     * @return object UserDetails
+     */
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -130,6 +160,10 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    /**
+     * The information-based method contained in the FormUser object and information about the current user forms the User object and overwrites it in the database
+     * @param formUser - object containing information about the user
+     */
     public void editUserProfile(FormUser formUser) throws PasswordException, DataIntegrityViolationException {
 
         LOG.info("msg: Integer id = {}", getCurrentUser().getUserId());
@@ -171,6 +205,11 @@ public class UserServiceImpl implements UserService {
         updateUser(user);
     }
 
+    /**
+     * The information-based method contained in the FormUser object and information about the current user forms the User object and overwrites it in the database
+     * @param formUser - object containing information about the user
+     * @return object User
+     */
     public User editUserByAdmin(FormUser formUser) throws DataIntegrityViolationException {
 
         LOG.info("msg: currentUser = getUser({})", formUser.getUserId());

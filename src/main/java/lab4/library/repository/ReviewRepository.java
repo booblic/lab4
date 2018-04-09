@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReviewRepository extends JpaRepository<Review, Integer>, QueryByExampleExecutor<Review> {
+public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     public Review findByBookAndUser(Book book, User user);
 }

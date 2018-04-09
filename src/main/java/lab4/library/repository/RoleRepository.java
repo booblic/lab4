@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Integer>, QueryByExampleExecutor<Role> {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     Role findByAuthority(String authority);
 }

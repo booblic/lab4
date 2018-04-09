@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AuthorRepository extends JpaRepository<Author, Integer>, QueryByExampleExecutor<Author> {
+public interface AuthorRepository extends JpaRepository<Author, Integer> {
 
     Author findByFirstNameAndLastName(String firstName, String lastName);
 

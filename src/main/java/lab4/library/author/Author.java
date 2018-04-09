@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * Класс представляющий сущность - автор
+ * Class representing entity - author
  * @author Кирилл
  * @version 1.0
  */

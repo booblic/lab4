@@ -12,7 +12,7 @@ import javax.persistence.*;
 import java.util.*;
 
 /**
- * Класс представляющий сущность - книга
+ * Class representing entity - book
  * @author Кирилл
  * @version 1.0
  */
@@ -35,17 +35,14 @@ public class Book extends Description {
     private Integer year;
 
 
-    //@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "bookGenre", joinColumns = @JoinColumn(name = "bookId"), inverseJoinColumns = @JoinColumn(name = "genreId"))
     private Set<Genre> genres = new HashSet<>();
 
-    //@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "bookAuthor", joinColumns = @JoinColumn(name = "bookId"), inverseJoinColumns = @JoinColumn(name = "authorId"))
     private Set<Author> authors = new HashSet<>();
 
-    //@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "bookPublisher", joinColumns = @JoinColumn(name = "bookId"), inverseJoinColumns = @JoinColumn(name = "publisherId"))
     private Set<Publisher> publishers = new HashSet<>();

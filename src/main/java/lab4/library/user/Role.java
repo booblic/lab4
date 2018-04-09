@@ -7,6 +7,11 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import java.util.*;
 
+/**
+ * The class that represents entity - role
+ * @author Кирилл
+ * @version 1.0
+ */
 @Entity
 @Table
 public class Role implements GrantedAuthority {

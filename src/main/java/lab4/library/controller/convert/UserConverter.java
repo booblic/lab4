@@ -7,7 +7,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 /**
- * Класс предназначенный для конвертации объекта FormUser в объект User
+ * A class intended for converting a FormUser object to a User object
  * @author Кирилл
  * @version 1.0
  */
@@ -17,9 +17,9 @@ public class UserConverter implements Converter<FormUser, User> {
     private static final Logger LOG = LoggerFactory.getLogger(UserConverter.class);
 
     /**
-     * Метод извлекает информацию из объекта formUser и формирует на ее основе объект user
-     * @param formUser - объект генерируемый при получении от пользователя заполненой формы
-     * @return user - объект сущности user
+     * The method retrieves information from the formUser object and forms a user object on it
+     * @param formUser - object generated when a form is received from the user
+     * @return user - object entity user
      */
     @Override
     public User convert(FormUser formUser) {

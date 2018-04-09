@@ -15,6 +15,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * The class representing entity - user
+ * @author Кирилл
+ * @version 1.0
+ */
 @Entity
 @Table
 public class User implements UserDetails {

@@ -8,6 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Service that implements business logic for author
+ * @author Кирилл
+ * @version 1.0
+ */
 @Service
 public class AuthorServiceImpl implements AuthorService {
 

@@ -17,6 +17,11 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
+    /**
+     * Method for the population of the repository data from json files
+     * @param resourcePatternResolver - strategy interface for resolving a location pattern into Resource objects
+     * @return factory
+     */
     @Bean
     public Jackson2RepositoryPopulatorFactoryBean repositoryPopulator(ResourcePatternResolver resourcePatternResolver) throws IOException {
 
@@ -27,6 +32,10 @@ public class Main {
         return factory;
     }
 
+    /**
+     * Method for get a class object for client-side HTTP access
+     * @return class object for client-side HTTP access
+     */
     @Bean
     public RestTemplate getRestTemplate() {
         return new RestTemplate();

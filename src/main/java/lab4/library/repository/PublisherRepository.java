@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PublisherRepository extends JpaRepository<Publisher, Integer>, QueryByExampleExecutor<Publisher> {
+public interface PublisherRepository extends JpaRepository<Publisher, Integer> {
 
     Publisher findByPublisherName(String publisherName);
 }

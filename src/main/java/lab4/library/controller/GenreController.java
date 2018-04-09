@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Spring MVC controller для сущности genre
+ * Spring MVC controller for the essence of genre
  * @author Кирилл
  * @version 1.0
  */
@@ -22,21 +22,21 @@ public class GenreController {
     private static final Logger LOG = LoggerFactory.getLogger(GenreController.class);
 
     /**
-     * Объект сервиса, реализующего бизнес логики для genre
+     * The object of the service that implements the business logic for the genre
      */
     @Autowired
     private GenreServiceImpl genreService;
 
     /**
-     * Объект сервиса, реализующего бизнес логики для user
+     * The object of the service that implements the business logic for the user
      */
     @Autowired
     private UserService userService;
 
     /**
-     * Метод возвращает имя jsp для поиска книг по жанру
+     * The method returns the name jsp to search for books by genre
      * @param model - defines a holder for model attributes
-     * @return имя jsp
+     * @return name jsp
      */
     @GetMapping(value = "/getsearchingbygenreform")
     public String getSearchingByGenreForm(Model model) {
@@ -54,10 +54,10 @@ public class GenreController {
     }
 
     /**
-     * Метод получает книги с заданным жанром, добавляет их в holder for model attributes и возвращает имя jsp для отображжения книг
-     * @param genreName - имя жанра
+     * The method gets books with a given genre, adds them to the holder for model attributes, and returns the name jsp for displaying books
+     * @param genreName - genre name
      * @param model - defines a holder for model attributes
-     * @return имя jsp
+     * @return name jsp
      */
     @PostMapping(value = "/searchingbygenre")
     public String searchingByGenre(@RequestParam String genreName, Model model) {

@@ -4,7 +4,7 @@ import lab4.library.annotation.ToString;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
- * Класс для работы с данными полученными из интернета (импорт информации о книги)
+ * Class for working with data received from the Internet (import of information about the book)
  * @author Кирилл
  * @version 1.0
  */

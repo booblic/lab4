@@ -5,8 +5,18 @@ import lab4.library.annotation.ToString;
 import java.lang.reflect.Field;
 import java.util.Objects;
 
+/**
+ * Class for reflection toString
+ * @author Кирилл
+ * @version 1.0
+ */
 public class ReflectionToString {
 
+    /**
+     * Method using reflection looks for the fields of the object annotated as @ToString and forms a string based on these fields
+     * @param o - some object
+     * @return object toString
+     */
     public static String reflectionToString(Object o) {
 
         StringBuilder stringBuilder = new StringBuilder();

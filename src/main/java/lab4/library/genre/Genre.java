@@ -10,6 +10,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Class representing entity - genre
+ * @author Кирилл
+ * @version 1.0
+ */
 @Entity
 public class Genre extends Description {
 

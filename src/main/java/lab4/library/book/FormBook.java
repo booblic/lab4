@@ -4,7 +4,7 @@ import lab4.library.ReflectionToString;
 import lab4.library.annotation.ToString;
 
 /**
- * Класс объект которого генерируется при получении от пользователя заполненой формы
+ * The class whose object is generated when the user receives a completed form
  * @author Кирилл
  * @version 1.0
  */
@@ -23,27 +23,27 @@ public class FormBook {
     private Integer year;
 
     /**
-     * Массив с именами жанров, разделенных запятой
+     * An array with genre names separated by a comma
      */
     private String[] genresNames;
 
     /**
-     * Массив с именами авторов, разделенных запятой
+     * An array with the names of authors separated by a comma
      */
     private String[] authorsFirstNames;
 
     /**
-     * Массив с фамилиямя авторов, разделенных запятой
+     * An array with author last names separated by a comma
      */
     private String[] authorsLastNames;
 
     /**
-     * Массив с отчествами авторов, разделенных запятой
+     * Array with the authors' middle names, separated by commas
      */
     private String[] authorsMiddleNames;
 
     /**
-     * Массив с именами издательств, разделенных запятой
+     * An array with the names of publishers separated by a comma
      */
     private String[] publishersNames;
 

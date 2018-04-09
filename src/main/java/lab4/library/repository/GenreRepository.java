@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface GenreRepository extends JpaRepository<Genre, Integer>, QueryByExampleExecutor<Genre> {
+public interface GenreRepository extends JpaRepository<Genre, Integer> {
 
     Genre findByGenreName(String genreName);
 }

@@ -7,7 +7,7 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 /**
- * Кастомная аннотация для валидации поля номера телефона
+ * Custom annotation for validating the phone number field
  * @author Кирилл
  * @version 1.0
  */

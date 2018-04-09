@@ -10,6 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Class representing entity - review
+ * @author Кирилл
+ * @version 1.0
+ */
 @Entity
 @Table
 public class Review {
@@ -28,6 +33,9 @@ public class Review {
     @JoinColumn(name = "bookId")
     private Book book;
 
+    /**
+     * Map containing review text and rating
+     */
     @ToString
     @ElementCollection(targetClass = Integer.class)
     @MapKeyColumn(name = "textReview", length = 1000)

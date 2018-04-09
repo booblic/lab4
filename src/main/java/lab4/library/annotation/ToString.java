@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Кастомная аннотация для реализации рефлексивного toString
+ * Custom annotation for implementing a reflexive toString
  * @author Кирилл
  * @version 1.0
  */
