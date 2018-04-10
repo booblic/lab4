@@ -10,12 +10,12 @@
 <html>
 
 <head>
-	<script type="text/javascript" src="${path}/js/edituserbyadmin.js"></script>
+	<script type="text/javascript" src="${path}/js/droppassword.js"></script>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
-	<link href="${path}/css/edituserbyadmin.css" rel="stylesheet"/> </head>
+	<link href="${path}/css/commonstyle.css" rel="stylesheet"/> </head>
 
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">

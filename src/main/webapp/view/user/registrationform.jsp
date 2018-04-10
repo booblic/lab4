@@ -18,8 +18,30 @@
 	<link href="${path}/css/registration.css" rel="stylesheet"/> </head>
 
 <body>
-	<div class="container">
-		<h3 class="my_h3">Registration</h3>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+    	<div class="container">
+    		<div class="navbar-header">
+    			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> </button>
+    			<a class="navbar-brand" href="${path}/"> <span class="glyphicon glyphicon-book"></span> Library </a>
+    		</div>
+    		<div id="navbar" class="collapse navbar-collapse">
+    			<ul class="nav navbar-nav">
+    				<c:choose>
+    					<c:when test="${not empty username}">
+   						<li><a href="${path}/user/showuserprofile">${username}</a></li>
+   						<c:if test="${role eq 'admin'}">
+   							<li><a href="${path}/user/getshowalluserform">Show all user</a></li>
+   						</c:if>
+    					<li><a href="${path}/logout">Logout</a></li>
+    					<br> </c:when>
+    				</c:choose>
+    			</ul>
+    		</div>
+    		<!--/.nav-collapse -->
+    	</div>
+    </nav>
+    <div class="reg">
+		<h3 class="text-center">Registration</h3>
 		<br>
 		<form:form action="${path}/user/registeruser" modelAttribute="user" method="POST">
 			<label for="firstName">First name</label>

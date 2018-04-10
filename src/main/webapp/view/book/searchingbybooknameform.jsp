@@ -12,8 +12,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
-	<script type="text/javascript" src="${path}/js/addbook.js"></script>
-	<link href="${path}/css/searching.css" rel="stylesheet"/> </head>
+	<link href="${path}/css/commonstyle.css" rel="stylesheet"/> </head>
 
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">

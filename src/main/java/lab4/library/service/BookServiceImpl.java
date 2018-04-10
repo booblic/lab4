@@ -29,6 +29,7 @@ import java.util.*;
 
 /**
  * A service that implements business logic for a book
+ *
  * @author Кирилл
  * @version 1.0
  */
@@ -99,10 +100,10 @@ public class BookServiceImpl implements BookService {
 
     /**
      * A method based on information from formBook forms a book object and stores / updates it in the database
+     *
      * @param formBook - book information object
      * @return object Book
      */
-    @PreAuthorize("hasAnyRole('[ROLE_MODER, ROLE_ADMIN]')")
     public Book addOrEditBook(FormBook formBook) {
 
         Book book = new Book();
@@ -126,7 +127,7 @@ public class BookServiceImpl implements BookService {
 
             Set<Genre> genreSet = new HashSet<>();
 
-            for (String genreName: formBook.getGenresNames()) {
+            for (String genreName : formBook.getGenresNames()) {
 
                 if (genreName.compareTo("") != 0) {
 
@@ -169,31 +170,17 @@ public class BookServiceImpl implements BookService {
 
                     if (authorsFirstNames[i].compareTo("") != 0) {
 
-                        if (authorsLastNames.length != 0) {
+                        Author author = null;
 
+                        if (authorsLastNames.length != 0 && authorsMiddleNames.length != 0) {
+
+                            LOG.info("msg: authorService.findByFirstNameAndLastNameAndMiddleName({}, {}, {}); ", authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i]);
+                            author = authorService.findByFirstNameAndLastNameAndMiddleName(authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i]);
+
+                        } else if (authorsLastNames.length != 0) {
                             LOG.info("msg: authorService.findByFirstNameAndLastName({}, {}); ", authorsFirstNames[i], authorsLastNames[i]);
-                            Author author = authorService.findByLastName(authorsLastNames[i]);
-
-                            if (author != null) {
-
-                                LOG.info("msg: authorSet.add({})", author);
-                                authorSet.add(author);
-
-                            } else {
-
-                                if (authorsMiddleNames.length != 0) {
-                                    LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({}, {}, {})))", authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i]);
-                                    authorSet.add(authorService.saveAuthor(new Author(authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i])));
-                                } else {
-                                    LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({}, {}, {})))", authorsFirstNames[i], authorsLastNames[i]);
-                                    authorSet.add(authorService.saveAuthor(new Author(authorsFirstNames[i], authorsLastNames[i], "")));
-                                }
-                            }
+                            author = authorService.findByFirstNameAndLastName(authorsFirstNames[i], authorsLastNames[i]);
                         }
-                    } else if (authorsLastNames[i].compareTo("") != 0) {
-
-                        LOG.info("msg: authorService.findByLastName({}); ", authorsLastNames[i]);
-                        Author author = authorService.findByFirstNameAndLastName(authorsFirstNames[i], authorsLastNames[i]);
 
                         if (author != null) {
 
@@ -210,16 +197,29 @@ public class BookServiceImpl implements BookService {
                                 authorSet.add(authorService.saveAuthor(new Author(authorsFirstNames[i], authorsLastNames[i], "")));
                             }
                         }
+                    } else if (authorsLastNames[i].compareTo("") != 0) {
+
+                        LOG.info("msg: authorService.findByLastName({}); ", authorsLastNames[i]);
+                        Author author = authorService.findByFirstNameAndLastNameAndMiddleName("", authorsLastNames[i], "");
+
+                        if (author != null) {
+
+                            LOG.info("msg: authorSet.add({})", author);
+                            authorSet.add(author);
+
+                        } else {
+
+                            LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({}, {}, {})))", authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i]);
+                            authorSet.add(authorService.saveAuthor(new Author("", authorsLastNames[i], "")));
+                        }
                     }
                 }
             } else if (authorsLastNames.length != 0) {
 
-                System.out.println("-----------------------------------");
-
                 for (int i = 0; i < authorsLastNames.length; i++) {
 
-                    LOG.info("msg: authorService.findByLastName({}); ",authorsLastNames[i]);
-                    Author author = authorService.findByLastName(authorsLastNames[i]);
+                    LOG.info("msg: authorService.findByLastName({}); ", authorsLastNames[i]);
+                    Author author = authorService.findByFirstNameAndLastNameAndMiddleName("", authorsLastNames[i], "");
 
                     if (author != null) {
 
@@ -228,13 +228,8 @@ public class BookServiceImpl implements BookService {
 
                     } else {
 
-                        if (authorsMiddleNames.length != 0) {
-                            LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({}, {})))", authorsLastNames[i], authorsMiddleNames[i]);
-                            authorSet.add(authorService.saveAuthor(new Author("", authorsLastNames[i], authorsMiddleNames[i])));
-                        } else {
-                            LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({})))", authorsLastNames[i]);
-                            authorSet.add(authorService.saveAuthor(new Author("", authorsLastNames[i], "")));
-                        }
+                        LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({})))", authorsLastNames[i]);
+                        authorSet.add(authorService.saveAuthor(new Author("", authorsLastNames[i], "")));
                     }
                 }
             }
@@ -247,7 +242,7 @@ public class BookServiceImpl implements BookService {
 
             Set<Publisher> publisherSet = new HashSet<>();
 
-            for (String publisherName: formBook.getPublishersNames()) {
+            for (String publisherName : formBook.getPublishersNames()) {
 
                 if (publisherName.compareTo("") != 0) {
 
@@ -275,8 +270,10 @@ public class BookServiceImpl implements BookService {
 
     /**
      * The method uses a repository to retrieve books, generates a file with information about them
+     *
      * @param id - list of id books
      * @return file with information about books
+     * @throws IOException
      */
     public ResponseEntity<StreamingResponseBody> exportBooks(List<Integer> id) throws IOException {
 
@@ -323,6 +320,7 @@ public class BookServiceImpl implements BookService {
 
     /**
      * The method makes an HTTP request, gets an html page containing information about books and on its basis forms a list of books
+     *
      * @param bookName - name of the book
      * @return list of PatternBook objects
      */
@@ -365,7 +363,7 @@ public class BookServiceImpl implements BookService {
                 LOG.info("book.setHref(\"https://mybook.ru/\" + {})", searchResultItemInfoAuthor.attr("href"));
                 book.setHref("https://mybook.ru/" + searchResultItemInfoAuthor.attr("href"));
 
-                LOG.info("msg: book.setCount({})", count++);
+                LOG.info("msg: book.setCount({})", count);
                 book.setCount(count++);
             }
 
@@ -429,6 +427,7 @@ public class BookServiceImpl implements BookService {
 
     /**
      * The method makes an HTTP request, receives an HTML page, extracts the ISBN of the book from it, based on the information contained in the PatternBook object it forms a Book object and stores it in the database
+     *
      * @param patternBook - book information object
      * @return object Book
      */
@@ -489,7 +488,7 @@ public class BookServiceImpl implements BookService {
                     LOG.info("msg: authorNameMassif[{}] = {}", i, name);
                     authorNameMassif[i] = name;
 
-                    LOG.info("msg: i = {}", i++);
+                    LOG.info("msg: i = {}", i);
                     i++;
                 }
 

@@ -21,6 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Method configures the access restriction, setting loging page
+     * @throws Exception
      * @param http - this object allows configuring web based security for specific http requests
      */
     @Override

@@ -25,6 +25,11 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Transactional
+    public Author findByFirstNameAndLastNameAndMiddleName(String firstName, String lastName, String middleName) {
+        return authorRepository.findByFirstNameAndLastNameAndMiddleName(firstName, lastName, middleName);
+    }
+
+    @Transactional
     public Author findByFirstNameAndLastName(String firstName, String lastName) {
         return authorRepository.findByFirstNameAndLastName(firstName, lastName);
     }

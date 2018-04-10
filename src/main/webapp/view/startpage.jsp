@@ -12,7 +12,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
-	<link href="${path}/css/startpage.css" rel="stylesheet"/> </head>
+	<link href="${path}/css/commonstyle.css" rel="stylesheet"/> </head>
 
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -38,11 +38,12 @@
 		</div>
 	</nav>
 	<div class="container">
-		<h2 class="my_header">Welcome to the library!</h2>
+		<h2 class="text-center">Welcome to the library!</h2>
 		<p>${message}</p>
 		<p>${registrationMessage}</p>
 		<c:choose>
 			<c:when test="${empty username}">
+				<div class="my">
 				<div class="my">
 					<p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/login">Sign in or Registration</a></p>
 				</div>

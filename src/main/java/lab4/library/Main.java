@@ -19,6 +19,7 @@ public class Main {
 
     /**
      * Method for the population of the repository data from json files
+     * @throws IOException
      * @param resourcePatternResolver - strategy interface for resolving a location pattern into Resource objects
      * @return factory
      */
