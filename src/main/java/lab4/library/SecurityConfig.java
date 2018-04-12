@@ -26,18 +26,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        /*http.authorizeRequests().antMatchers("/resource/**", "/webapp/**",
-                "/user/getregistrationform", "/user/registeruser",
-                "/searchbookoptions",
-                "/book/show", "/book/getsearchingbybooknameform", "/book/searchingbybookname",
-                "/book/getformviewbook",
-                "/book/genreandyearsearchingform", "/book/searchingbygenreandyear",
-                "/book/authorandgenresearchingform", "/book/searhcingbyauthorandgenre",
-                "/publisher/getsearchingbypublisherform", "/publisher/searchingbypublisher",
-                "/genre/getsearchingbygenreform", "/genre/searchingbygenre",
-                "/author/getsearchingbyauthorform", "/author/searchingbyauthor",
-                "/console/**", "/").permitAll().anyRequest().authenticated();*/
-
         http
                 .authorizeRequests().antMatchers("/resource/**", "/webapp/**",
                 "/user/getregistrationform", "/user/registeruser",
