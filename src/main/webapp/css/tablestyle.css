@@ -2,11 +2,6 @@ body {
     padding-top: 60px;
 }
 
-.table-responsive {
-    margin-left: 20%;
-    margin-right: 20%;
-}
-
 .error {
     color: #ff0000;
     text-align: center;

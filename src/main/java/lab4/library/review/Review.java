@@ -30,7 +30,7 @@ public class Review {
 
     @ToString
     @ManyToOne
-    @JoinColumn(name = "bookId")
+    @JoinColumn(name = "bookId", nullable = false, insertable = true, updatable = true)
     private Book book;
 
     /**

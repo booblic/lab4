@@ -74,6 +74,7 @@ public class UserServiceImpl implements UserService {
      * @param user - object containing information about the user
      * @return object User
      */
+    @Transactional
     @Override
     public User singupUser(User user) throws DataIntegrityViolationException {
 
@@ -93,6 +94,7 @@ public class UserServiceImpl implements UserService {
      * The method creates a User object for the current user
      * @return object User
      */
+    @Transactional
     @Override
     public User getCurrentUser() {
 
@@ -120,6 +122,7 @@ public class UserServiceImpl implements UserService {
      * @param role - role name
      * @return object User
      */
+    @Transactional
     @Override
     public boolean hasRole(String role) {
 
@@ -164,6 +167,7 @@ public class UserServiceImpl implements UserService {
      * The information-based method contained in the FormUser object and information about the current user forms the User object and overwrites it in the database
      * @param formUser - object containing information about the user
      */
+    @Transactional
     public void editUserProfile(FormUser formUser) throws PasswordException, DataIntegrityViolationException {
 
         LOG.info("msg: Integer id = {}", getCurrentUser().getUserId());
@@ -210,6 +214,7 @@ public class UserServiceImpl implements UserService {
      * @param formUser - object containing information about the user
      * @return object User
      */
+    @Transactional
     public User editUserByAdmin(FormUser formUser) throws DataIntegrityViolationException {
 
         LOG.info("msg: currentUser = getUser({})", formUser.getUserId());

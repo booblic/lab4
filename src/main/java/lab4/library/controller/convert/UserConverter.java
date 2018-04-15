@@ -26,22 +26,17 @@ public class UserConverter implements Converter<FormUser, User> {
 
         User user = new User();
 
-        LOG.info("msg: user.setUsername({})", formUser.getUsername());
+        LOG.info("msg: formUser = {}", formUser.toString());
         user.setUsername(formUser.getUsername());
 
-        LOG.info("msg: user.setFirstName({})", formUser.getFirstName());
         user.setFirstName(formUser.getFirstName());
 
-        LOG.info("msg: user.setLastName({})", formUser.getLastName());
         user.setLastName(formUser.getLastName());
 
-        LOG.info("msg: user.setMiddleName({})", formUser.getMiddleName());
         user.setMiddleName(formUser.getMiddleName());
 
-        LOG.info("msg: user.setEmail({})", formUser.getEmail());
         user.setEmail(formUser.getEmail());
 
-        LOG.info("msg: user.setPhoneNumber({})", formUser.getPhoneNumber());
         user.setPhoneNumber(formUser.getPhoneNumber());
 
         return user;

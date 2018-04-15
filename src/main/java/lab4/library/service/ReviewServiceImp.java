@@ -50,6 +50,7 @@ public class ReviewServiceImp implements ReviewService {
      * @param rating - rating
      * @return review
      */
+    @Transactional
     public Review addOrEditReview(Integer id, String textReview, Integer rating) {
 
         Review review;

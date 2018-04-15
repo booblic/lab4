@@ -37,45 +37,49 @@
 			<!--/.nav-collapse -->
 		</div>
 	</nav>
-	<div class="table-responsive">
-		<c:if test="${not empty users}">
-			<h2 class="h2 page-header">All Users</h2>
-			<table class="table table-striped table-sm">
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Username</th>
-						<th>First name</th>
-						<th>Last name</th>
-						<th>Middle name</th>
-						<th>Email</th>
-						<th>Phone number</th>
-						<th>Role</th>
-						<th>Edit</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${users}" var="user">
-						<tr>
-							<td>${user.userId}</td>
-							<td>${user.username}</td>
-							<td>${user.firstName}</td>
-							<td>${user.lastName}</td>
-							<td>${user.middleName}</td>
-							<td>${user.email}</td>
-							<td>${user.phoneNumber}</td>
-							<td>
-								<c:forEach items="${user.roles}" var="role"> ${role.roleName} </c:forEach>
-							</td>
-							<td><a href="${path}/user/getformedituserbyadmin?id=${user.userId}">Edit</a></td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</c:if>
-		<c:if test="${not empty error}">
-			<p class="error">${error}</p>
-		</c:if>
+	<div class="container">
+        <div class="row">
+            <div class="table-responsive">
+                <c:if test="${not empty users}">
+                    <h2 class="h2 page-header">All Users</h2>
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Username</th>
+                                <th>First name</th>
+                                <th>Last name</th>
+                                <th>Middle name</th>
+                                <th>Email</th>
+                                <th>Phone number</th>
+                                <th>Role</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${users}" var="user">
+                                <tr>
+                                    <td>${user.userId}</td>
+                                    <td>${user.username}</td>
+                                    <td>${user.firstName}</td>
+                                    <td>${user.lastName}</td>
+                                    <td>${user.middleName}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.phoneNumber}</td>
+                                    <td>
+                                        <c:forEach items="${user.roles}" var="role"> ${role.roleName} </c:forEach>
+                                    </td>
+                                    <td><a href="${path}/user/getformedituserbyadmin?id=${user.userId}">Edit</a></td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </c:if>
+                <c:if test="${not empty error}">
+                    <p class="error">${error}</p>
+                </c:if>
+            </div>
+	    </div>
 	</div>
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>

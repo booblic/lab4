@@ -47,8 +47,8 @@ public class Book extends Description {
     @JoinTable(name = "bookPublisher", joinColumns = @JoinColumn(name = "bookId"), inverseJoinColumns = @JoinColumn(name = "publisherId"))
     private Set<Publisher> publishers = new HashSet<>();
 
-    @OneToMany(mappedBy = "book")
-    private Set<Review> reviews = new HashSet<>();
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "book")
+    private List<Review> reviews = new ArrayList<>();
 
     private Double bookRating;
 
@@ -119,11 +119,11 @@ public class Book extends Description {
         this.publishers = publishers;
     }
 
-    public Set<Review> getReviews() {
+    public List<Review> getReviews() {
         return reviews;
     }
 
-    public void setReviews(Set<Review> reviews) {
+    public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
 

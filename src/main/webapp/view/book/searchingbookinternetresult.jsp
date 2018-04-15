@@ -12,7 +12,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
-	<link href="${path}/css/tab.css" rel="stylesheet"/> </head>
+	<link href="${path}/css/tablestyle.css" rel="stylesheet"/> </head>
 
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -37,56 +37,65 @@
 			<!--/.nav-collapse -->
 		</div>
 	</nav>
-	<div class="table-responsive">
-		<c:if test="${not empty books}">
-			<h2 class="h2 page-header">Searching results</h2>
-			<table class="table table-striped table-sm">
-				<thead>
-					<tr>
-						<th>№</th>
-						<th>Name</th>
-						<th>Genres</th>
-						<th>Authors</th>
-						<th>Publishers</th>
-						<th>Year</th>
-						<th>Add</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${books}" var="book">
-						<tr>
-							<form action="${path}/book/addsearchingbook" method="POST">
-								<td>${book.count}</td>
-								<td>
-									<input type="text" class="form-control" name="bookName" value="${book.bookName}" />
-								</td>
-								<td>
-									<input type="text" class="form-control" name="genresNames" value="${book.genresNames}" />
-								</td>
-								<td>
-									<input type="text" class="form-control" name="authorsNames" value="${book.authorsNames}" />
-								</td>
-								<td>
-									<input type="text" class="form-control" name="publishersNames" value="${book.publishersNames}" />
-								</td>
-								<td>
-									<input type="text" class="form-control" name="year" value="${book.year}" />
-								</td>
-								<input type="hidden" name="href" value="${book.href}" />
-								<td>
-									<button type="submit" class="btn btn-primary">Add</button>
-								</td>
-							</form>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</c:if>
-		<c:if test="${empty books}">
-			<c:if test="${not empty error}">
-				<p class="error">${error}</p>
-			</c:if>
-			<br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getaddform">Add book</a> </c:if>
+	<div class="container-fluid">
+	    <div class="row">
+            <div class="table-responsive">
+                <c:if test="${not empty books}">
+                    <h2 class="h2 page-header">Searching results</h2>
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Name</th>
+                                <th>Genres</th>
+                                <th>Authors</th>
+                                <th>Publishers</th>
+                                <th>Year</th>
+                                <th>Add</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${books}" var="book">
+                                <tr>
+                                    <form action="${path}/book/addsearchingbook" method="POST">
+                                        <td>${book.count}</td>
+                                        <td>
+                                            <input type="hidden" class="form-control" name="bookName" value="${book.bookName}" />
+                                            ${book.bookName}
+                                        </td>
+                                        <td>
+                                            <input type="hidden" class="form-control" name="genresNames" value="${book.genresNames}" />
+                                            ${book.genresNames}
+                                        </td>
+                                        <td>
+                                            <input type="hidden" class="form-control" name="authorsNames" value="${book.authorsNames}" />
+                                            ${book.authorsNames}
+                                        </td>
+                                        <td>
+                                            <input type="hidden" class="form-control" name="publishersNames" value="${book.publishersNames}" />
+                                            ${book.publishersNames}
+                                        </td>
+                                        <td>
+                                            <input type="hidden" class="form-control" name="year" value="${book.year}" />
+                                            ${book.year}
+                                        </td>
+                                            <input type="hidden" name="href" value="${book.href}" />
+                                        <td>
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                        </td>
+                                    </form>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </c:if>
+                <c:if test="${empty books}">
+                    <c:if test="${not empty error}">
+                        <p class="error">${error}</p>
+                    </c:if>
+                    <br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getaddform">Add book</a> </c:if>
+            </div>
+        </div>
 	</div>
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>

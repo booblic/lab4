@@ -1,5 +1,6 @@
 package lab4.library.controller.convert;
 
+import lab4.library.ReflectionToString;
 import lab4.library.annotation.Phone;
 import lab4.library.annotation.ToString;
 import org.hibernate.validator.constraints.Email;
@@ -12,6 +13,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class FormUser {
 
+    @ToString
     private Integer userId;
 
     @ToString
@@ -47,6 +49,7 @@ public class FormUser {
     @ToString
     private String phoneNumber;
 
+    @ToString
     private String role;
 
     public FormUser() {}
@@ -155,5 +158,10 @@ public class FormUser {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.reflectionToString(this);
     }
 }

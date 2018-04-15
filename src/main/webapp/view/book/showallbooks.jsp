@@ -37,47 +37,52 @@
 			<!--/.nav-collapse -->
 		</div>
 	</nav>
-	<div class="table-responsive">
-		<c:if test="${not empty books}">
-			<h2 class="h2 page-header">Book List</h2>
-			<table class="table table-striped table-sm">
-				<thead>
-					<tr>
-						<th>Export</th>
-						<th>Id</th>
-						<th>Name</th>
-						<th>ISBN</th>
-						<th>Year</th>
-						<th>Edit</th>
-						<th>View</th>
-						<th>Delete</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${books}" var="book">
-						<tr>
-							<td>
-								<input type="checkbox" class="form-check-input" form="export" name="id" value="${book.bookId}" /> </td>
-							<td>${book.bookId}</td>
-							<td>${book.bookName}</td>
-							<td>${book.isbn}</td>
-							<td>${book.year}</td>
-							<td><a href="${path}/book/getformedit?id=${book.bookId}">Edit</a></td>
-							<td><a href="${path}/book/getformviewbook?id=${book.bookId}">View</a></td>
-							<td><a href="${path}/book/deletebook?id=${book.bookId}">Delete</a></td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-			<form id="export" action="${path}/book/exportbooks" method="POST">
-				<input type="hidden" name="id" value="0" />
-				<button class="btn btn-info" type="submit">Export</button> Use checkbox </form>
-		</c:if>
-		<c:if test="${not empty error}">
-			<p class="error">${error}</p>
-		</c:if>
-		<br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getaddform">Add book</a>
-		<br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getsearchbookinternetform">Searching book on mybook.ru</a> </div>
+	<div class="container">
+	    <div class="row">
+            <div class="table-responsive">
+                <c:if test="${not empty books}">
+                    <h2 class="h2 page-header">Book List</h2>
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>Export</th>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>ISBN</th>
+                                <th>Year</th>
+                                <th>Edit</th>
+                                <th>View</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${books}" var="book">
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="form-check-input" form="export" name="id" value="${book.bookId}" /> </td>
+                                    <td>${book.bookId}</td>
+                                    <td>${book.bookName}</td>
+                                    <td>${book.isbn}</td>
+                                    <td>${book.year}</td>
+                                    <td><a href="${path}/book/getformedit?id=${book.bookId}">Edit</a></td>
+                                    <td><a href="${path}/book/getformviewbook?id=${book.bookId}">View</a></td>
+                                    <td><a href="${path}/book/deletebook?id=${book.bookId}">Delete</a></td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                    <form id="export" action="${path}/book/exportbooks" method="POST">
+                        <input type="hidden" name="id" value="0" />
+                        <button class="btn btn-info" type="submit">Export</button> Use checkbox </form>
+                </c:if>
+                <c:if test="${not empty error}">
+                    <p class="error">${error}</p>
+                </c:if>
+                <br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getaddform">Add book</a>
+                <br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getsearchbookinternetform">Searching book on mybook.ru</a>
+            </div>
+	    </div>
+	</div>
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>
 		<p class="mb-1">© 2018 Library</p>

@@ -19,6 +19,10 @@ public class ReflectionToString {
      */
     public static String reflectionToString(Object o) {
 
+        if (o == null) {
+            return "it is null object";
+        }
+
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append(o.getClass().getSimpleName()).append(": ");

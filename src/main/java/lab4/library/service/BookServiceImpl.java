@@ -58,6 +58,7 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findOne(id);
     }
 
+    @Transactional
     public List<Book> findAllBook() {
         return bookRepository.findAll();
     }
@@ -93,7 +94,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Transactional
-    @PreAuthorize("hasAnyRole('[ROLE_MODER, ROLE_ADMIN]')")
     public void deleteBook(Integer id) {
         bookRepository.delete(id);
     }
@@ -104,6 +104,7 @@ public class BookServiceImpl implements BookService {
      * @param formBook - book information object
      * @return object Book
      */
+    @Transactional
     public Book addOrEditBook(FormBook formBook) {
 
         Book book = new Book();
@@ -275,6 +276,7 @@ public class BookServiceImpl implements BookService {
      * @return file with information about books
      * @throws IOException
      */
+    @Transactional
     public ResponseEntity<StreamingResponseBody> exportBooks(List<Integer> id) throws IOException {
 
         LOG.info("msg: findBookByIterableId({})", id);
@@ -324,6 +326,7 @@ public class BookServiceImpl implements BookService {
      * @param bookName - name of the book
      * @return list of PatternBook objects
      */
+    @Transactional
     public List<PatternBook> searchBookInternet(String bookName) {
 
         List<PatternBook> books = new ArrayList<>();
@@ -431,6 +434,7 @@ public class BookServiceImpl implements BookService {
      * @param patternBook - book information object
      * @return object Book
      */
+    @Transactional
     public Book addSearchingBook(PatternBook patternBook) {
 
         LOG.info("msg: restTemplate.getForObject({}, {})", patternBook.getHref(), String.class);

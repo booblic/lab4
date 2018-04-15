@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/book/getaddform", "/book/addbook",
                 "/book/getformedit", "/book/editbook",
+                "/book/deletebook",
                 "/book/getsearchbookinternetform", "/book/searchbookinternet", "/book/addsearchingbook")
                 .hasAnyRole("MODER", "ADMIN")
                 .and().authorizeRequests().antMatchers("/user/getshowalluserform", "/user/getformedituserbyadmin", "/user/edituserbyadmin")

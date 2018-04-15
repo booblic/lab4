@@ -85,24 +85,26 @@
 				<label for="author">Author</label>
 			</p>
 			<c:forEach items="${book.authors}" var="author">
-				<div class="col-md-3">
-					<p>
-						<label for="firstName">First name</label>
-					</p>
-					<p>${author.firstName}</p>
-				</div>
-				<div class="col-md-3">
-					<p>
-						<label for="lastName">Last name</label>
-					</p>
-					<p>${author.lastName}</p>
-				</div>
-				<div class="col-md-3">
-					<p>
-						<label for="middleName">Middle name</label>
-					</p>
-					<p>${author.middleName}</p>
-				</div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <p>
+                            <label for="firstName">First name</label>
+                        </p>
+                        <p>${author.firstName}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>
+                            <label for="lastName">Last name</label>
+                        </p>
+                        <p>${author.lastName}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>
+                            <label for="middleName">Middle name</label>
+                        </p>
+                        <p>${author.middleName}</p>
+                    </div>
+                </div>
 			</c:forEach>
 		</div>
 		<div class="row">

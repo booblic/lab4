@@ -246,7 +246,7 @@ public class BookController {
         Book book = bookServices.findOne(bookId);
 
         LOG.info("msg: book.getReviews()");
-        Set<Review> reviews = book.getReviews();
+        List<Review> reviews = book.getReviews();
 
         model.addAttribute("reviews", reviews);
 
