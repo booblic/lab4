@@ -169,8 +169,8 @@ public class BookController {
      * @param bookName - name of the book
      * @return name jsp
      */
-    @PostMapping(value = "/searchingbybookname")
-    public String searchingByBookName(@RequestParam String bookName, Model model) {
+    @GetMapping(value = "/searchingbybookname")
+    public String searchingByBookName(@RequestParam(value = "bookName") String bookName, Model model) {
 
         LOG.info("msg: bookServices.findByBookName({})", bookName);
         List<Book> bookList = bookServices.findByBookName(bookName);
@@ -314,8 +314,8 @@ public class BookController {
      * @param model - defines a holder for model attributes
      * @return name jsp
      */
-    @PostMapping(value = "/searchingbygenreandyear")
-    public String searchingByGenreAndYear(@RequestParam String genreName, @RequestParam Integer year, Model model) {
+    @GetMapping(value = "/searchingbygenreandyear")
+    public String searchingByGenreAndYear(@RequestParam(value = "genreName") String genreName, @RequestParam(value = "year") Integer year, Model model) {
 
         LOG.info("msg: bookServices.findByYearAndGenreName({}, {})", genreName, year);
         List<Book> bookList = bookServices.findByYearAndGenreName(genreName, year);
@@ -359,8 +359,8 @@ public class BookController {
      * @param model - defines a holder for model attributes
      * @return name jsp
      */
-    @PostMapping(value = "/searhcingbyauthorandgenre")
-    public String searchingByAuthorAndGenre(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String genreName, Model model) {
+    @GetMapping(value = "/searhcingbyauthorandgenre")
+    public String searchingByAuthorAndGenre(@RequestParam(value = "firstName") String firstName, @RequestParam(value = "lastName") String lastName, @RequestParam(value = "genreName") String genreName, Model model) {
 
         LOG.info("msg: bookServices.findByAuthorAndGenreName({}, {}, {})", firstName, lastName, genreName);
         List<Book> bookList = bookServices.findByAuthorAndGenreName(firstName, lastName, genreName);

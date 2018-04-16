@@ -40,7 +40,7 @@
 	</nav>
 	<div class="container">
 		<h2 class="h2 page-header">Searching by genre and year</h2>
-		<form action="${path}/book/searchingbygenreandyear" method="POST">
+		<form action="${path}/book/searchingbygenreandyear" method="GET">
 			<div class="row">
 				<div class="col-md-6">
 					<p>

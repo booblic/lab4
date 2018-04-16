@@ -139,5 +139,159 @@
       }
     ],
     "description": "Преступление и наказание — социально-психологический и социально-философский роман Фёдора Михайловича Достоевского, над которым писатель работал в 1865—1866 годах. Впервые опубликован в 1866 году в журнале «Русский вестник» (№ 1, 2, 4, 6—8, 11, 12). Через год вышло в свет отдельное издание, структура которого была немного изменена по сравнению с журнальной редакцией; кроме того, автор внёс в книжный вариант ряд сокращений и стилистических правок."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Братья Карамазовы",
+    "isbn": "9785389058781",
+    "year": "2013",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 4
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 4
+      }
+    ],
+    "description": "Братья Карамазовы — последний роман Ф. М. Достоевского, который автор писал два года. Роман был напечатан частями в журнале «Русский вестник». Достоевский задумывал роман как первую часть эпического романа «История Великого грешника». Произведение было окончено в ноябре 1880 года. Писатель умер через два месяца после публикации."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Мастер и Маргарита",
+    "isbn": "9785389016866",
+    "year": "2016",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 5
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 3
+      },
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 4
+      }
+    ],
+    "description": "Мастер и Маргарита — роман Михаила Афанасьевича Булгакова, работа над которым началась в конце 1920-х годов и продолжалась вплоть до смерти писателя. Роман относится к незавершённым произведениям; редактирование и сведение воедино черновых записей осуществляла после смерти мужа вдова писателя — Елена Сергеевна."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Анна Каренина",
+    "isbn": "9785389049352",
+    "year": "2017",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 2
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 4
+      }
+    ],
+    "description": "Анна Каренина (1873—1877; журнальная публикация 1875—1877; первое книжное издание 1878) — роман Льва Толстого о трагической любви замужней дамы Анны Карениной и блестящего офицера Вронского на фоне счастливой семейной жизни дворян Константина Лёвина и Кити Щербацкой."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Мертвые души",
+    "isbn": "9785389013223",
+    "year": "2014",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 5
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 6
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 4
+      }
+    ],
+    "description": "Мертвые души — произведение Николая Васильевича Гоголя, жанр которого сам автор обозначил как поэму. Изначально задумано как трёхтомное произведение. Первый том был издан в 1842 году. Практически готовый второй том был уничтожен самим Гоголем, но сохранилось несколько глав в черновиках. Третий том был задуман и не начат, о нём остались только отдельные сведения."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Собачье сердце",
+    "isbn": "9785433501928",
+    "year": "2015",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 6
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 5
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 7
+      }
+    ],
+    "description": "Собачье сердце — повесть Михаила Афанасьевича Булгакова."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Отцы и дети",
+    "isbn": "9785389049963",
+    "year": "2012",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 7
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 4
+      }
+    ],
+    "description": "Отцы и дети — роман русского писателя Ивана Сергеевича Тургенева (1818—1883), написанный в 60-е годы XIX века."
   }
 ]

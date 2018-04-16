@@ -64,8 +64,8 @@ public class AuthorController {
      * @param model - defines a holder for model attributes
      * @return name jsp
      */
-    @PostMapping(value = "/searchingbyauthor")
-    public String searchingByAuthor(@RequestParam String firstName, @RequestParam String lastName, Model model) {
+    @GetMapping(value = "/searchingbyauthor")
+    public String searchingByAuthor(@RequestParam(value = "firstName") String firstName, @RequestParam(value = "lastName") String lastName, Model model) {
 
         LOG.info("msg: findByFirstNameAndLastName({}, {});", firstName, lastName);
         Author author = authorService.findByFirstNameAndLastName(firstName, lastName);

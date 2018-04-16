@@ -63,8 +63,8 @@ public class PublisherController {
      * @param model - defines a holder for model attributes
      * @return name jsp
      */
-    @PostMapping(value = "/searchingbypublisher")
-    public String searchByPublisher(@RequestParam String publisherName, Model model) {
+    @GetMapping(value = "/searchingbypublisher")
+    public String searchByPublisher(@RequestParam(value = "publisherName") String publisherName, Model model) {
 
         LOG.info("msg: publisherService.findByPublisherName({})", publisherName);
         Publisher publisher = publisherService.findByPublisherName(publisherName);

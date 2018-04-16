@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
 	<link href="${path}/css/commonstyle.css" rel="stylesheet"/> </head>
-
+	<script type="text/javascript" src="${path}/js/editbook.js"></script>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">

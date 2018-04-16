@@ -115,23 +115,27 @@
 				<p>${publisher.publisherName}</p>
 			</c:forEach>
 		</div>
+		<c:set var="rev" scope="page" value="No" />
 		<div>
 			<h2 class="h2 page-header">Book Reviews</h2>
 			<c:forEach items="${reviews}" var="review">
 				<c:choose>
 					<c:when test="${user.username == review.user.username}">
-						<c:set var="rev" scope="session" value="Yes" />
-						<c:forEach var="entry" items="${review.bookReview}">
-							<p>
-								<textarea id="textReview" class="form-control" name="textReview" form="review">${entry.key}</textarea>
-							</p>
-							<p>
-								<input type="number" name="rating" class="form-control" min="1" max="5" value="${entry.value}" form="review" />
-							</p>
-						</c:forEach>
-						<p>
-							<button type="submit" class="btn btn-success" form="review">Edit review</button>
-						</p>
+					    <c:if test="${book.bookName == review.book.bookName}">
+					        <c:forEach var="entry" items="${review.bookReview}">
+
+                            							<p>
+                            								<textarea id="textReview" class="form-control" name="textReview" form="review">${entry.key}</textarea>
+                            							</p>
+                            							<p>
+                            								<input type="number" name="rating" class="form-control" min="1" max="5" value="${entry.value}" form="review" />
+                            							</p>
+                            						</c:forEach>
+                            						<p>
+                            							<button type="submit" class="btn btn-success" form="review">Edit review</button>
+                            						</p>
+                            						<c:set var="rev" scope="page" value="Yes" />
+					    </c:if>
 					</c:when>
 					<c:otherwise>
 						<c:forEach var="entry" items="${review.bookReview}">
@@ -143,10 +147,13 @@
 				</c:choose>
 			</c:forEach>
 		</div>
+
+
+
 		<form action="${path}/book/${book.bookId}/addreview" id="review" method="POST">
 			<div id="bookReview"> </div>
 			<c:if test="${not empty username}">
-                <c:if test="${empty rev}">
+                <c:if test="${rev == 'No'}">
                     <div id="but">
                         <p>
                             <button type="button" class="btn btn-primary" onclick="addBookFormReview()">Add review</button>

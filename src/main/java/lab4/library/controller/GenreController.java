@@ -59,8 +59,8 @@ public class GenreController {
      * @param model - defines a holder for model attributes
      * @return name jsp
      */
-    @PostMapping(value = "/searchingbygenre")
-    public String searchingByGenre(@RequestParam String genreName, Model model) {
+    @GetMapping(value = "/searchingbygenre")
+    public String searchingByGenre(@RequestParam(value = "genreName") String genreName, Model model) {
 
         LOG.info("msg: genreService.findByGenreName({})", genreName);
         Genre genre = genreService.findByGenreName(genreName);

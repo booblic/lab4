@@ -39,7 +39,7 @@
 	</nav>
 	<div class="container">
 		<h2 class="h2 page-header">Searching by author and genre</h2>
-		<form action="${path}/book/searhcingbyauthorandgenre" method="POST">
+		<form action="${path}/book/searhcingbyauthorandgenre" method="GET">
 			<div class="row">
 				<div class="col-md-6">
 					<p>
