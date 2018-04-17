@@ -14,13 +14,14 @@ import java.util.List;
  * @version 1.0
  */
 @Service
-public class AuthorServiceImpl implements AuthorService {
+public class AuthorServiceImpl implements EntityService<Author> {
 
     @Autowired
     private AuthorRepository authorRepository;
 
+    @Override
     @Transactional
-    public Author saveAuthor(Author author) {
+    public Author save(Author author) {
         return authorRepository.save(author);
     }
 

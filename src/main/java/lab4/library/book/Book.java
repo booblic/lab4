@@ -18,7 +18,7 @@ import java.util.*;
  */
 @Entity
 @Table
-public class Book extends Description {
+public class Book extends Description implements Printing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

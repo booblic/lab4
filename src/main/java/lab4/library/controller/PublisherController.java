@@ -1,7 +1,7 @@
 package lab4.library.controller;
 
 import lab4.library.publisher.Publisher;
-import lab4.library.service.PublisherService;
+import lab4.library.service.PublisherServiceImpl;
 import lab4.library.service.PublisherServiceImpl;
 import lab4.library.service.UserService;
 import org.slf4j.Logger;

@@ -12,13 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 1.0
  */
 @Service
-public class PublisherServiceImpl implements PublisherService {
+public class PublisherServiceImpl implements EntityService<Publisher> {
 
     @Autowired
     private PublisherRepository publisherRepository;
 
     @Transactional
-    public Publisher savePublisher(Publisher publisher) {
+    public Publisher save(Publisher publisher) {
         return publisherRepository.save(publisher);
     }
 

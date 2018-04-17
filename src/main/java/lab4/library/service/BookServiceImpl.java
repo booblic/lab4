@@ -4,6 +4,7 @@ import lab4.library.author.Author;
 import lab4.library.book.Book;
 import lab4.library.book.PatternBook;
 import lab4.library.book.FormBook;
+import lab4.library.book.Printing;
 import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
 import lab4.library.repository.BookRepository;
@@ -34,7 +35,7 @@ import java.util.*;
  * @version 1.0
  */
 @Service
-public class BookServiceImpl implements BookService {
+public class BookServiceImpl extends BookService {
 
     private static final Logger LOG = LoggerFactory.getLogger(BookServiceImpl.class);
 
@@ -105,7 +106,7 @@ public class BookServiceImpl implements BookService {
      * @return object Book
      */
     @Transactional
-    public Book addOrEditBook(FormBook formBook) {
+    public Printing addOrEditBook(FormBook formBook) {
 
         Book book = new Book();
 
@@ -143,7 +144,7 @@ public class BookServiceImpl implements BookService {
                     } else {
 
                         LOG.info("msg: genreSet.add(genreService.saveGenre(new Genre({})))", genreName);
-                        genreSet.add(genreService.saveGenre(new Genre(genreName)));
+                        genreSet.add(genreService.save(new Genre(genreName)));
                     }
                 }
             }
@@ -192,10 +193,10 @@ public class BookServiceImpl implements BookService {
 
                             if (authorsMiddleNames.length != 0) {
                                 LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({}, {}, {})))", authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i]);
-                                authorSet.add(authorService.saveAuthor(new Author(authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i])));
+                                authorSet.add(authorService.save(new Author(authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i])));
                             } else {
                                 LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({}, {}, {})))", authorsFirstNames[i], authorsLastNames[i]);
-                                authorSet.add(authorService.saveAuthor(new Author(authorsFirstNames[i], authorsLastNames[i], "")));
+                                authorSet.add(authorService.save(new Author(authorsFirstNames[i], authorsLastNames[i], "")));
                             }
                         }
                     } else if (authorsLastNames[i].compareTo("") != 0) {
@@ -211,7 +212,7 @@ public class BookServiceImpl implements BookService {
                         } else {
 
                             LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({}, {}, {})))", authorsFirstNames[i], authorsLastNames[i], authorsMiddleNames[i]);
-                            authorSet.add(authorService.saveAuthor(new Author("", authorsLastNames[i], "")));
+                            authorSet.add(authorService.save(new Author("", authorsLastNames[i], "")));
                         }
                     }
                 }
@@ -230,7 +231,7 @@ public class BookServiceImpl implements BookService {
                     } else {
 
                         LOG.info("msg: authorSet.add(authorService.saveAuthor(new Author({})))", authorsLastNames[i]);
-                        authorSet.add(authorService.saveAuthor(new Author("", authorsLastNames[i], "")));
+                        authorSet.add(authorService.save(new Author("", authorsLastNames[i], "")));
                     }
                 }
             }
@@ -258,7 +259,7 @@ public class BookServiceImpl implements BookService {
                     } else {
 
                         LOG.info("msg: publisherSet.add(publisherService.savePublisher(new Publisher({})))", publisherName);
-                        publisherSet.add(publisherService.savePublisher(new Publisher(publisherName)));
+                        publisherSet.add(publisherService.save(new Publisher(publisherName)));
                     }
                 }
             }
@@ -518,7 +519,7 @@ public class BookServiceImpl implements BookService {
                     author.setMiddleName(authorNameMassif[2]);
 
                     LOG.info("msg: authorSet.add(authorService.saveAuthor({}));", author.toString());
-                    authorSet.add(authorService.saveAuthor(author));
+                    authorSet.add(authorService.save(author));
                 }
             }
 
@@ -548,7 +549,7 @@ public class BookServiceImpl implements BookService {
                     genre.setGenreName(genreName.trim());
 
                     LOG.info("msg: genreSet.add(genreService.saveGenre({}))", genre.toString());
-                    genreSet.add(genreService.saveGenre(genre));
+                    genreSet.add(genreService.save(genre));
                 }
             }
             LOG.info("msg: book.setGenres(genreSet)");
@@ -577,7 +578,7 @@ public class BookServiceImpl implements BookService {
                     publisher.setPublisherName(publisherName.trim());
 
                     LOG.info("msg: publisherSet.add(publisherService.savePublisher({}))", publisher.toString());
-                    publisherSet.add(publisherService.savePublisher(publisher));
+                    publisherSet.add(publisherService.save(publisher));
                 }
             }
             LOG.info("msg: book.setPublishers(publisherSet)");

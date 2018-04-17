@@ -12,13 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 1.0
  */
 @Service
-public class GenreServiceImpl implements GenreService {
+public class GenreServiceImpl implements EntityService<Genre> {
 
     @Autowired
     private GenreRepository genreRepository;
 
     @Transactional
-    public Genre saveGenre(Genre genre) {
+    public Genre save(Genre genre) {
         return genreRepository.save(genre);
     }
 

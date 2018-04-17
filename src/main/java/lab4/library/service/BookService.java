@@ -2,19 +2,20 @@ package lab4.library.service;
 
 import lab4.library.book.Book;
 import lab4.library.book.FormBook;
+import lab4.library.book.Printing;
 
 import java.util.List;
 import java.util.Set;
 
-public interface BookService {
+public abstract class BookService {
 
-    Book findOne(Integer id);
+    abstract Book findOne(Integer id);
 
-    List<Book> findAllBook();
+    abstract List<Book> findAllBook();
 
-    Book saveBook(Book book);
+    abstract Book saveBook(Book book);
 
-    Book addOrEditBook(FormBook formBook);
+    abstract Printing addOrEditBook(FormBook formBook);
 
-    void deleteBook(Integer id);
+    abstract void deleteBook(Integer id);
 }

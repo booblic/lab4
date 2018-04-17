@@ -42,7 +42,7 @@ public class BookController {
      * Object of service that implements business logic for author
      */
     @Autowired
-    private AuthorService authorService;
+    private AuthorServiceImpl authorService;
 
     /**
      * Object of service that implements business logic for review
@@ -54,7 +54,7 @@ public class BookController {
      * The service object that implements the business logic for the publisher
      */
     @Autowired
-    private PublisherService publisherService;
+    private PublisherServiceImpl publisherService;
 
     /**
      * The object of the service that implements the business logic for the user
@@ -66,7 +66,7 @@ public class BookController {
      * The object of the service that implements the business logic for the genre
      */
     @Autowired
-    private GenreService genreService;
+    private GenreServiceImpl genreService;
 
     /**
      * The object of the service for converting
@@ -266,7 +266,7 @@ public class BookController {
     public String editBook(@ModelAttribute FormBook formBook) {
 
         LOG.info("msg: bookServices.editBook({})", formBook.toString());
-        Book book = bookServices.addOrEditBook(formBook);
+        Book book = (Book) bookServices.addOrEditBook(formBook);
 
         return "redirect:/book/show";
     }

@@ -20,7 +20,7 @@ import java.util.Map;
  * @version 1.0
  */
 @Service
-public class ReviewServiceImp implements ReviewService {
+public class ReviewServiceImp implements EntityService<Review> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReviewServiceImp.class);
 
@@ -34,7 +34,7 @@ public class ReviewServiceImp implements ReviewService {
     private ReviewRepository reviewRepository;
 
     @Transactional
-    public Review saveReview(Review review) {
+    public Review save(Review review) {
         return reviewRepository.save(review);
     }
 
@@ -88,6 +88,6 @@ public class ReviewServiceImp implements ReviewService {
             review.setBookReview(bookReview);
         }
 
-        return saveReview(review);
+        return save(review);
     }
 }
