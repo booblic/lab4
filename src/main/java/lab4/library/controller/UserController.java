@@ -347,4 +347,40 @@ public class UserController {
         }
         return "redirect:/user/getshowalluserform";
     }
+
+    /**
+     * The method gets information about all users, adds it to defines a holder for model attributes, and returns the name jsp to display all users
+     * @param model - defines a holder for model attributes
+     * @return name jsp
+     */
+    @GetMapping(value = "/getsubscribeform")
+    public String getSubscriptionform(Model model) {
+
+        if (userService.getCurrentUser() != null) {
+
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+
+                model.addAttribute("role", "admin");
+            }
+        }
+        LOG.info("userService.getAllUsers()");
+        model.addAttribute("users", userService.getAllUsers());
+
+        return "user/subscriptionform";
+    }
+
+    /**
+     * The method gets information about all users, adds it to defines a holder for model attributes, and returns the name jsp to display all users
+     * @param model - defines a holder for model attributes
+     * @return name jsp
+     */
+    @PostMapping(value = "/subscribe")
+    public String subscribeUser(@RequestParam("props") @NotNull String props, Model model) {
+
+        userService.subscribeUser(props);
+
+        return "redirect:/";
+    }
 }

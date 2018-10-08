@@ -125,6 +125,17 @@ public class BookServiceImpl extends BookService {
         LOG.info("msg: book.setDescription({})", formBook.getDescription());
         book.setDescription(formBook.getDescription());
 
+        File file = new File("var.txt");
+
+        try(FileWriter fileWriter = new FileWriter(file, false)) {
+            fileWriter.write(formBook.getText());
+            fileWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        book.setText(file);
+
         if (formBook.getGenresNames() != null) {
 
             Set<Genre> genreSet = new HashSet<>();

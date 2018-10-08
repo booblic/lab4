@@ -41,9 +41,9 @@
 		<h2 class="text-center">Welcome to the library!</h2>
 		<p>${message}</p>
 		<p>${registrationMessage}</p>
+
 		<c:choose>
 			<c:when test="${empty username}">
-				<div class="my">
 				<div class="my">
 					<p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/login">Sign in or Registration</a></p>
 				</div>
@@ -51,6 +51,17 @@
 			<c:when test="${not empty username}">
 			</c:when>
 		</c:choose>
+
+		<c:choose>
+	        <c:when test="${empty subscription}">
+        		<div class="my">
+                    <p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/getsubscribeform">Subscribe</a></p>
+                </div>
+        	</c:when>
+        	<c:when test="${not empty subscription}">
+        	</c:when>
+        </c:choose>
+
 		<h3 class="mb-0">
             <a class="text-dark" href="${path}/book/show">Show books</a>
         </h3>

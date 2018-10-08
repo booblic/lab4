@@ -147,9 +147,6 @@
 				</c:choose>
 			</c:forEach>
 		</div>
-
-
-
 		<form action="${path}/book/${book.bookId}/addreview" id="review" method="POST">
 			<div id="bookReview"> </div>
 			<c:if test="${not empty username}">
@@ -162,7 +159,13 @@
                 </c:if>
             </c:if>
 		</form>
+		    <div>
+                <p>
+                    <textarea id="text" class="form-control" name="text" form="text">${text}</textarea>
+                </p>
+        	</div>
 	</div>
+
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>
 		<p class="mb-1">© 2018 Library</p>

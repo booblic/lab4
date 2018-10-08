@@ -132,6 +132,16 @@
 			<p>
 				<button type="button" class="btn btn-primary" onclick="addPublisherFormItem()">Add publisher</button>
 			</p>
+			<div class="row">
+            				<div class="col-md-3">
+            					<p>
+            						<label for="text">Text</label>
+            					</p>
+            					<p>
+            						<textarea rows="10" cols="500" style="width: 600px" class="form-control" name="text">${book.text}</textarea>
+            					</p>
+            				</div>
+            			</div>
 			<p>
 				<button type="submit" class="btn btn-success btn-lg btn-block">Edit</button>
 			</p>

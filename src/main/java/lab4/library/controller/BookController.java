@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 import javax.validation.constraints.NotNull;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -230,7 +231,7 @@ public class BookController {
      * @return name jsp
      */
     @GetMapping("/getformviewbook")
-    public String getFormViewbook(@RequestParam("id") @NotNull Integer bookId, Model model) {
+    public String getFormViewBook(@RequestParam("id") @NotNull Integer bookId, Model model) {
 
         if (userService.getCurrentUser() != null) {
 
@@ -253,6 +254,23 @@ public class BookController {
         model.addAttribute("user", userService.getCurrentUser());
 
         model.addAttribute("book", book);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(book.getText()))) {
+            String line = bufferedReader.readLine();
+
+            while (line != null) {
+                stringBuilder.append(line);
+                stringBuilder.append(System.lineSeparator());
+                line = bufferedReader.readLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        model.addAttribute("text", stringBuilder.toString());
 
         return "book/formviewbook";
     }

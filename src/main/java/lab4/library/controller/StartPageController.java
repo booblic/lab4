@@ -2,6 +2,7 @@ package lab4.library.controller;
 
 import lab4.library.service.BookServiceImpl;
 import lab4.library.service.UserService;
+import lab4.library.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +42,20 @@ public class StartPageController {
     @RequestMapping(value = "/")
     public String startPageMessage(Model model) {
 
-        if (userService.getCurrentUser() != null) {
+        User currentUser = userService.getCurrentUser();
 
-            model.addAttribute("username", userService.getCurrentUser().getUsername());
+        if (currentUser != null) {
+
+            model.addAttribute("username", currentUser.getUsername());
 
             if (userService.hasRole("ROLE_ADMIN")) {
 
                 model.addAttribute("role", "admin");
+            }
+
+            if (currentUser.getSubscription() != null) {
+
+                model.addAttribute("subscription", currentUser.getSubscription());
             }
         }
         return "startpage";

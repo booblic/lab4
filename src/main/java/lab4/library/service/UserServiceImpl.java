@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -255,5 +257,19 @@ public class UserServiceImpl implements UserService {
 
         LOG.info("msg: updateUser({})", user.toString());
         return updateUser(user);
+    }
+
+    /**
+     * The information-based method contained in the FormUser object and information about the current user forms the User object and overwrites it in the database
+     * @param props -
+     * @return object Data
+     */
+    @Transactional
+    public User subscribeUser(String props) {
+
+        User currentUser = getCurrentUser();
+        currentUser.setSubscription(LocalDate.now());
+
+        return updateUser(currentUser);
     }
 }
