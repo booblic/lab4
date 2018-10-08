@@ -1,0 +1,13 @@
+[
+  {
+    "_class": "lab4.library.author.Author",
+    "roleName": "User",
+    "authority": "ROLE_USER"
+  },
+  {
+    "_class": "lab4.library.user.Role",
+    "roleId": 2,
+    "roleName": "Administrator",
+    "authority": "ROLE_ADMIN"
+  }
+]
