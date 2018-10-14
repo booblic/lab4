@@ -5,13 +5,13 @@ import lab4.library.book.PatternBook;
 import lab4.library.book.FormBook;
 import lab4.library.review.Review;
 import lab4.library.service.*;
+import lab4.library.user.Role;
+import lab4.library.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.*;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 import javax.validation.constraints.NotNull;
 import java.io.*;
-import java.nio.file.Files;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -255,23 +255,6 @@ public class BookController {
 
         model.addAttribute("book", book);
 
-        StringBuilder stringBuilder = new StringBuilder();
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(book.getText()))) {
-            String line = bufferedReader.readLine();
-
-            while (line != null) {
-                stringBuilder.append(line);
-                stringBuilder.append(System.lineSeparator());
-                line = bufferedReader.readLine();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        model.addAttribute("text", stringBuilder.toString());
-
         return "book/formviewbook";
     }
 
@@ -481,5 +464,44 @@ public class BookController {
         Book book = bookServices.addSearchingBook(patternBook);
 
         return "redirect:/book/show";
+    }
+
+    @GetMapping(value = "/getsummary")
+    public String getSummary(@RequestParam("id") @NotNull Integer bookId, @RequestParam("name") @NotNull String bookName, Model model) {
+
+        User currentUser = userService.getCurrentUser();
+
+        if (currentUser != null) {
+
+            model.addAttribute("username", userService.getCurrentUser().getUsername());
+
+            if (userService.hasRole("ROLE_ADMIN")) {
+
+                model.addAttribute("role", "admin");
+            }
+
+            LocalDate subscriptionDate = currentUser.getSubscription();
+
+            if (userService.hasRole(Role.ROLE_MODERATOR)) {
+
+                if (subscriptionDate != null) {
+                    LocalDate currentDate = LocalDate.now();
+                    if ((currentDate.getYear() <= subscriptionDate.getYear()) && (currentDate.getDayOfYear() - subscriptionDate.getDayOfYear() > 30)) {
+                        model.addAttribute("message", "Your subscription has expired!");
+                        return "user/subscriptionform";
+                    }
+                } else {
+                    model.addAttribute("message", "You do not have a subscription!");
+                    return "user/subscriptionform";
+                }
+            }
+        }
+
+        String summary = bookServices.getBookSummary(bookId);
+        String summaryName = bookName + " summary";
+        model.addAttribute("summary", summary);
+        model.addAttribute("name", summaryName);
+
+        return "book/showsummary";
     }
 }

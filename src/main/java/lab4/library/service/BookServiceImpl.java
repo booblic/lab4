@@ -128,13 +128,15 @@ public class BookServiceImpl extends BookService {
         File file = new File("var.txt");
 
         try(FileWriter fileWriter = new FileWriter(file, false)) {
-            fileWriter.write(formBook.getText());
+            fileWriter.write(formBook.getSummary());
             fileWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        book.setText(file);
+        book.setSummary(file);
+
+        //file.delete();
 
         if (formBook.getGenresNames() != null) {
 
@@ -596,5 +598,29 @@ public class BookServiceImpl extends BookService {
             book.setPublishers(publisherSet);
         }
         return saveBook(book);
+    }
+
+    @Transactional
+    public String getBookSummary(Integer bookId) {
+        Book book = findOne(bookId);
+        StringBuilder summary = new StringBuilder();
+        if (book.getSummary() != null) {
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(book.getSummary()))) {
+                String line = bufferedReader.readLine();
+
+                while (line != null) {
+                    summary.append(line);
+                    summary.append(System.lineSeparator());
+                    line = bufferedReader.readLine();
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            summary.append("Summary appear soon.");
+        }
+        return summary.toString();
     }
 }

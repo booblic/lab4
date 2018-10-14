@@ -2,6 +2,7 @@ package lab4.library.controller;
 
 import lab4.library.service.BookServiceImpl;
 import lab4.library.service.UserService;
+import lab4.library.user.Role;
 import lab4.library.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 /**
@@ -48,9 +50,10 @@ public class StartPageController {
 
             model.addAttribute("username", currentUser.getUsername());
 
-            if (userService.hasRole("ROLE_ADMIN")) {
-
+            if (userService.hasRole(Role.ROLE_ADMINISTRATOR)) {
                 model.addAttribute("role", "admin");
+            } else if (userService.hasRole(Role.ROLE_MODERATOR)) {
+                currentUser.setSubscription(LocalDate.now());
             }
 
             if (currentUser.getSubscription() != null) {

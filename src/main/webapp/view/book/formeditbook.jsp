@@ -135,10 +135,10 @@
 			<div class="row">
             				<div class="col-md-3">
             					<p>
-            						<label for="text">Text</label>
+            						<label for="text">Summary</label>
             					</p>
             					<p>
-            						<textarea rows="10" cols="500" style="width: 600px" class="form-control" name="text">${book.text}</textarea>
+            						<textarea rows="10" style="width: 1140px" class="form-control" name="summary">${book.summary}</textarea>
             					</p>
             				</div>
             			</div>

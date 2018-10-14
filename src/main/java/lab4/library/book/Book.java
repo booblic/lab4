@@ -53,7 +53,7 @@ public class Book extends Description implements Printing {
 
     private Double bookRating;
 
-    private File text;
+    private File summary;
 
     public Book() {}
 
@@ -158,12 +158,12 @@ public class Book extends Description implements Printing {
         this.bookRating = bookRating;
     }
 
-    public File getText() {
-        return text;
+    public File getSummary() {
+        return summary;
     }
 
-    public void setText(File text) {
-        this.text = text;
+    public void setSummary(File summary) {
+        this.summary = summary;
     }
 
     @Override

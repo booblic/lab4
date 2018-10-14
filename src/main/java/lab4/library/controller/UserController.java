@@ -365,8 +365,6 @@ public class UserController {
                 model.addAttribute("role", "admin");
             }
         }
-        LOG.info("userService.getAllUsers()");
-        model.addAttribute("users", userService.getAllUsers());
 
         return "user/subscriptionform";
     }

@@ -49,7 +49,7 @@ public class FormBook {
 
     private String description;
 
-    private String text;
+    private String summary;
 
     public FormBook() {}
 
@@ -133,12 +133,12 @@ public class FormBook {
         this.description = description;
     }
 
-    public String getText() {
-        return text;
+    public String getSummary() {
+        return summary;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     @Override
