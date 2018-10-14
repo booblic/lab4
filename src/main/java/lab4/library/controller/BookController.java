@@ -206,7 +206,7 @@ public class BookController {
             }
         }
         model.addAttribute("book", bookServices.findOne(bookId));
-
+        model.addAttribute("summary", bookServices.getBookSummary(bookId));
         return "book/formeditbook";
     }
 
