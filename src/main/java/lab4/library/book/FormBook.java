@@ -49,6 +49,8 @@ public class FormBook {
 
     private String description;
 
+    private String summary;
+
     public FormBook() {}
 
     public Integer getBookId() {
@@ -129,6 +131,14 @@ public class FormBook {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     @Override

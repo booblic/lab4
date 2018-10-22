@@ -115,6 +115,9 @@
 				<p>${publisher.publisherName}</p>
 			</c:forEach>
 		</div>
+		<h3 class="mb-0">
+            <a class="btn btn-primary btn-lg btn-block" href="${path}/book/getsummary?id=${book.bookId}&name=${book.bookName}">Summary</a>
+        </h3>
 		<c:set var="rev" scope="page" value="No" />
 		<div>
 			<h2 class="h2 page-header">Book Reviews</h2>
@@ -147,9 +150,6 @@
 				</c:choose>
 			</c:forEach>
 		</div>
-
-
-
 		<form action="${path}/book/${book.bookId}/addreview" id="review" method="POST">
 			<div id="bookReview"> </div>
 			<c:if test="${not empty username}">
@@ -163,6 +163,7 @@
             </c:if>
 		</form>
 	</div>
+
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>
 		<p class="mb-1">© 2018 Library</p>

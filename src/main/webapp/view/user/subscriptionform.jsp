@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:set var="path" value="${pageContext.request.contextPath}"></c:set>
@@ -13,6 +14,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
 	<link href="${path}/css/commonstyle.css" rel="stylesheet"/> </head>
+	<link href="${path}/css/registration.css" rel="stylesheet"/> </head>
 
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -37,46 +39,26 @@
 			<!--/.nav-collapse -->
 		</div>
 	</nav>
-	<div class="container">
-		<h2 class="text-center">Welcome to the library!</h2>
-		<p>${message}</p>
-		<p>${registrationMessage}</p>
-
-		<c:choose>
-			<c:when test="${empty username}">
-				<div class="my">
-					<p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/login">Sign in or Registration</a></p>
-				</div>
-			</c:when>
-			<c:when test="${not empty username}">
-			</c:when>
-		</c:choose>
-
-		<c:choose>
-	        <c:when test="${empty subscription}">
-        		<div class="my">
-                    <p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/getsubscribeform">Subscribe</a></p>
-                </div>
-        	</c:when>
-        	<c:when test="${not empty subscription}">
-        	</c:when>
-        </c:choose>
-
-		<h3 class="mb-0">
-            <a class="text-dark" href="${path}/book/show">Show books</a>
-        </h3>
-        <h3 class="mb-0">
-            <a class="text-dark" href="${path}/searchbookoptions">Searching books</a>
-        </h3>
-	</div>
+	<div class="reg">
+        <h3 class="text-center">Subscription</h3>
+    	<br>
+    	<p class="text-danger">${message}</p>
+    	<form action="${path}/user/subscribe" method="POST">
+    		<label for="props">Card number</label>
+    		<p><input type="text" class="form-control" name="props" /></p>
+    		<br><br>
+    		<button class="btn btn-primary btn-lg btn-block" type="submit">Subscribe</button>
+    	</form>
+    </div>
+    <br><br><br>
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <br>
+        <p class="mb-1">© 2017-2018 Library</p>
+        <ul class="list-inline">
+        <li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
+        </ul>
+    </footer>
 	<!-- /.container -->
-	<footer class="my-5 pt-5 text-muted text-center text-small">
-		<br>
-		<p class="mb-1">© 2018 Library</p>
-		<ul class="list-inline">
-			<li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
-		</ul>
-	</footer>
 	<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
 	<script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </body>

@@ -9,6 +9,7 @@ import lab4.library.publisher.Publisher;
 import lab4.library.review.Review;
 
 import javax.persistence.*;
+import java.io.File;
 import java.util.*;
 
 /**
@@ -51,6 +52,8 @@ public class Book extends Description implements Printing {
     private List<Review> reviews = new ArrayList<>();
 
     private Double bookRating;
+
+    private File summary;
 
     public Book() {}
 
@@ -153,6 +156,14 @@ public class Book extends Description implements Printing {
 
     public void setBookRating(Double bookRating) {
         this.bookRating = bookRating;
+    }
+
+    public File getSummary() {
+        return summary;
+    }
+
+    public void setSummary(File summary) {
+        this.summary = summary;
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -56,6 +57,8 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<Review> reviews = new ArrayList<>();
+
+    private LocalDate subscription;
 
     public User() {}
 
@@ -174,6 +177,14 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public LocalDate getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(LocalDate subscription) {
+        this.subscription = subscription;
     }
 
     @Override
