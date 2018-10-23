@@ -14,6 +14,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
@@ -126,11 +127,18 @@ public class BookController {
      * @return name jsp
      */
     @PostMapping(value = "/addbook")
-    public String addBook(@ModelAttribute FormBook formBook, Model model) {
+    public String addBook(@ModelAttribute FormBook formBook, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("valid", "Invalid data was found!");
+            model.addAttribute("book", formBook);
+            return "book/formaddbook";
+        }
 
         if (bookServices.findByIsbn(formBook.getIsbn()) != null) {
 
             model.addAttribute("error", "Book with isbn " + formBook.getIsbn() + " already exist");
+
 
             model.addAttribute("book", formBook);
 
@@ -480,7 +488,7 @@ public class BookController {
                 model.addAttribute("role", "admin");
             }
 
-            LocalDate subscriptionDate = currentUser.getSubscription();
+            /*LocalDate subscriptionDate = currentUser.getSubscription();
 
             if (userService.hasRole(Role.ROLE_MODERATOR)) {
 
@@ -494,7 +502,7 @@ public class BookController {
                     model.addAttribute("message", "You do not have a subscription!");
                     return "user/subscriptionform";
                 }
-            }
+            }*/
         }
 
         String summary = bookServices.getBookSummary(bookId);

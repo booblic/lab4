@@ -1,0 +1,20 @@
+[
+  {
+    "_class": "lab4.library.user.Role",
+    "roleId": 1,
+    "roleName": "User",
+    "authority": "ROLE_USER"
+  },
+  {
+    "_class": "lab4.library.user.Role",
+    "roleId": 2,
+    "roleName": "Moderator",
+    "authority": "ROLE_MODER"
+  },
+  {
+    "_class": "lab4.library.user.Role",
+    "roleId": 3,
+    "roleName": "Administrator",
+    "authority": "ROLE_ADMIN"
+  }
+]

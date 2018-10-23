@@ -1,0 +1,62 @@
+[
+  {
+    "_class": "lab4.library.user.User",
+    "username": "admin",
+    "password": "$2a$10$ks.dpu2YDc5BrpoZwR6T2e.l5EScUuSuyYDoxtuCx3nVU2YVCVlA.",
+    "firstName": "Admin",
+    "lastName": "Adminov",
+    "middleName": "Adminovich",
+    "email": "admin@gmail.com",
+    "phoneNumber": "88005553535",
+    "roles": [
+      {
+        "_class": "lab4.library.user.Role",
+        "roleId": 1
+      },
+      {
+        "_class": "lab4.library.user.Role",
+        "roleId": 2
+      },
+      {
+        "_class": "lab4.library.user.Role",
+        "roleId": 3
+      }
+    ]
+  },
+  {
+    "_class": "lab4.library.user.User",
+    "username": "kirill95",
+    "password": "$2a$10$ks.dpu2YDc5BrpoZwR6T2e.l5EScUuSuyYDoxtuCx3nVU2YVCVlA.",
+    "firstName": "Kirill",
+    "lastName": "Terentev",
+    "middleName": "Alrksandrovich",
+    "email": "johnyXY@yandex.ru",
+    "phoneNumber": "88005553535",
+    "roles": [
+      {
+        "_class": "lab4.library.user.Role",
+        "roleId": 1
+      },
+      {
+        "_class": "lab4.library.user.Role",
+        "roleId": 2
+      }
+    ]
+  },
+  {
+    "_class": "lab4.library.user.User",
+    "username": "user1",
+    "password": "$2a$10$ks.dpu2YDc5BrpoZwR6T2e.l5EScUuSuyYDoxtuCx3nVU2YVCVlA.",
+    "firstName": "Vasilliy",
+    "lastName": "Pupkin",
+    "middleName": "Sergeevich",
+    "email": "vasia-pupk@mail.ru",
+    "phoneNumber": "88005553535",
+    "roles": [
+      {
+        "_class": "lab4.library.user.Role",
+        "roleId": 1
+      }
+    ]
+  }
+]

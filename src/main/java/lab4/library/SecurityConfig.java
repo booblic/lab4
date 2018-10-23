@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/publisher/getsearchingbypublisherform", "/publisher/searchingbypublisher",
                 "/genre/getsearchingbygenreform", "/genre/searchingbygenre",
                 "/author/getsearchingbyauthorform", "/author/searchingbyauthor",
-                "/console/**", "/").permitAll()
+                "/console/**", "/", "/book/getsummary").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/book/getaddform", "/book/addbook",
                 "/book/getformedit", "/book/editbook",

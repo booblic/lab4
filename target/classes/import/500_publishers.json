@@ -1,0 +1,44 @@
+[
+  {
+    "_class": "lab4.library.publisher.Publisher",
+    "publisherId" : 1,
+    "publisherName": "Белый город",
+    "description": "Белый город — российское издательство. Основано в 1996 году. Занимается выпуском высокохудожественных подарочных изданий, литературы для детей, социально значимых изданий. Входит в число 20 крупнейших издательств России."
+  },
+  {
+    "_class": "lab4.library.publisher.Publisher",
+    "publisherId" : 2,
+    "publisherName": "Воскресный день",
+    "description": ""
+  },
+  {
+    "_class": "lab4.library.publisher.Publisher",
+    "publisherId" : 3,
+    "publisherName": "Азбука",
+    "description": ""
+  },
+  {
+    "_class": "lab4.library.publisher.Publisher",
+    "publisherId" : 4,
+    "publisherName": "Азбука-Аттикус",
+    "description": "Издательская группа Азбука-Аттикус — одна из крупнейших книгоиздательских групп в России. По оценке Российской книжной палаты в 2016 году группа заняла 5-е место по количеству выпущенных наименований книг."
+  },
+  {
+    "_class": "lab4.library.publisher.Publisher",
+    "publisherId" : 5,
+    "publisherName": "Око",
+    "description": ""
+  },
+  {
+    "_class": "lab4.library.publisher.Publisher",
+    "publisherId" : 6,
+    "publisherName": "Эксмо",
+    "description": "Издательство Эксмо — российская издательская компания, основанная Олегом Новиковым и Андреем Гредасовым в 1991 году. Генеральный директор — Олег Новиков."
+  },
+  {
+    "_class": "lab4.library.publisher.Publisher",
+    "publisherId" : 7,
+    "publisherName": "Нигма",
+    "description": "Издательский дом «Нигма» создан в 2010 году в составе Издательской группы «ГЭОТАР-Медиа». Цель издательства — создавать книги, которые помогут детям всесторонне развиваться, получать важные знания и навыки."
+  }
+]

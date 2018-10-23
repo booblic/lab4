@@ -14,6 +14,11 @@
 	<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
 	<link href="${path}/css/commonstyle.css" rel="stylesheet"/> </head>
 	<script type="text/javascript" src="${path}/js/editbook.js"></script>
+	<script type="text/javascript">
+	    function confirmed() {
+	        alert("Book!");
+	    }
+	</script>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
@@ -39,6 +44,9 @@
 	</nav>
 	<div class="container">
     		<h2 class="h2 page-header">Add Book</h2>
+            <c:if test="${not empty valid}">
+                <p class="error">${valid}</p>
+            </c:if>
     		<form action="${path}/book/addbook" method="POST">
     			<div class="row">
     				<div class="col-md-3">

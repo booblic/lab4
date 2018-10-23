@@ -25,7 +25,7 @@
 				<ul class="nav navbar-nav">
 					<c:choose>
 						<c:when test="${not empty username}">
-							<li><a href="${path}/user/showuserprofile">${username}</a></li>
+							<!--<li><a href="${path}/user/showuserprofile">${username}</a></li>-->
 							<c:if test="${role eq 'admin'}">
 								<li><a href="${path}/user/getshowalluserform">Show all user</a></li>
 							</c:if>
@@ -65,9 +65,9 @@
 		<h3 class="mb-0">
             <a class="text-dark" href="${path}/book/show">Show books</a>
         </h3>
-        <h3 class="mb-0">
+        <!--<h3 class="mb-0">
             <a class="text-dark" href="${path}/searchbookoptions">Searching books</a>
-        </h3>
+        </h3>-->
 	</div>
 	<!-- /.container -->
 	<footer class="my-5 pt-5 text-muted text-center text-small">

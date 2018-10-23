@@ -45,7 +45,7 @@
                     <table class="table table-striped table-sm">
                         <thead>
                             <tr>
-                                <th>Export</th>
+                                <!--<th>Export</th>
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>ISBN</th>
@@ -58,8 +58,8 @@
                         <tbody>
                             <c:forEach items="${books}" var="book">
                                 <tr>
-                                    <td>
-                                        <input type="checkbox" class="form-check-input" form="export" name="id" value="${book.bookId}" /> </td>
+                                    <!--<td>
+                                        <input type="checkbox" class="form-check-input" form="export" name="id" value="${book.bookId}" /> </td>-->
                                     <td>${book.bookId}</td>
                                     <td>${book.bookName}</td>
                                     <td>${book.isbn}</td>
@@ -71,15 +71,15 @@
                             </c:forEach>
                         </tbody>
                     </table>
-                    <form id="export" action="${path}/book/exportbooks" method="POST">
+                    <!--<form id="export" action="${path}/book/exportbooks" method="POST">
                         <input type="hidden" name="id" value="0" />
-                        <button class="btn btn-info" type="submit">Export</button> Use checkbox </form>
+                        <button class="btn btn-info" type="submit">Export</button> Use checkbox </form>-->
                 </c:if>
                 <c:if test="${not empty error}">
                     <p class="error">${error}</p>
                 </c:if>
                 <br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getaddform">Add book</a>
-                <br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getsearchbookinternetform">Searching book on mybook.ru</a>
+                <!--<br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getsearchbookinternetform">Searching book on mybook.ru</a>-->
             </div>
 	    </div>
 	</div>

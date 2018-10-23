@@ -1,0 +1,297 @@
+[
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Руслан и Людмила",
+    "isbn": "9785779342964",
+    "year": "2013",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 4
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 1
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 1
+      },
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 2
+      }
+    ],
+    "description": "Руслан и Людмила — первая законченная поэма Александра Сергеевича Пушкина; волшебная сказка, вдохновлённая древнерусскими былинами."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Евгений Онегин",
+    "isbn": "9785389049031",
+    "year": "2016",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 1
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 3
+      },
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 4
+      }
+    ],
+    "description": "Евгений Онегин — роман в стихах русского поэта Александра Сергеевича Пушкина, написанный в 1823—1831 годах, одно из самых значительных произведений русской словесности."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Война и мир",
+    "isbn": "9785699088607",
+    "year": "2004",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 4
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 2
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 5
+      },
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 6
+      }
+    ],
+    "description": "Война и мир — роман-эпопея Льва Николаевича Толстого, описывающий русское общество в эпоху войн против Наполеона в 1805—1812 годах."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Герой нашего времени",
+    "isbn": "9785389019270",
+    "year": "2011",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 3
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 3
+      },
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 4
+      }
+    ],
+    "description": "Герой нашего времени (написан в 1838—1840 годах) — первый в русской прозе лирико-психологический роман, написанный Михаилом Юрьевичем Лермонтовым. Классика русской литературы. Впервые роман был издан в Санкт-Петербурге в типографии Ильи Глазунова и Кº в 1840 г. в 2 книгах. Тираж — 1000 экземпляров."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Преступление и наказание",
+    "isbn": "9785699221899",
+    "year": "2016",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 4
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 6
+      }
+    ],
+    "description": "Преступление и наказание — социально-психологический и социально-философский роман Фёдора Михайловича Достоевского, над которым писатель работал в 1865—1866 годах. Впервые опубликован в 1866 году в журнале «Русский вестник» (№ 1, 2, 4, 6—8, 11, 12). Через год вышло в свет отдельное издание, структура которого была немного изменена по сравнению с журнальной редакцией; кроме того, автор внёс в книжный вариант ряд сокращений и стилистических правок."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Братья Карамазовы",
+    "isbn": "9785389058781",
+    "year": "2013",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 4
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 4
+      }
+    ],
+    "description": "Братья Карамазовы — последний роман Ф. М. Достоевского, который автор писал два года. Роман был напечатан частями в журнале «Русский вестник». Достоевский задумывал роман как первую часть эпического романа «История Великого грешника». Произведение было окончено в ноябре 1880 года. Писатель умер через два месяца после публикации."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Мастер и Маргарита",
+    "isbn": "9785389016866",
+    "year": "2016",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 5
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId" : 3
+      },
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 4
+      }
+    ],
+    "description": "Мастер и Маргарита — роман Михаила Афанасьевича Булгакова, работа над которым началась в конце 1920-х годов и продолжалась вплоть до смерти писателя. Роман относится к незавершённым произведениям; редактирование и сведение воедино черновых записей осуществляла после смерти мужа вдова писателя — Елена Сергеевна."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Анна Каренина",
+    "isbn": "9785389049352",
+    "year": "2017",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 2
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 4
+      }
+    ],
+    "description": "Анна Каренина (1873—1877; журнальная публикация 1875—1877; первое книжное издание 1878) — роман Льва Толстого о трагической любви замужней дамы Анны Карениной и блестящего офицера Вронского на фоне счастливой семейной жизни дворян Константина Лёвина и Кити Щербацкой."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Мертвые души",
+    "isbn": "9785389013223",
+    "year": "2014",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 5
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 6
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 4
+      }
+    ],
+    "description": "Мертвые души — произведение Николая Васильевича Гоголя, жанр которого сам автор обозначил как поэму. Изначально задумано как трёхтомное произведение. Первый том был издан в 1842 году. Практически готовый второй том был уничтожен самим Гоголем, но сохранилось несколько глав в черновиках. Третий том был задуман и не начат, о нём остались только отдельные сведения."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Собачье сердце",
+    "isbn": "9785433501928",
+    "year": "2015",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 6
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 5
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 7
+      }
+    ],
+    "description": "Собачье сердце — повесть Михаила Афанасьевича Булгакова."
+  },
+  {
+    "_class": "lab4.library.book.Book",
+    "bookName": "Отцы и дети",
+    "isbn": "9785389049963",
+    "year": "2012",
+    "genres": [
+      {
+        "_class": "lab4.library.genre.Genre",
+        "genreId": 1
+      }
+    ],
+    "authors": [
+      {
+        "_class": "lab4.library.author.Author",
+        "authorId": 7
+      }
+    ],
+    "publishers": [
+      {
+        "_class": "lab4.library.publisher.Publisher",
+        "publisherId": 4
+      }
+    ],
+    "description": "Отцы и дети — роман русского писателя Ивана Сергеевича Тургенева (1818—1883), написанный в 60-е годы XIX века."
+  }
+]
