@@ -14,28 +14,8 @@
 	<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" /> </head>
 
 <body style="padding-top: 60px; margin-left: auto; margin-right: auto;">
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> </button>
-				<a class="navbar-brand" href="${path}/"> <span class="glyphicon glyphicon-book"></span> Library </a>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<c:choose>
-						<c:when test="${not empty username}">
-							<li><a href="${path}/user/showuserprofile">${username}</a></li>
-							<c:if test="${role eq 'admin'}">
-								<li><a href="${path}/user/getshowalluserform">Show all user</a></li>
-							</c:if>
-							<li><a href="${path}/logout">Logout</a></li>
-							<br> </c:when>
-					</c:choose>
-				</ul>
-			</div>
-			<!--/.nav-collapse -->
-		</div>
-	</nav>
+    <jsp:include page="${path}/view/header.jsp"/>
+
 	<div class="container">
 		<h1>Access Denied</h1>
 		<p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/login">Sign in</a></p>

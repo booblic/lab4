@@ -2,6 +2,7 @@ package lab4.library.book;
 
 import lab4.library.ReflectionToString;
 import lab4.library.annotation.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * The class whose object is generated when the user receives a completed form
@@ -49,7 +50,7 @@ public class FormBook {
 
     private String description;
 
-    private String summary;
+    private MultipartFile file;
 
     public FormBook() {}
 
@@ -133,12 +134,12 @@ public class FormBook {
         this.description = description;
     }
 
-    public String getSummary() {
-        return summary;
+    public MultipartFile getFile() {
+        return file;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 
     @Override

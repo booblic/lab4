@@ -2,7 +2,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Руслан и Людмила",
-    "isbn": "9785779342964",
+    "isbn": "6",
     "year": "2013",
     "genres": [
       {
@@ -31,7 +31,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Евгений Онегин",
-    "isbn": "9785389049031",
+    "isbn": "5",
     "year": "2016",
     "genres": [
       {
@@ -60,7 +60,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Война и мир",
-    "isbn": "9785699088607",
+    "isbn": "8",
     "year": "2004",
     "genres": [
       {
@@ -89,7 +89,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Герой нашего времени",
-    "isbn": "9785389019270",
+    "isbn": "9",
     "year": "2011",
     "genres": [
       {
@@ -118,7 +118,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Преступление и наказание",
-    "isbn": "9785699221899",
+    "isbn": "11",
     "year": "2016",
     "genres": [
       {
@@ -143,7 +143,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Братья Карамазовы",
-    "isbn": "9785389058781",
+    "isbn": "7",
     "year": "2013",
     "genres": [
       {
@@ -168,7 +168,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Мастер и Маргарита",
-    "isbn": "9785389016866",
+    "isbn": "12",
     "year": "2016",
     "genres": [
       {
@@ -197,7 +197,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Анна Каренина",
-    "isbn": "9785389049352",
+    "isbn": "11",
     "year": "2017",
     "genres": [
       {
@@ -222,7 +222,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Мертвые души",
-    "isbn": "9785389013223",
+    "isbn": "7",
     "year": "2014",
     "genres": [
       {
@@ -247,7 +247,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Собачье сердце",
-    "isbn": "9785433501928",
+    "isbn": "8",
     "year": "2015",
     "genres": [
       {
@@ -272,7 +272,7 @@
   {
     "_class": "lab4.library.book.Book",
     "bookName": "Отцы и дети",
-    "isbn": "9785389049963",
+    "isbn": "9",
     "year": "2012",
     "genres": [
       {

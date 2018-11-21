@@ -15,37 +15,18 @@
 	<link href="${path}/css/commonstyle.css" rel="stylesheet"/> </head>
 
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> </button>
-				<a class="navbar-brand" href="${path}/"> <span class="glyphicon glyphicon-book"></span> Library </a>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<c:choose>
-						<c:when test="${not empty username}">
-							<li><a href="${path}/user/showuserprofile">${username}</a></li>
-							<c:if test="${role eq 'admin'}">
-								<li><a href="${path}/user/getshowalluserform">Show all user</a></li>
-							</c:if>
-							<li><a href="${path}/logout">Logout</a></li>
-							<br> </c:when>
-					</c:choose>
-				</ul>
-			</div>
-			<!--/.nav-collapse -->
-		</div>
-	</nav>
+    <jsp:include page="${path}/view/header.jsp"/>
+
 	<div class="container">
-		<h2 class="text-center">Welcome to the library!</h2>
+		<h2 class="text-center">Библиотека краткий содержаний!</h2>
+		<h5 class="text-center">Количество кратких содержаний: ${bookCount}</h5>
 		<p>${message}</p>
 		<p>${registrationMessage}</p>
 
 		<c:choose>
 			<c:when test="${empty username}">
 				<div class="my">
-					<p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/login">Sign in or Registration</a></p>
+					<p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/login">Войдите или зарегистрируйтесь</a></p>
 				</div>
 			</c:when>
 			<c:when test="${not empty username}">
@@ -55,7 +36,7 @@
 		<c:choose>
 	        <c:when test="${empty subscription}">
         		<div class="my">
-                    <p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/getsubscribeform">Subscribe</a></p>
+                    <p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/getsubscribeform">Подписка</a></p>
                 </div>
         	</c:when>
         	<c:when test="${not empty subscription}">
@@ -63,10 +44,10 @@
         </c:choose>
 
 		<h3 class="mb-0">
-            <a class="text-dark" href="${path}/book/show">Show books</a>
+            <a class="text-dark" href="${path}/book/show">Бесплатные краткие содержания</a>
         </h3>
         <h3 class="mb-0">
-            <a class="text-dark" href="${path}/searchbookoptions">Searching books</a>
+            <a class="text-dark" href="${path}/searchbookoptions">Поиск кратких содержаний</a>
         </h3>
 	</div>
 	<!-- /.container -->

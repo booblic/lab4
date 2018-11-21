@@ -46,6 +46,8 @@ public class StartPageController {
 
         User currentUser = userService.getCurrentUser();
 
+        model.addAttribute("bookCount", bookServices.getBookCount());
+
         if (currentUser != null) {
 
             model.addAttribute("username", currentUser.getUsername());

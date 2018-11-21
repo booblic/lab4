@@ -1,5 +1,10 @@
 package lab4.library.service;
 
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import lab4.library.author.Author;
 import lab4.library.book.Book;
 import lab4.library.book.PatternBook;
@@ -8,6 +13,8 @@ import lab4.library.book.Printing;
 import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
 import lab4.library.repository.BookRepository;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,15 +24,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -125,18 +134,17 @@ public class BookServiceImpl extends BookService {
         LOG.info("msg: book.setDescription({})", formBook.getDescription());
         book.setDescription(formBook.getDescription());
 
-        File file = new File("var.txt");
-
-        try(FileWriter fileWriter = new FileWriter(file, false)) {
-            fileWriter.write(formBook.getSummary());
-            fileWriter.flush();
+        MultipartFile multipartFile = formBook.getFile();
+        try {
+            File convFile = new File(multipartFile.getOriginalFilename());
+            convFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(convFile);
+            fos.write(multipartFile.getBytes());
+            fos.close();
+            book.setSummaryPath(convFile.getPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        book.setSummary(file);
-
-        //file.delete();
 
         if (formBook.getGenresNames() != null) {
 
@@ -604,23 +612,43 @@ public class BookServiceImpl extends BookService {
     public String getBookSummary(Integer bookId) {
         Book book = findOne(bookId);
         StringBuilder summary = new StringBuilder();
-        if (book.getSummary() != null) {
-            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(book.getSummary()))) {
-                String line = bufferedReader.readLine();
+        if (book.getSummaryPath() != null) {
 
-                while (line != null) {
-                    summary.append(line);
-                    summary.append(System.lineSeparator());
-                    line = bufferedReader.readLine();
+            try {
+                FileInputStream fis = new FileInputStream(book.getSummaryPath());
+                XWPFDocument document = new XWPFDocument(fis);
+                List<XWPFParagraph> paragraphs = document.getParagraphs();
+                for (XWPFParagraph para : paragraphs) {
+                    summary.append(para.getText()).append("\n\n");
                 }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+                fis.close();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
             summary.append("Summary appear soon.");
         }
         return summary.toString();
+    }
+
+    @Transactional
+    public ResponseEntity<StreamingResponseBody> download(Integer bookId) throws IOException {
+        LOG.info("msg: findOne({})", bookId);
+        Book book = findOne(bookId);
+        final File summary = new File(book.getSummaryPath());
+
+        LOG.info("msg: header(HttpHeaders.CONTENT_DISPOSITION, \"attachment; filename=\"+book.getBookName()+\" - summary.docx\")");
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=summary.docx").body((OutputStream outputStream) -> {
+
+            LOG.info("msg: StreamUtils.copy(new BufferedInputStream(new FileInputStream(summary)), outputStream\n");
+            StreamUtils.copy(new BufferedInputStream(new FileInputStream(summary)), outputStream);
+            LOG.info("msg: csvFile.delete()");
+            summary.delete();
+        });
+    }
+
+    @Transactional
+    public long getBookCount() {
+        return bookRepository.count();
     }
 }

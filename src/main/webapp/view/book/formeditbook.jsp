@@ -16,31 +16,11 @@
 	<link href="${path}/css/commonstyle.css" rel="stylesheet"/> </head>
 
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> </button>
-				<a class="navbar-brand" href="${path}/"> <span class="glyphicon glyphicon-book"></span> Library </a>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<c:choose>
-						<c:when test="${not empty username}">
-							<li><a href="${path}/user/showuserprofile">${username}</a></li>
-							<c:if test="${role eq 'admin'}">
-								<li><a href="${path}/user/getshowalluserform">Show all user</a></li>
-							</c:if>
-							<li><a href="${path}/logout">Logout</a></li>
-							<br> </c:when>
-					</c:choose>
-				</ul>
-			</div>
-			<!--/.nav-collapse -->
-		</div>
-	</nav>
+    <jsp:include page="${path}/view/header.jsp"/>
+
 	<div class="container">
 		<h2 class="h2 page-header">Edit Book</h2>
-		<form action="${path}/book/editbook" method="POST">
+		<form action="${path}/book/editbook" method="POST" enctype="multipart/form-data">
 			<div class="row">
 				<input type="text" name="bookId" value="${book.bookId}" size="3" hidden="true" />
 				<div class="col-md-3">
@@ -132,16 +112,12 @@
 			<p>
 				<button type="button" class="btn btn-primary" onclick="addPublisherFormItem()">Add publisher</button>
 			</p>
-			<div class="row">
-            	<div class="col-md-3">
-            		<p>
-            		    <label for="text">Summary</label>
-            		</p>
-            		<p>
-            			<textarea rows="10" style="width: 1140px" class="form-control" name="summary">${summary}</textarea>
-            		</p>
-            	</div>
+    		<p>
+    		<div class="col-md-3">
+    	        <p><label for="download">Загрузите краткое содержание</label></p>
+                <p><input type="file" name="file"></p>
             </div>
+            </p>
 			<p>
 				<button type="submit" class="btn btn-success btn-lg btn-block">Edit</button>
 			</p>
