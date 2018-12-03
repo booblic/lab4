@@ -1,5 +1,6 @@
 package lab4.library.controller;
 
+import com.itextpdf.text.DocumentException;
 import lab4.library.book.Book;
 import lab4.library.book.PatternBook;
 import lab4.library.book.FormBook;
@@ -11,16 +12,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import javax.servlet.ServletContext;
 import javax.validation.constraints.NotNull;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
+
 
 /**
  * Spring MVC controller for entity  book
@@ -83,15 +88,21 @@ public class BookController {
     @GetMapping(value = "/show")
     public String showBooks(Model model) {
 
+        User currentUser = userService.getCurrentUser();
+
         model.addAttribute("books", bookServices.findAllBook());
 
-        if (userService.getCurrentUser() != null) {
+        if (currentUser != null) {
 
-            model.addAttribute("username", userService.getCurrentUser().getUsername());
+            model.addAttribute("username", currentUser.getUsername());
 
             if (userService.hasRole("ROLE_ADMIN")) {
 
                 model.addAttribute("role", "admin");
+            }
+
+            if (isSubscribed(currentUser.getSubscription(), model) == true) {
+                model.addAttribute("subscribed", "true");
             }
         }
         return "book/showallbooks";
@@ -480,28 +491,47 @@ public class BookController {
                 model.addAttribute("role", "admin");
             }
 
-            LocalDate subscriptionDate = currentUser.getSubscription();
-
-            if (userService.hasRole(Role.ROLE_MODERATOR)) {
-
-                if (subscriptionDate != null) {
-                    LocalDate currentDate = LocalDate.now();
-                    if ((currentDate.getYear() <= subscriptionDate.getYear()) && (currentDate.getDayOfYear() - subscriptionDate.getDayOfYear() > 30)) {
-                        model.addAttribute("message", "Your subscription has expired!");
-                        return "user/subscriptionform";
-                    }
-                } else {
-                    model.addAttribute("message", "You do not have a subscription!");
-                    return "user/subscriptionform";
-                }
+            if (isSubscribed(currentUser.getSubscription(), model) == false) {
+                return "user/subscriptionform";
             }
         }
-
         String summary = bookServices.getBookSummary(bookId);
-        String summaryName = bookName + " summary";
         model.addAttribute("summary", summary);
-        model.addAttribute("name", summaryName);
+        model.addAttribute("name", bookName);
 
         return "book/showsummary";
+    }
+
+    @GetMapping(value = "/downloadbook")
+    public ResponseEntity<StreamingResponseBody> downloadBook(@RequestParam("id") @NotNull Integer id, Model model) {
+
+        ResponseEntity<StreamingResponseBody> responseEntity = null;
+
+        LOG.info("msg: bookServices.download({})", id);
+        try {
+            responseEntity = bookServices.download(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return responseEntity;
+    }
+
+    public boolean isSubscribed(LocalDate subscriptionDate, Model model) {
+
+        if (userService.hasRole(Role.ROLE_USER)) {
+
+            if (subscriptionDate != null) {
+                LocalDate currentDate = LocalDate.now();
+                if ((currentDate.getYear() <= subscriptionDate.getYear()) && (currentDate.getDayOfYear() - subscriptionDate.getDayOfYear() > 30)) {
+                    model.addAttribute("message", "Your subscription has expired!");
+                    return false;
+                }
+            } else {
+                model.addAttribute("message", "You do not have a subscription!");
+                return false;
+            }
+        }
+        return true;
     }
 }

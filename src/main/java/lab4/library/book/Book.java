@@ -53,7 +53,7 @@ public class Book extends Description implements Printing {
 
     private Double bookRating;
 
-    private File summary;
+    private String summaryPath;
 
     public Book() {}
 
@@ -158,12 +158,12 @@ public class Book extends Description implements Printing {
         this.bookRating = bookRating;
     }
 
-    public File getSummary() {
-        return summary;
+    public String getSummaryPath() {
+        return summaryPath;
     }
 
-    public void setSummary(File summary) {
-        this.summary = summary;
+    public void setSummaryPath(String summaryPath) {
+        this.summaryPath = summaryPath;
     }
 
     @Override
