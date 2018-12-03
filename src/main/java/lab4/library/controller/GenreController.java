@@ -2,7 +2,7 @@ package lab4.library.controller;
 
 import lab4.library.genre.Genre;
 import lab4.library.service.GenreServiceImpl;
-import lab4.library.service.UserService;
+import lab4.library.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class GenreController {
      * The object of the service that implements the business logic for the user
      */
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     /**
      * The method returns the name jsp to search for books by genre
@@ -40,16 +40,7 @@ public class GenreController {
      */
     @GetMapping(value = "/getsearchingbygenreform")
     public String getSearchingByGenreForm(Model model) {
-
-        if (userService.getCurrentUser() != null) {
-
-            model.addAttribute("username", userService.getCurrentUser().getUsername());
-
-            if (userService.hasRole("ROLE_ADMIN")) {
-
-                model.addAttribute("role", "admin");
-            }
-        }
+        userService.fillHeader(model);
         return "genre/searchingformbygenre";
     }
 
@@ -66,11 +57,8 @@ public class GenreController {
         Genre genre = genreService.findByGenreName(genreName);
 
         if (genre != null) {
-
             model.addAttribute("books", genre.getBooks());
-
         } else {
-
             model.addAttribute("error", "Sorry, books of the genre " + genreName + " a not found");
         }
         return "book/showallbooks";

@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import javax.xml.crypto.Data;
 import java.time.LocalDate;
@@ -271,5 +272,44 @@ public class UserServiceImpl implements UserService {
         currentUser.setSubscription(LocalDate.now());
 
         return updateUser(currentUser);
+    }
+
+    public boolean isSubscribed(LocalDate subscriptionDate, Model model) {
+        if (hasRole(Role.ROLE_ADMINISTRATOR)) {
+            return true;
+        }
+        if (hasRole(Role.ROLE_MODERATOR)) {
+            return true;
+        }
+        if (hasRole(Role.ROLE_USER)) {
+            if (subscriptionDate != null) {
+                LocalDate currentDate = LocalDate.now();
+                if ((currentDate.getYear() <= subscriptionDate.getYear()) && (currentDate.getDayOfYear() - subscriptionDate.getDayOfYear() > 30)) {
+                    model.addAttribute("message", "Your subscription has expired!");
+                    return false;
+                }
+            } else {
+                model.addAttribute("message", "У вас нет подпискии!");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Model fillHeader(Model model) {
+        User currentUser = getCurrentUser();
+        if (currentUser != null) {
+            model.addAttribute("username", currentUser.getUsername());
+            if (hasRole("ROLE_ADMIN")) {
+                model.addAttribute("role", "admin");
+            }
+            if (hasRole(Role.ROLE_ADMINISTRATOR) || hasRole(Role.ROLE_MODERATOR)) {
+                currentUser = subscribeUser("default");
+            }
+            if (isSubscribed(currentUser.getSubscription(), model)) {
+                model.addAttribute("subscribed", "true");
+            }
+        }
+        return model;
     }
 }

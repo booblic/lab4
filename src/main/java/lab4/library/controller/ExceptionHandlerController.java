@@ -32,16 +32,7 @@ public class ExceptionHandlerController {
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String resourceNotFound(Model model) {
-
-        if (userService.getCurrentUser() != null) {
-
-            model.addAttribute("username", userService.getCurrentUser().getUsername());
-
-            if (userService.hasRole("ROLE_ADMIN")) {
-
-                model.addAttribute("role", "admin");
-            }
-        }
+        userService.fillHeader(model);
         return "error/404";
     }
 
@@ -53,17 +44,7 @@ public class ExceptionHandlerController {
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public String accessDenied(Model model) {
-
-        if (userService.getCurrentUser() != null) {
-
-            model.addAttribute("username", userService.getCurrentUser().getUsername());
-
-            if (userService.hasRole("ROLE_ADMIN")) {
-
-                model.addAttribute("role", "admin");
-            }
-        }
-
+        userService.fillHeader(model);
         return "error/403";
     }
 }
