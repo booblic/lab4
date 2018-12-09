@@ -2,8 +2,7 @@ package lab4.library.controller;
 
 import lab4.library.publisher.Publisher;
 import lab4.library.service.PublisherServiceImpl;
-import lab4.library.service.PublisherServiceImpl;
-import lab4.library.service.UserService;
+import lab4.library.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class PublisherController {
      * A service object that implements business logic for the user
      */
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     /**
      * The method returns the name jsp to search for books by the publisher
@@ -44,16 +43,7 @@ public class PublisherController {
      */
     @GetMapping(value = "/getsearchingbypublisherform")
     public String getSearchingByPublisherForm(Model model) {
-
-        if (userService.getCurrentUser() != null) {
-
-            model.addAttribute("username", userService.getCurrentUser().getUsername());
-
-            if (userService.hasRole("ROLE_ADMIN")) {
-
-                model.addAttribute("role", "admin");
-            }
-        }
+        userService.fillHeader(model);
         return "publisher/searchingformbypublisher";
     }
 
@@ -70,11 +60,8 @@ public class PublisherController {
         Publisher publisher = publisherService.findByPublisherName(publisherName);
 
         if (publisher != null) {
-
             model.addAttribute("books", publisher.getBooks());
-
         } else {
-
             model.addAttribute("error", "Sorry, books by publisher " + publisherName + " a not found");
         }
         return "book/showallbooks";

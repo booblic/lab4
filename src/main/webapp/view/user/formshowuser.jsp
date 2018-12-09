@@ -20,20 +20,16 @@
     <jsp:include page="${path}/view/header.jsp"/>
 
 	<div class="container">
-		<h2 class="h2 page-header">Your Profile</h2> First Name: ${user.firstName}
-		<br>
-		<br> Last Name: ${user.lastName}
-		<br>
-		<br>
-		<c:if test="${not empty user.middleName}"> Middle Name: ${user.middleName}
-			<br>
-			<br> </c:if> Email: ${user.email}
-		<br>
-		<br> Phone Number: ${user.phoneNumber}
-		<br>
-		<br> User Name: ${user.username}
-		<br>
-		<br>
+		<h2 class="h2 page-header">Ваш профиль</h2>
+		<p>Имя: ${user.firstName}</p>
+		<p>Фамилия: ${user.lastName}</p>
+		<c:if test="${not empty user.middleName}">
+		    <p>Отчество: ${user.middleName}</p>
+        </c:if>
+        <p>Email: ${user.email}</p>
+		<p>Телефон: ${user.phoneNumber}</p>
+		<p>Логин: ${user.username}</p>
+		<p>Подписка оформлена: ${user.subscription} (Осталось дней: ${daysLeft})</p>
 		<p><a href="${path}/user/getedituserform" class="btn btn-primary">Edit profile</a></p>
 	<div>
 	<footer class="my-5 pt-5 text-muted text-center text-small">

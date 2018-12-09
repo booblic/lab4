@@ -18,7 +18,7 @@
     <jsp:include page="${path}/view/header.jsp"/>
 
 	<div class="container">
-		<h2 class="text-center">Библиотека краткий содержаний!</h2>
+		<h2 class="text-center">Библиотека кратких содержаний!</h2>
 		<h5 class="text-center">Количество кратких содержаний: ${bookCount}</h5>
 		<p>${message}</p>
 		<p>${registrationMessage}</p>
@@ -34,7 +34,7 @@
 		</c:choose>
 
 		<c:choose>
-	        <c:when test="${empty subscription}">
+	        <c:when test="${empty subscribed}">
         		<div class="my">
                     <p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/getsubscribeform">Подписка</a></p>
                 </div>
@@ -44,8 +44,13 @@
         </c:choose>
 
 		<h3 class="mb-0">
-            <a class="text-dark" href="${path}/book/show">Бесплатные краткие содержания</a>
+            <a class="text-dark" href="${path}/book/showFree">Бесплатные краткие содержания</a>
         </h3>
+        <c:if test="${not empty subscribed}">
+            <h3 class="mb-0">
+                <a class="text-dark" href="${path}/book/show">Краткие содержания</a>
+            </h3>
+        </c:if>
         <h3 class="mb-0">
             <a class="text-dark" href="${path}/searchbookoptions">Поиск кратких содержаний</a>
         </h3>

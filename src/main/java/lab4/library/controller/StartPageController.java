@@ -1,9 +1,7 @@
 package lab4.library.controller;
 
 import lab4.library.service.BookServiceImpl;
-import lab4.library.service.UserService;
-import lab4.library.user.Role;
-import lab4.library.user.User;
+import lab4.library.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,7 @@ public class StartPageController {
      * The object of the service that implements the business logic for the user
      */
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     /**
      * A service object that implements business logic for a book
@@ -44,25 +42,9 @@ public class StartPageController {
     @RequestMapping(value = "/")
     public String startPageMessage(Model model) {
 
-        User currentUser = userService.getCurrentUser();
-
+        userService.fillHeader(model);
         model.addAttribute("bookCount", bookServices.getBookCount());
 
-        if (currentUser != null) {
-
-            model.addAttribute("username", currentUser.getUsername());
-
-            if (userService.hasRole(Role.ROLE_ADMINISTRATOR)) {
-                model.addAttribute("role", "admin");
-            } else if (userService.hasRole(Role.ROLE_MODERATOR)) {
-                currentUser.setSubscription(LocalDate.now());
-            }
-
-            if (currentUser.getSubscription() != null) {
-
-                model.addAttribute("subscription", currentUser.getSubscription());
-            }
-        }
         return "startpage";
     }
 
@@ -73,16 +55,7 @@ public class StartPageController {
      */
     @GetMapping(value = "/searchbookoptions")
     public String searchBookOptions(Model model) {
-
-        if (userService.getCurrentUser() != null) {
-
-            model.addAttribute("username", userService.getCurrentUser().getUsername());
-
-            if (userService.hasRole("ROLE_ADMIN")) {
-
-                model.addAttribute("role", "admin");
-            }
-        }
+        userService.fillHeader(model);
         return "searchingbook";
     }
 

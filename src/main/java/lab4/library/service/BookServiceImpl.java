@@ -1,15 +1,11 @@
 package lab4.library.service;
 
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 import lab4.library.author.Author;
 import lab4.library.book.Book;
 import lab4.library.book.PatternBook;
 import lab4.library.book.FormBook;
 import lab4.library.book.Printing;
+import lab4.library.exception.ResourceNotFoundException;
 import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
 import lab4.library.repository.BookRepository;
@@ -32,9 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -635,13 +628,19 @@ public class BookServiceImpl extends BookService {
     public ResponseEntity<StreamingResponseBody> download(Integer bookId) throws IOException {
         LOG.info("msg: findOne({})", bookId);
         Book book = findOne(bookId);
-        final File summary = new File(book.getSummaryPath());
+        if (book.getSummaryPath() == null) {
+            throw new ResourceNotFoundException();
+        }
 
-        LOG.info("msg: header(HttpHeaders.CONTENT_DISPOSITION, \"attachment; filename=\"+book.getBookName()+\" - summary.docx\")");
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=summary.docx").body((OutputStream outputStream) -> {
+        final File summary = new File(book.getSummaryPath());
+        String canonicalSummaryName = summary.getName().replaceAll("\\s+", "_");
+
+        LOG.info("msg: header(HttpHeaders.CONTENT_DISPOSITION, \"attachment; filename=\"+canonicalSummaryName+\".docx\")");
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + canonicalSummaryName + ".docx").body((OutputStream outputStream) -> {
 
             LOG.info("msg: StreamUtils.copy(new BufferedInputStream(new FileInputStream(summary)), outputStream\n");
             StreamUtils.copy(new BufferedInputStream(new FileInputStream(summary)), outputStream);
+
             LOG.info("msg: csvFile.delete()");
             summary.delete();
         });
