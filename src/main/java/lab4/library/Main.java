@@ -22,7 +22,7 @@ public class Main {
      * @param resourcePatternResolver - strategy interface for resolving a location pattern into Resource objects
      * @return factory
      */
-/*    @Bean
+    @Bean
     public Jackson2RepositoryPopulatorFactoryBean repositoryPopulator(ResourcePatternResolver resourcePatternResolver) throws IOException {
 
         Jackson2RepositoryPopulatorFactoryBean factory = new Jackson2RepositoryPopulatorFactoryBean();
@@ -30,7 +30,7 @@ public class Main {
         factory.setResources(resourcePatternResolver.getResources("classpath:/import/*.json"));
 
         return factory;
-    }*/
+    }
 
     /**
      * Method for get a class object for client-side HTTP access

@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/resource/**", "/webapp/**",
                 "/user/getregistrationform", "/user/registeruser",
                 "/searchbookoptions",
-                "/book/show", "/book/getsearchingbybooknameform", "/book/searchingbybookname",
+                "/book/show", "/book/showFree", "/book/getfreesummary", "/book/getsearchingbookform", "/book/searchingBookByNameAndAuthor", "/book/getsearchingbybooknameform", "/book/searchingbybookname",
                 "/book/getformviewbook",
                 "/book/genreandyearsearchingform", "/book/searchingbygenreandyear",
                 "/book/authorandgenresearchingform", "/book/searhcingbyauthorandgenre",

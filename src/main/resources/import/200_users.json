@@ -58,5 +58,25 @@
         "roleId": 1
       }
     ]
+  },
+  {
+    "_class": "lab4.library.user.User",
+    "username": "sales",
+    "password": "$2a$10$ks.dpu2YDc5BrpoZwR6T2e.l5EScUuSuyYDoxtuCx3nVU2YVCVlA.",
+    "firstName": "Igor",
+    "lastName": "Pavlenkov",
+    "middleName": "Vitalievich",
+    "email": "zigor-@mail.ru",
+    "phoneNumber": "88005553535",
+    "roles": [
+      {
+        "_class": "lab4.library.user.Role",
+        "roleId": 1
+      },
+      {
+        "_class": "lab4.library.user.Role",
+        "roleId": 4
+      }
+    ]
   }
 ]

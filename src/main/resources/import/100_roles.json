@@ -16,5 +16,11 @@
     "roleId": 3,
     "roleName": "Administrator",
     "authority": "ROLE_ADMIN"
+  },
+  {
+    "_class": "lab4.library.user.Role",
+    "roleId": 4,
+    "roleName": "Sales",
+    "authority": "ROLE_SALES"
   }
 ]

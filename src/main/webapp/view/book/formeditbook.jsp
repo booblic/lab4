@@ -19,13 +19,16 @@
     <jsp:include page="${path}/view/header.jsp"/>
 
 	<div class="container">
-		<h2 class="h2 page-header">Edit Book</h2>
+		<h2 class="h2 page-header">Редактирование</h2>
 		<form action="${path}/book/editbook" method="POST" enctype="multipart/form-data">
 			<div class="row">
-				<input type="text" name="bookId" value="${book.bookId}" size="3" hidden="true" />
+				<input type="text" name="bookId" value="${book.bookId}" size="3" hidden="true"/>
+				<input type="text" name="viewsNumber" value="${book.viewsNumber}" hidden="true"/>
+				<input type="text" name="summaryPath" value="${book.summaryPath}" hidden="true"/>
+				<input type="text" name="summaryNumberPage" value="${book.summaryNumberPage}" hidden="true" />
 				<div class="col-md-3">
 					<p>
-						<label for="bookName">Name</label>
+						<label for="bookName">Название</label>
 					</p>
 					<p>
 						<input type="text" name="bookName" class="form-control" value="${book.bookName}" /> </p>
@@ -39,7 +42,7 @@
 				</div>
 				<div class="col-md-3">
 					<p>
-						<label for="year">Year</label>
+						<label for="year">Год изадния</label>
 					</p>
 					<p>
 						<input type="text" name="year" class="form-control" value="${book.year}" /> </p>
@@ -48,7 +51,7 @@
 			<div class="row">
 				<div class="col-md-3">
 					<p>
-						<label for="description">Description</label>
+						<label for="description">Описание</label>
 					</p>
 					<p>
 						<textarea rows="5" cols="200" style="width: 400px" class="form-control" name="description">${book.description}</textarea>
@@ -59,7 +62,7 @@
 				<div class="row">
 					<div class="col-md-3">
 						<p>
-							<label for="genre">Genre</label>
+							<label for="genre">Жанр</label>
 						</p>
 						<c:forEach items="${book.genres}" var="genre">
 							<p>
@@ -69,24 +72,24 @@
 				</div>
 			</div>
 			<p>
-				<button type="button" class="btn btn-primary" onclick="addGenreFormItem()">Add genre</button>
+				<button type="button" class="btn btn-primary" onclick="addGenreFormItem()">Добавить</button>
 			</p>
 			<div id="authorItems">
-				<label for="genre">Author</label>
+				<label for="genre">Автор</label>
 				<c:forEach items="${book.authors}" var="author">
 				    <div class="row">
 						<div class="col-md-3">
-							<p>First name</p>
+							<p>Имя</p>
 							<p>
 								<input type="text" class="form-control" name="authorsFirstNames" value="${author.firstName}" /> </p>
 						</div>
 						<div class="col-md-3">
-							<p>Last name</p>
+							<p>Фамилия</p>
 							<p>
 								<input type="text" class="form-control" name="authorsLastNames" value="${author.lastName}" /> </p>
 						</div>
 						<div class="col-md-3">
-							<p>Middle name</p>
+							<p>Отчество</p>
 							<p>
 								<input type="text" class="form-control" name="authorsMiddleNames" value="${author.middleName}" /> </p>
 						</div>
@@ -94,13 +97,13 @@
 				</c:forEach>
 			</div>
 			<p>
-				<button type="button" class="btn btn-primary" onclick="addAuthorFormItem()">Add author</button>
+				<button type="button" class="btn btn-primary" onclick="addAuthorFormItem()">Добавить автора</button>
 			</p>
 			<div id="publisherItems">
 				<div class="row">
 					<div class="col-md-3">
 						<p>
-							<label for="publisher">Publisher</label>
+							<label for="publisher">Издатель</label>
 						</p>
 						<c:forEach items="${book.publishers}" var="publisher">
 							<p>
@@ -110,22 +113,36 @@
 				</div>
 			</div>
 			<p>
-				<button type="button" class="btn btn-primary" onclick="addPublisherFormItem()">Add publisher</button>
+				<button type="button" class="btn btn-primary" onclick="addPublisherFormItem()">Добавить изадтеля</button>
 			</p>
     		<p>
-    		<div class="col-md-3">
-    	        <p><label for="download">Загрузите краткое содержание</label></p>
-                <p><input type="file" name="file"></p>
+    		<div class="row">
+                <div class="col-md-4">
+                    <p><label for="download">Загрузите краткое содержание</label></p>
+                    <p><input class="btn btn-primary" type="file" name="file"></p>
+                </div>
+                <div class="col-md-1">
+                	<c:if test="${book.free == true}">
+                		<p><label for="role">Бесплатное</label></p>
+                		<input type="checkbox" class="form-control" name="free" checked/>
+                	</c:if>
+                	<c:if test="${book.free == false}">
+                		<p><label for="role">Бесплатное</label></p>
+                		<input type="checkbox" class="form-control" name="free"/>
+                	</c:if>
+                </div>
             </div>
             </p>
-			<p>
-				<button type="submit" class="btn btn-success btn-lg btn-block">Edit</button>
-			</p>
+            <div class="row">
+                <div class="col-md-10">
+                    <p><button type="submit" class="btn btn-success btn-lg">Сохранить</button></p>
+                </div>
+			</div>
 		</form>
 	</div>
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>
-		<p class="mb-1">© 2018 Library</p>
+		<p class="mb-1">© 2018 Почитай-ка</p>
 		<ul class="list-inline">
 			<li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
 		</ul>

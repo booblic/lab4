@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
@@ -87,7 +88,8 @@ public class BookController {
     @GetMapping(value = "/show")
     public String showBooks(Model model) {
         userService.fillHeader(model);
-        model.addAttribute("books", bookServices.findAllBook());
+        List<Book> bookList = bookServices.findAllBook().stream().filter(book -> book.getFree() == false).collect(Collectors.toList());
+        model.addAttribute("books", bookList);
         return "book/showallbooks";
     }
 
@@ -119,8 +121,12 @@ public class BookController {
             return "book/formaddbook";
         }
         LOG.info("msg: addBook(bookName, isbn, year)");
-        bookServices.addOrEditBook(formBook);
-        return "redirect:/book/show";
+        Book book = bookServices.addOrEditBook(formBook);
+        if (book.getFree() == true) {
+            return "redirect:/book/showFree";
+        } else {
+            return "redirect:/book/show";
+        }
     }
 
     /**
@@ -129,27 +135,39 @@ public class BookController {
      * @param model - defines a holder for model attributes
      * @return name jsp
      */
-    @GetMapping(value = "/getsearchingbybooknameform")
+    @GetMapping(value = "/getsearchingbookform")
     public String getSearchingForm(Model model) {
         userService.fillHeader(model);
-        return "book/searchingbybooknameform";
+        return "book/searchingbookform";
     }
 
     /**
      * The method gets books with given names, adds them to the holder for model attributes, and returns the name jsp to display books
      *
      * @param model    - defines a holder for model attributes
-     * @param bookName - name of the book
+     * @param data - entry date
      * @return name jsp
      */
-    @GetMapping(value = "/searchingbybookname")
-    public String searchingByBookName(@RequestParam(value = "bookName") String bookName, Model model) {
-        LOG.info("msg: bookServices.findByBookName({})", bookName);
-        List<Book> bookList = bookServices.findByBookName(bookName);
-        if (bookList.size() != 0) {
-            model.addAttribute("books", bookList);
+    @GetMapping(value = "/searchingBookByNameAndAuthor")
+    public String searchingBookByNameAndAuthor(@RequestParam(value = "data") String data, Model model) {
+        userService.fillHeader(model);
+        Pattern pattern = Pattern.compile("^[А-ЯA-Zа-яa-z0-9]+");
+        if (!pattern.matcher(data).find()) {
+            model.addAttribute("error", "Неверный ввод! Допустимы только буквенные или цифровые символы.");
+            return "book/showallbooks";
+        }
+
+        List<Book> booksByName = bookServices.findByBookName(data);
+        List<Book> booksByAuthor = bookServices.findByAuthor(data);
+
+        Set<Book> bookSet = new HashSet<>();
+        bookSet.addAll(booksByName);
+        bookSet.addAll(booksByAuthor);
+
+        if (bookSet.size() != 0) {
+            model.addAttribute("books", bookSet);
         } else {
-            model.addAttribute("error", "Sorry, books with name " + bookName + " a not found");
+            model.addAttribute("error", "Sorry, books with name " + data + " a not found");
         }
         return "book/showallbooks";
     }
@@ -177,9 +195,14 @@ public class BookController {
      */
     @GetMapping("/deletebook")
     public String deleteBook(@RequestParam("id") @NotNull Integer bookId) {
+        Book book = bookServices.findOne(bookId);
         LOG.info("msg:  bookServices.deleteBook({})", bookId);
         bookServices.deleteBook(bookId);
-        return "redirect:/book/show";
+        if (book.getFree() == true) {
+            return "redirect:/book/showFree";
+        } else {
+            return "redirect:/book/show";
+        }
     }
 
     /**
@@ -215,9 +238,12 @@ public class BookController {
     public String editBook(@ModelAttribute FormBook formBook) {
 
         LOG.info("msg: bookServices.editBook({})", formBook.toString());
-        Book book = (Book) bookServices.addOrEditBook(formBook);
-
-        return "redirect:/book/show";
+        Book book = bookServices.addOrEditBook(formBook);
+        if (book.getFree() == true) {
+            return "redirect:/book/showFree";
+        } else {
+            return "redirect:/book/show";
+        }
     }
 
     /**
@@ -385,6 +411,26 @@ public class BookController {
                 return "user/subscriptionform";
             }
         }
+        Book book = bookServices.findOne(bookId);
+        String bookDescription = book.getDescription();
+        String summary = bookServices.getBookSummary(bookId);
+        Integer viewsNum = book.getViewsNumber();
+        if (viewsNum == null) {
+            book.setViewsNumber(1);
+        } else {
+            book.setViewsNumber(++viewsNum);
+        }
+        bookServices.saveBook(book);
+        model.addAttribute("description", bookDescription);
+        model.addAttribute("summary", summary);
+        model.addAttribute("name", bookName);
+
+        return "book/showsummary";
+    }
+
+    @GetMapping(value = "/getfreesummary")
+    public String getFreeSummary(@RequestParam("id") @NotNull Integer bookId, @RequestParam("name") @NotNull String bookName, Model model) {
+
         String summary = bookServices.getBookSummary(bookId);
         model.addAttribute("summary", summary);
         model.addAttribute("name", bookName);
@@ -409,7 +455,7 @@ public class BookController {
     @GetMapping(value = "/showFree")
     public String showFree(Model model) {
         userService.fillHeader(model);
-        List<Book> bookList = bookServices.findAllBook().stream().filter(book -> book.getBookId() < 3).collect(Collectors.toList());
+        List<Book> bookList = bookServices.findAllBook().stream().filter(book -> book.getFree() == true).collect(Collectors.toList());
 
         model.addAttribute("books", bookList);
         return "book/freesummary";

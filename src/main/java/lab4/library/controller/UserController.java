@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Spring MVC controller for entity user
@@ -324,5 +327,25 @@ public class UserController {
         userService.subscribeUser(props);
 
         return "redirect:/";
+    }
+
+    @GetMapping(value = "/searchingUserByLogin")
+    public String searchingUserByLogin(@RequestParam("login") String login, Model model) {
+
+        userService.fillHeader(model);
+        Pattern pattern = Pattern.compile("^[А-ЯA-Zа-яa-z0-9]+");
+        if (!pattern.matcher(login).find()) {
+            model.addAttribute("error", "Неверный ввод! Допустимы только буквенные или цифровые символы.");
+            return"user/showalluserform";
+        }
+        List<User> userList = new ArrayList<>();
+        User user = userService.findUser(login);
+        if (user != null) {
+            userList.add(userService.findUser(login));
+            model.addAttribute("users", userList);
+        } else {
+            model.addAttribute("error", "Sorry, user with login " + login + " a not found");
+        }
+        return "user/showalluserform";
     }
 }

@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
 <c:set var="path" value="${pageContext.request.contextPath}"></c:set>
 
@@ -30,9 +31,10 @@
                                     <th>Export</th>
                                 </security:authorize>-->
                                 <security:authorize access="hasRole('ROLE_MODER')">
-                                    <th>Ид</th>
+                                    <th>№</th>
                                 </security:authorize>
                                 <th>Краткое Содержание</th>
+                                <th>Автор</th>
                                 <th>Страницы</th>
                                 <th></th>
                                 <security:authorize access="hasRole('ROLE_MODER')">
@@ -55,8 +57,17 @@
                                     <security:authorize access="hasRole('ROLE_MODER')">
                                         <td>${book.bookId}</td>
                                     </security:authorize>
-                                    <td><a href="${path}/book/getsummary?id=${book.bookId}&name=${book.bookName}">${book.bookName}</a></td>
-                                    <td>${book.isbn}</td>
+                                    <td><a href="${path}/book/getfreesummary?id=${book.bookId}&name=${book.bookName}">${book.bookName}</a></td>
+                                    <td>
+                                        <c:forEach items="${book.authors}" var="author">
+                                            <c:set var="firstName" value="${fn:substring(author.firstName, 0, 1)}" />
+                                            <c:set var="middleName" value="${fn:substring(author.middleName, 0, 1)}" />
+                                            ${author.lastName}
+                                            ${firstName}.
+                                            ${middleName}.
+                             			</c:forEach>
+                                    </td>
+                                    <td>${book.summaryNumberPage}</td>
                                     <td><a href="${path}/book/getformviewbook?id=${book.bookId}">Об Издании</a></td>
                                     <security:authorize access="hasRole('ROLE_MODER')">
                                         <td><a href="${path}/book/getformedit?id=${book.bookId}">Редактировать</a></td>
@@ -65,7 +76,9 @@
                                         <td><a href="${path}/book/deletebook?id=${book.bookId}">Удалить</a></td>
                                     </security:authorize>
                                     <c:if test="${subscribed}">
-                                        <td><a href="${path}/book/downloadbook?id=${book.bookId}">Скачать</td>
+                                        <c:if test="${not empty book.summaryPath}">
+                                            <td><a href="${path}/book/downloadbook?id=${book.bookId}">Скачать</td>
+                                        </c:if>
                                     </c:if>
                                 </tr>
                             </c:forEach>
@@ -81,14 +94,12 @@
                 <c:if test="${not empty error}">
                     <p class="error">${error}</p>
                 </c:if>
-                <br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getaddform">Add book</a>
-                <br><a class="btn btn-primary btn-lg btn-block" href="${path}/book/getsearchbookinternetform">Searching book on mybook.ru</a>
             </div>
 	    </div>
 	</div>
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>
-		<p class="mb-1">© 2018 Library</p>
+		<p class="mb-1">© 2018 Почитай-ка</p>
 		<ul class="list-inline">
 			<li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
 		</ul>

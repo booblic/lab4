@@ -20,20 +20,18 @@
     <jsp:include page="${path}/view/header.jsp"/>
 
 	<div class="reg">
-        <h3 class="text-center">Subscription</h3>
+        <h3 class="text-center">Подписка</h3>
     	<br>
-    	<p class="text-danger">${message}</p>
     	<form action="${path}/user/subscribe" method="POST">
-    		<label for="props">Card number</label>
+    		<label for="props">Номер банковской карты</label>
     		<p><input type="text" class="form-control" name="props" /></p>
-    		<br><br>
-    		<button class="btn btn-primary btn-lg btn-block" type="submit">Subscribe</button>
+    		<button class="btn btn-success btn-lg btn-block" type="submit">Подписаться</button>
     	</form>
     </div>
     <br><br><br>
     <footer class="my-5 pt-5 text-muted text-center text-small">
         <br>
-        <p class="mb-1">© 2017-2018 Library</p>
+        <p class="mb-1">© 2018 Почитай-ка</p>
         <ul class="list-inline">
         <li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
         </ul>

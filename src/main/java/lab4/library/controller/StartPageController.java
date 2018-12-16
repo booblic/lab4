@@ -1,6 +1,8 @@
 package lab4.library.controller;
 
+import lab4.library.book.Book;
 import lab4.library.service.BookServiceImpl;
+import lab4.library.service.StatisticService;
 import lab4.library.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

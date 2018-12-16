@@ -4,7 +4,6 @@ import lab4.library.author.Author;
 import lab4.library.book.Book;
 import lab4.library.book.PatternBook;
 import lab4.library.book.FormBook;
-import lab4.library.book.Printing;
 import lab4.library.exception.ResourceNotFoundException;
 import lab4.library.genre.Genre;
 import lab4.library.publisher.Publisher;
@@ -68,7 +67,7 @@ public class BookServiceImpl extends BookService {
 
     @Transactional
     public List<Book> findByBookName(String bookName) {
-        return bookRepository.findByBookName(bookName);
+        return bookRepository.findByBookName(bookName.toLowerCase());
     }
 
     @Transactional
@@ -108,12 +107,21 @@ public class BookServiceImpl extends BookService {
      * @return object Book
      */
     @Transactional
-    public Printing addOrEditBook(FormBook formBook) {
+    public Book addOrEditBook(FormBook formBook) {
 
         Book book = new Book();
 
         LOG.info("msg: book.setBookId({})", formBook.getBookId());
         book.setBookId(formBook.getBookId());
+
+        LOG.info("msg: book.setViewsNumber({})", formBook.getViewsNumber());
+        book.setViewsNumber(formBook.getViewsNumber());
+
+        LOG.info("msg: book.setSummaryNumberPage({})", formBook.getSummaryPath());
+        book.setSummaryNumberPage(formBook.getSummaryNumberPage());
+
+        LOG.info("msg: book.setSummaryPath({})", formBook.getSummaryPath());
+        book.setSummaryPath(formBook.getSummaryPath());
 
         LOG.info("msg: book.setBookName({})", formBook.getBookName());
         book.setBookName(formBook.getBookName());
@@ -127,16 +135,27 @@ public class BookServiceImpl extends BookService {
         LOG.info("msg: book.setDescription({})", formBook.getDescription());
         book.setDescription(formBook.getDescription());
 
+        LOG.info("msg: book.setSummaryPath({})", formBook.getFree());
+        book.setFree(formBook.getFree());
+
+        LOG.info("msg: formBook.getFile({})", formBook.getFile());
         MultipartFile multipartFile = formBook.getFile();
-        try {
-            File convFile = new File(multipartFile.getOriginalFilename());
-            convFile.createNewFile();
-            FileOutputStream fos = new FileOutputStream(convFile);
-            fos.write(multipartFile.getBytes());
-            fos.close();
-            book.setSummaryPath(convFile.getPath());
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (multipartFile.getOriginalFilename() != "") {
+            try {
+                String fileSeparator = System.getProperty("file.separator");
+                File summaryFile = new File("summary" + fileSeparator + multipartFile.getOriginalFilename());
+                summaryFile.createNewFile();
+                FileOutputStream fos = new FileOutputStream(summaryFile);
+                fos.write(multipartFile.getBytes());
+                fos.close();
+                book.setSummaryPath(summaryFile.getPath());
+
+                FileInputStream fis = new FileInputStream(book.getSummaryPath());
+                XWPFDocument document = new XWPFDocument(fis);
+                book.setSummaryNumberPage(document.getProperties().getExtendedProperties().getUnderlyingProperties().getPages());
+            } catch (IOException e) {
+                LOG.error("Error creating file", e);
+            }
         }
 
         if (formBook.getGenresNames() != null) {
@@ -605,8 +624,7 @@ public class BookServiceImpl extends BookService {
     public String getBookSummary(Integer bookId) {
         Book book = findOne(bookId);
         StringBuilder summary = new StringBuilder();
-        if (book.getSummaryPath() != null) {
-
+        if (book.getSummaryPath() != null && book.getSummaryPath() != "") {
             try {
                 FileInputStream fis = new FileInputStream(book.getSummaryPath());
                 XWPFDocument document = new XWPFDocument(fis);
@@ -616,10 +634,10 @@ public class BookServiceImpl extends BookService {
                 }
                 fis.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error("No file", e);
             }
         } else {
-            summary.append("Summary appear soon.");
+            summary.append("Краткое содеражние скоро появится");
         }
         return summary.toString();
     }
@@ -636,7 +654,7 @@ public class BookServiceImpl extends BookService {
         String canonicalSummaryName = summary.getName().replaceAll("\\s+", "_");
 
         LOG.info("msg: header(HttpHeaders.CONTENT_DISPOSITION, \"attachment; filename=\"+canonicalSummaryName+\".docx\")");
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + canonicalSummaryName + ".docx").body((OutputStream outputStream) -> {
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + canonicalSummaryName).body((OutputStream outputStream) -> {
 
             LOG.info("msg: StreamUtils.copy(new BufferedInputStream(new FileInputStream(summary)), outputStream\n");
             StreamUtils.copy(new BufferedInputStream(new FileInputStream(summary)), outputStream);
@@ -649,5 +667,20 @@ public class BookServiceImpl extends BookService {
     @Transactional
     public long getBookCount() {
         return bookRepository.count();
+    }
+
+    public List<Book> findByAuthor(String data) {
+        List<Book> booksByAuthor = new ArrayList<>();
+        List<String> authorName = Arrays.asList(data.toLowerCase().split(" "));
+        if (authorName.size() == 3) {
+            booksByAuthor = bookRepository.findByAuthorFullName(authorName.get(0), authorName.get(1), authorName.get(2));
+        } else if (authorName.size() == 2) {
+            booksByAuthor = bookRepository.findByAuthor(authorName.get(0), authorName.get(1));
+        } else if (authorName.size() == 1) {
+            booksByAuthor = bookRepository.findByAuthorLastName(authorName.get(0));
+        } else if (authorName.size() > 3) {
+            booksByAuthor = bookRepository.findByAuthorFullName(authorName.get(0), authorName.get(1), authorName.get(2));
+        }
+        return booksByAuthor;
     }
 }

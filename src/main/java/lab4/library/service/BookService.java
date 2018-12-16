@@ -3,7 +3,6 @@ package lab4.library.service;
 import com.itextpdf.text.DocumentException;
 import lab4.library.book.Book;
 import lab4.library.book.FormBook;
-import lab4.library.book.Printing;
 
 import java.util.List;
 import java.util.Set;
@@ -16,7 +15,7 @@ public abstract class BookService {
 
     abstract Book saveBook(Book book);
 
-    abstract Printing addOrEditBook(FormBook formBook) throws DocumentException;
+    abstract Book addOrEditBook(FormBook formBook) throws DocumentException;
 
     abstract void deleteBook(Integer id);
 }

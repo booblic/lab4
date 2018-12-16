@@ -19,19 +19,13 @@
     <jsp:include page="${path}/view/header.jsp"/>
 
 	<div class="container">
-		<h2 class="h2 page-header">View book</h2>
+		<h2 class="h2 page-header">Об издании</h2>
 		<div class="row">
 			<div class="col-md-3">
 				<p>
-					<label for="bookName">Name</label>
+					<label for="bookName">Название</label>
 				</p>
 				<p>${book.bookName}</p>
-			</div>
-			<div class="col-md-3">
-				<p>
-					<label for="bookRating">Rating</label>
-				</p>
-				<p>${book.bookRating}</p>
 			</div>
 			<div class="col-md-3">
 				<p>
@@ -41,20 +35,20 @@
 			</div>
 			<div class="col-md-3">
 				<p>
-					<label for="year">Year</label>
+					<label for="year">Год издания</label>
 				</p>
 				<p>${book.year}</p>
 			</div>
 		</div>
 		<div class="row">
 			<p>
-				<label for="description">Description</label>
+				<label for="description">Описание</label>
 			</p>
 			<p>${book.description}</p>
 		</div>
 		<div class="row">
 			<p>
-				<label for="genre">Genre</label>
+				<label for="genre">Жанр</label>
 			</p>
 			<c:forEach items="${book.genres}" var="genre">
 				<p>${genre.genreName}</p>
@@ -62,25 +56,25 @@
 		</div>
 		<div class="row">
 			<p>
-				<label for="author">Author</label>
+				<label for="author">Автор</label>
 			</p>
 			<c:forEach items="${book.authors}" var="author">
                 <div class="row">
                     <div class="col-md-3">
                         <p>
-                            <label for="firstName">First name</label>
+                            <label for="firstName">Имя</label>
                         </p>
                         <p>${author.firstName}</p>
                     </div>
                     <div class="col-md-3">
                         <p>
-                            <label for="lastName">Last name</label>
+                            <label for="lastName">Фамилия</label>
                         </p>
                         <p>${author.lastName}</p>
                     </div>
                     <div class="col-md-3">
                         <p>
-                            <label for="middleName">Middle name</label>
+                            <label for="middleName">Отчество</label>
                         </p>
                         <p>${author.middleName}</p>
                     </div>
@@ -89,64 +83,22 @@
 		</div>
 		<div class="row">
 			<p>
-				<label for="publishers">Publisher</label>
+				<label for="publishers">Издатель</label>
 			</p>
 			<c:forEach items="${book.publishers}" var="publisher">
 				<p>${publisher.publisherName}</p>
 			</c:forEach>
 		</div>
-		<h3 class="mb-0">
-            <a class="btn btn-primary btn-lg btn-block" href="${path}/book/getsummary?id=${book.bookId}&name=${book.bookName}">Summary</a>
-        </h3>
-		<c:set var="rev" scope="page" value="No" />
-		<div>
-			<h2 class="h2 page-header">Book Reviews</h2>
-			<c:forEach items="${reviews}" var="review">
-				<c:choose>
-					<c:when test="${user.username == review.user.username}">
-					    <c:if test="${book.bookName == review.book.bookName}">
-					        <c:forEach var="entry" items="${review.bookReview}">
-
-                            							<p>
-                            								<textarea id="textReview" class="form-control" name="textReview" form="review">${entry.key}</textarea>
-                            							</p>
-                            							<p>
-                            								<input type="number" name="rating" class="form-control" min="1" max="5" value="${entry.value}" form="review" />
-                            							</p>
-                            						</c:forEach>
-                            						<p>
-                            							<button type="submit" class="btn btn-success" form="review">Edit review</button>
-                            						</p>
-                            						<c:set var="rev" scope="page" value="Yes" />
-					    </c:if>
-					</c:when>
-					<c:otherwise>
-						<c:forEach var="entry" items="${review.bookReview}">
-							<label for="username">Review by user: </label> ${review.user.username}
-							<p>${entry.key}</p>
-							<label for="rating">Rating:</label> ${entry.value}
-							<h2 class="h2 page-header"></h2> </c:forEach>
-					</c:otherwise>
-				</c:choose>
-			</c:forEach>
-		</div>
-		<form action="${path}/book/${book.bookId}/addreview" id="review" method="POST">
-			<div id="bookReview"> </div>
-			<c:if test="${not empty username}">
-                <c:if test="${rev == 'No'}">
-                    <div id="but">
-                        <p>
-                            <button type="button" class="btn btn-primary" onclick="addBookFormReview()">Add review</button>
-                        </p>
-                    </div>
-                </c:if>
-            </c:if>
-		</form>
+		<div class="row">
+            <h3 class="mb-0">
+                <a class="btn btn-primary btn-lg" href="${path}/book/getsummary?id=${book.bookId}&name=${book.bookName}">Краткое содержание</a>
+            </h3>
+        </div>
 	</div>
 
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>
-		<p class="mb-1">© 2018 Library</p>
+		<p class="mb-1">© 2018 Почитай-ка</p>
 		<ul class="list-inline">
 			<li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
 		</ul>

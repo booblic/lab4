@@ -48,9 +48,23 @@ public class FormBook {
      */
     private String[] publishersNames;
 
+    @ToString
     private String description;
 
+    @ToString
+    private Integer viewsNumber;
+
+    @ToString
+    private String summaryPath;
+
+    @ToString
+    private int summaryNumberPage;
+
+    @ToString
     private MultipartFile file;
+
+    @ToString
+    private boolean free;
 
     public FormBook() {}
 
@@ -134,12 +148,44 @@ public class FormBook {
         this.description = description;
     }
 
+    public Integer getViewsNumber() {
+        return viewsNumber;
+    }
+
+    public void setViewsNumber(Integer viewsNumber) {
+        this.viewsNumber = viewsNumber;
+    }
+
+    public String getSummaryPath() {
+        return summaryPath;
+    }
+
+    public void setSummaryPath(String summaryPath) {
+        this.summaryPath = summaryPath;
+    }
+
+    public int getSummaryNumberPage() {
+        return summaryNumberPage;
+    }
+
+    public void setSummaryNumberPage(int summaryNumberPage) {
+        this.summaryNumberPage = summaryNumberPage;
+    }
+
     public MultipartFile getFile() {
         return file;
     }
 
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    public boolean getFree() {
+        return free;
+    }
+
+    public void setFree(boolean free) {
+        this.free = free;
     }
 
     @Override
