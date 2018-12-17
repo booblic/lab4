@@ -21,13 +21,13 @@
     <jsp:include page="${path}/view/header.jsp"/>
 
 	<div class="container">
-		<h2 class="h2 page-header">Edit profile</h2>
+		<h2 class="h2 page-header">Редактирование профиля</h2>
 		<form:form action="${path}/user/edituserbyadmin" modelAttribute="user" method="POST">
 			<input type="text" name="userId" value="${user.userId}" hidden="true" />
 			<div class="row">
 				<div class="col-md-3">
 					<p>
-						<label for="firstName">First name</label>
+						<label for="firstName">Имя</label>
 					</p>
 					<p>
 						<form:input path="firstName" class="form-control" value="${user.firstName}" />
@@ -35,7 +35,7 @@
 				</div>
 				<div class="col-md-3">
 					<p>
-						<label for="lastName">Last name</label>
+						<label for="lastName">Фамилия</label>
 					</p>
 					<p>
 						<form:input path="lastName" class="form-control" value="${user.lastName}" />
@@ -43,7 +43,7 @@
 				</div>
 				<div class="col-md-3">
 					<p>
-						<label for="middleName">Middle name</label>
+						<label for="middleName">Отчество</label>
 					</p>
 					<p>
 						<form:input path="middleName" class="form-control" value="${user.middleName}" />
@@ -53,7 +53,7 @@
 			<div class="row">
 				<div class="col-md-5">
 					<p>
-						<label for="email">Email</label>
+						<label for="email">Почта</label>
 					</p>
 					<p>
 						<form:input path="email" class="form-control" value="${user.email}" />
@@ -63,7 +63,7 @@
 				</div>
 				<div class="col-md-5">
 					<p>
-						<label for="phone">Phone Number</label>
+						<label for="phone">Номер телефона</label>
 					</p>
 					<p>
 						<form:input path="phoneNumber" class="form-control" value="${user.phoneNumber}" />
@@ -75,31 +75,32 @@
 			<div class="row">
 				<div class="col-md-3">
 					<p>
-						<label for="username">Username</label>
+						<label for="username">Логин</label>
 					</p>
 					<p>
 						<form:input path="username" class="form-control" value="${user.username}" />
 					</p>
 					<p class="error">
-						<form:errors path="username" /> </p>
+						<form:errors path="username"/> </p>
 				</div>
 				<div class="col-md-1">
 					<c:choose>
 						<c:when test="${not empty admin}">
 							<c:if test="${not empty moder}">
 								<p>
-									<label for="role">Moderator</label>
+									<label for="role">Модератор</label>
 								</p>
 								<input type="checkbox" class="form-control" name="role" value="ROLE_MODER" checked/>
 								<br>
 								<br> </c:if>
 							<c:if test="${empty moder}">
 								<p>
-									<label for="role">Moderator</label>
+									<label for="role">Модератор</label>
 								</p>
 								<input type="checkbox" class="form-control" name="role" value="ROLE_MODER" />
 								<br>
-								<br> </c:if>
+								<br>
+						    </c:if>
 						</c:when>
 					</c:choose>
 				</div>
@@ -110,17 +111,17 @@
 			<div id="passwordItems"> </div>
 			<div id="but">
 				<p>
-					<button type="button" class="btn btn-primary" onclick="addDropPasswordCheckbox()">Drop password</button>
+					<button type="button" class="btn btn-primary" onclick="addDropPasswordCheckbox()">Сбросить пароль</button>
 				</p>
 			</div>
 			<p>
-				<button type="submit" class="btn btn-success btn-lg btn-block">Edit</button>
+				<button type="submit" class="btn btn-success btn-lg btn-block">Сохранить</button>
 			</p>
 		</form:form>
 	</div>
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>
-		<p class="mb-1">© 2018 Library</p>
+		<p class="mb-1">© 2018 Почитай-ка</p>
 		<ul class="list-inline">
 			<li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
 		</ul>

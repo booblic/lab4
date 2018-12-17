@@ -20,6 +20,8 @@
 
 	<div class="container">
 		<h2 class="h2 page-header">${name} - краткое содержание</h2>
+		<p><label for="description">Описание</label></p>
+		<p>${description}</p>
 		    <div>
                 <p>
                     <textarea rows="34" style="width: 1140px" class="form-control" name="summary" readonly>${summary}</textarea>
@@ -29,7 +31,7 @@
 
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>
-		<p class="mb-1">© 2018 Library</p>
+		<p class="mb-1">© 2018 Почитай-ка</p>
 		<ul class="list-inline">
 			<li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
 		</ul>

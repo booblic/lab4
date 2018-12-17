@@ -21,31 +21,31 @@
     <jsp:include page="${path}/view/header.jsp"/>
 
     <div class="reg">
-		<h3 class="text-center">Registration</h3>
+		<h3 class="text-center">Регистрация</h3>
 		<br>
 		<form:form action="${path}/user/registeruser" modelAttribute="user" method="POST">
-			<label for="firstName">First name</label>
+			<label for="firstName">Имя</label>
 			<form:input path="firstName" class="form-control" />
 			<br>
-			<label for="lastName">Last name</label>
+			<label for="lastName">Фамилия</label>
 			<form:input path="lastName" class="form-control" />
 			<br>
-			<label for="middleName">Middle name</label>
+			<label for="middleName">Отчество</label>
 			<form:input path="middleName" class="form-control" />
 			<br>
-			<label for="email">Email</label>
+			<label for="email">Почта</label>
 			<form:input path="email" class="form-control" placeholder="example@gamil.com" />
 			<p class="error">
 				<form:errors path="email" />
 			</p>
 			<br>
-			<label for="phone">Phone Number</label>
+			<label for="phone">Номер телефона</label>
 			<form:input path="phoneNumber" class="form-control" placeholder="9271234567" />
 			<p class="error">
 				<form:errors path="phoneNumber" />
 			</p>
 			<br>
-			<label for="username">Username</label>
+			<label for="username">Логин</label>
 			<form:input path="username" class="form-control" />
 			<p class="error">
 				<form:errors path="username" />
@@ -54,23 +54,23 @@
 				<p class="error">${InvalidUsername}</p>
 			</c:if>
 			<br>
-			<label for="password">Password</label>
+			<label for="password">Пароль</label>
 			<form:input type="password" path="password" class="form-control" />
 			<p class="error">
 				<form:errors path="password" />
 			</p>
 			<br>
-			<label for="confirmedPassword">Confirmed Password</label>
+			<label for="confirmedPassword">Повторите пароль</label>
 			<form:input type="password" path="confirmedPassword" class="form-control" />
 			<c:if test="${not empty invalidPassword}">
 				    <p class="error">${invalidPassword}</p>
 			</c:if>
 			<br>
-			<button class="btn btn-primary btn-lg btn-block" type="submit">Registration</button>
+			<button class="btn btn-primary btn-lg btn-block" type="submit">Зарегестрироваться</button>
 		</form:form>
 		<footer class="my-5 pt-5 text-muted text-center text-small">
 			<br>
-			<p class="mb-1">© 2017-2018 Library</p>
+			<p class="mb-1">© 2018 Почитай-ка</p>
 			<ul class="list-inline">
 				<li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
 			</ul>

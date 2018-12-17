@@ -18,22 +18,31 @@
     <jsp:include page="${path}/view/header.jsp"/>
 
 	<div class="container">
+        <h2 class="h2 page-header">Поиск пользователей</h2>
+        <p><label for="Name">Введите логин пользователя:</label></p>
+        <form action="${path}/user/searchingUserByLogin" method="GET">
+            <p><input type="text" class="form-control" name="login" /></p>
+            <button type="submit" class="btn btn-primary btn-lg">Поиск</button>
+        </form>
+        <c:if test="${not empty error}">
+            <p class="error">${error}</p>
+        </c:if>
         <div class="row">
             <div class="table-responsive">
                 <c:if test="${not empty users}">
-                    <h2 class="h2 page-header">All Users</h2>
+                    <h2 class="h2 page-header">Все пользователи</h2>
                     <table class="table table-striped table-sm">
                         <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Username</th>
-                                <th>First name</th>
-                                <th>Last name</th>
-                                <th>Middle name</th>
-                                <th>Email</th>
-                                <th>Phone number</th>
-                                <th>Role</th>
-                                <th>Edit</th>
+                                <th>№</th>
+                                <th>Логин</th>
+                                <th>Имя</th>
+                                <th>Фамилия</th>
+                                <th>Отчество</th>
+                                <th>Почта</th>
+                                <th>Номер телефона</th>
+                                <th>Роль</th>
+                                <th>Редактировать</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,15 +64,12 @@
                         </tbody>
                     </table>
                 </c:if>
-                <c:if test="${not empty error}">
-                    <p class="error">${error}</p>
-                </c:if>
             </div>
 	    </div>
 	</div>
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>
-		<p class="mb-1">© 2018 Library</p>
+		<p class="mb-1">© 2018 Почитай-ка</p>
 		<ul class="list-inline">
 			<li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
 		</ul>

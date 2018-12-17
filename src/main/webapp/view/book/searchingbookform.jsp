@@ -18,19 +18,19 @@
 	<jsp:include page="${path}/view/header.jsp"/>
 
 	<div class="container">
-		<h2 class="h2 page-header">Searching by name</h2>
-		<form action="${path}/book/searchingbybookname" method="GET">
+		<h2 class="h2 page-header">Поиск кратких содержаний</h2>
+		<form action="${path}/book/searchingBookByNameAndAuthor" method="GET">
 			<p>
-				<label for="Name">Book name</label>
+				<label for="Name">Введите название или автора:</label>
 			</p>
 			<p>
-				<input type="text" class="form-control" name="bookName" /> </p>
+				<input type="text" class="form-control" name="data" /> </p>
 			<button type="submit" class="btn btn-primary btn-lg btn-block">Searching</button>
 		</form>
 	</div>
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>
-		<p class="mb-1">© 2018 Library</p>
+		<p class="mb-1">© 2018 Почитай-ка</p>
 		<ul class="list-inline">
 			<li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
 		</ul>

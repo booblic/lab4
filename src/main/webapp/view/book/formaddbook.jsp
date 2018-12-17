@@ -73,7 +73,6 @@
     			<div id="authorItems">
     				<label for="author">Author</label>
     				<div class="row">
-
     						<div class="col-md-3">
     							<p>First name</p>
     							<p>
@@ -89,7 +88,6 @@
     							<p>
     								<input type="text" class="form-control" name="authorsMiddleNames" /> </p>
     						</div>
-
     				</div>
     			</div>
     			<p>
@@ -110,20 +108,24 @@
     			<p>
     				<button type="button" class="btn btn-primary" onclick="addPublisherFormItem()">Add publisher</button>
     			</p>
-    			<p>
-    			<div class="col-md-3">
-    			    <p><label for="download">Загрузите краткое содержание</label></p>
-                    <p><input type="file" name="file"></p>
+    			<div class="row">
+                    <div class="col-md-4">
+                        <p><label for="download">Загрузите краткое содержание</label></p>
+                        <p><input type="file" name="file"></p>
+                    </div>
+                    <div class="col-md-1">
+                        <p><label for="role">Бесплатное</label></p>
+                        <input type="checkbox" class="form-control" name="free"/>
+                    </div>
                 </div>
-                </p>
     			<p>
-    				<button type="submit" class="btn btn-success btn-lg btn-block">Add</button>
+    				<button type="submit" class="btn btn-success btn-lg">Добавить</button>
     			</p>
     		</form>
     	</div>
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>
-		<p class="mb-1">© 2018 Library</p>
+		<p class="mb-1">© 2018 Почитай-ка</p>
 		<ul class="list-inline">
 			<li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
 		</ul>

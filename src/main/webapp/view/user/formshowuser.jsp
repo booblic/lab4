@@ -26,7 +26,7 @@
 		<c:if test="${not empty user.middleName}">
 		    <p>Отчество: ${user.middleName}</p>
         </c:if>
-        <p>Email: ${user.email}</p>
+        <p>Почта: ${user.email}</p>
 		<p>Телефон: ${user.phoneNumber}</p>
 		<p>Логин: ${user.username}</p>
 		<p>Подписка оформлена: ${user.subscription} (Осталось дней: ${daysLeft})</p>
@@ -34,7 +34,7 @@
 	<div>
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>
-		<p class="mb-1">© 2018 Library</p>
+		<p class="mb-1">© 2018 Почитай-ка</p>
 		<ul class="list-inline">
 			<li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
 		</ul>

@@ -289,11 +289,14 @@ public class UserServiceImpl implements UserService {
                     return false;
                 }
             } else {
-                model.addAttribute("message", "У вас нет подпискии!");
                 return false;
             }
         }
         return true;
+    }
+
+    public User findUser(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public Model fillHeader(Model model) {

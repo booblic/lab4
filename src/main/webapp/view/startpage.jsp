@@ -23,42 +23,42 @@
 		<p>${message}</p>
 		<p>${registrationMessage}</p>
 
-		<c:choose>
-			<c:when test="${empty username}">
-				<div class="my">
-					<p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/login">Войдите или зарегистрируйтесь</a></p>
-				</div>
-			</c:when>
-			<c:when test="${not empty username}">
-			</c:when>
-		</c:choose>
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="mb-0">
+                    <a class="btn btn-primary btn btn-block" href="${path}/book/show">Краткие содержания</a>
+                </h3>
+                <h3 class="mb-0">
+                    <a class="btn btn-primary btn btn-block" href="${path}/book/showFree">Бесплатные краткие содержания</a>
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <c:choose>
+                    <c:when test="${empty username}">
+                        <h3 class="mb-0">
+                            <p><a class="btn btn-success  btn btn-block" href="${path}/user/login">Войдите или зарегистрируйтесь</a></p>
+                        </h3>
+                    </c:when>
+                    <c:when test="${not empty username}">
+                    </c:when>
+                </c:choose>
 
-		<c:choose>
-	        <c:when test="${empty subscribed}">
-        		<div class="my">
-                    <p><a class="btn btn-primary btn-lg btn-block" href="${path}/user/getsubscribeform">Подписка</a></p>
-                </div>
-        	</c:when>
-        	<c:when test="${not empty subscription}">
-        	</c:when>
-        </c:choose>
-
-		<h3 class="mb-0">
-            <a class="text-dark" href="${path}/book/showFree">Бесплатные краткие содержания</a>
-        </h3>
-        <c:if test="${not empty subscribed}">
-            <h3 class="mb-0">
-                <a class="text-dark" href="${path}/book/show">Краткие содержания</a>
-            </h3>
-        </c:if>
-        <h3 class="mb-0">
-            <a class="text-dark" href="${path}/searchbookoptions">Поиск кратких содержаний</a>
-        </h3>
+                <c:choose>
+                    <c:when test="${empty subscribed}">
+                        <h3 class="mb-0">
+                            <p><a class="btn btn-success btn btn-block" href="${path}/user/getsubscribeform">Подписаться</a></p>
+                        </h3>
+                    </c:when>
+                    <c:when test="${not empty subscription}">
+                    </c:when>
+                </c:choose>
+            </div>
+        </div>
 	</div>
 	<!-- /.container -->
 	<footer class="my-5 pt-5 text-muted text-center text-small">
 		<br>
-		<p class="mb-1">© 2018 Library</p>
+		<p class="mb-1">© 2018 Почитай-ка</p>
 		<ul class="list-inline">
 			<li class="list-inline-item"><a href="${path}/console">H2 Console</a></li>
 		</ul>

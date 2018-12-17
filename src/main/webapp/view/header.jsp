@@ -28,15 +28,18 @@
 						<c:when test="${not empty username}">
 						    <c:choose>
 						        <c:when test="${not empty subscribed}">
-							        <li><a href="${path}/user/showuserprofile" style="color: #008000">${username}(Subscribed)</a></li>
+							        <li><a href="${path}/user/showuserprofile" style="color: #008000">${username}(Подписан)</a></li>
 							    </c:when>
 							    <c:when test="${empty subscribed}">
-							        <li><a href="${path}/user/showuserprofile">${username}</a></li>
+							        <li><a href="${path}/user/showuserprofile" style="color: #dc143c">${username}(Подписка отсутствует)</a></li>
 							    </c:when>
 							</c:choose>
 							<c:if test="${role eq 'admin'}">
-								<li><a href="${path}/user/getshowalluserform">Show all user</a></li>
+								<li><a href="${path}/user/getshowalluserform">Управление пользвателями</a></li>
 							</c:if>
+							<security:authorize access="hasRole('ROLE_SALES')">
+								<li><a href="${path}/gettopform">Популярность ресурса</a></li>
+						    </security:authorize>
 							<li><a href="${path}/logout">Выйти</a></li>
 							<br>
 					    </c:when>

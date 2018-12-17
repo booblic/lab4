@@ -19,7 +19,7 @@ import java.util.*;
  */
 @Entity
 @Table
-public class Book extends Description implements Printing {
+public class Book extends Description {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,9 +51,13 @@ public class Book extends Description implements Printing {
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "book")
     private List<Review> reviews = new ArrayList<>();
 
-    private Double bookRating;
+    private Integer viewsNumber;
 
     private String summaryPath;
+
+    private int summaryNumberPage;
+
+    private boolean free;
 
     public Book() {}
 
@@ -130,32 +134,12 @@ public class Book extends Description implements Printing {
         this.reviews = reviews;
     }
 
-    public Double getBookRating() {
-
-        Double ratingValue = 0d;
-
-        List<Integer> reviewRating = new ArrayList<>();
-
-        for (Review review: reviews) {
-            for (Map.Entry<String, Integer> pair : review.getBookReview().entrySet()) {
-                reviewRating.add(pair.getValue());
-            }
-        }
-
-        for (Integer rating: reviewRating) {
-            ratingValue = ratingValue + rating;
-        }
-
-        if (reviewRating.size() != 0) {
-            ratingValue = ratingValue / reviewRating.size();
-        }
-        setBookRating(ratingValue);
-
-        return bookRating;
+    public Integer getViewsNumber() {
+        return viewsNumber;
     }
 
-    public void setBookRating(Double bookRating) {
-        this.bookRating = bookRating;
+    public void setViewsNumber(Integer viewsNumber) {
+        this.viewsNumber = viewsNumber;
     }
 
     public String getSummaryPath() {
@@ -164,6 +148,22 @@ public class Book extends Description implements Printing {
 
     public void setSummaryPath(String summaryPath) {
         this.summaryPath = summaryPath;
+    }
+
+    public int getSummaryNumberPage() {
+        return summaryNumberPage;
+    }
+
+    public void setSummaryNumberPage(int summaryNumberPage) {
+        this.summaryNumberPage = summaryNumberPage;
+    }
+
+    public boolean getFree() {
+        return free;
+    }
+
+    public void setFree(boolean free) {
+        this.free = free;
     }
 
     @Override
