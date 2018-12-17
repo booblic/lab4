@@ -88,8 +88,7 @@ public class BookController {
     @GetMapping(value = "/show")
     public String showBooks(Model model) {
         userService.fillHeader(model);
-        List<Book> bookList = bookServices.findAllBook().stream().filter(book -> book.getFree() == false).collect(Collectors.toList());
-        model.addAttribute("books", bookList);
+        model.addAttribute("books", bookServices.findAllBook());
         return "book/showallbooks";
     }
 
