@@ -22,6 +22,8 @@ public class Role implements GrantedAuthority {
 
     public static final String ROLE_USER = "ROLE_USER";
 
+    public static final String ROLE_SALES = "ROLE_SALES";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer roleId;

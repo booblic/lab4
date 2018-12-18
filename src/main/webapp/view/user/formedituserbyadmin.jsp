@@ -90,19 +90,33 @@
 								<p>
 									<label for="role">Модератор</label>
 								</p>
-								<input type="checkbox" class="form-control" name="role" value="ROLE_MODER" checked/>
+								<input type="checkbox" class="form-control" name="moder" value="ROLE_MODER" checked/>
 								<br>
 								<br> </c:if>
 							<c:if test="${empty moder}">
 								<p>
 									<label for="role">Модератор</label>
 								</p>
-								<input type="checkbox" class="form-control" name="role" value="ROLE_MODER" />
-								<br>
-								<br>
+								<input type="checkbox" class="form-control" name="moder" value="ROLE_MODER" />
 						    </c:if>
 						</c:when>
 					</c:choose>
+				</div>
+				<div class="col-md-1">
+                    <c:if test="${not empty sales}">
+                        <p>
+                            <label for="role">Маркетолог</label>
+                        </p>
+                        <input type="checkbox" class="form-control" name="sales" value="ROLE_SALES" checked/>
+                        <br>
+                        <br>
+					</c:if>
+					<c:if test="${empty sales}">
+					    <p>
+						    <label for="role">Маркетолог</label>
+					    </p>
+					    <input type="checkbox" class="form-control" name="sales" value="ROLE_SALES" />
+					</c:if>
 				</div>
 			</div>
 			<c:if test="${not empty error}">

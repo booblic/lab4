@@ -239,10 +239,13 @@ public class UserServiceImpl implements UserService {
 
         Set<Role> roleSet = new HashSet<>();
 
-        if (formUser.getRole() != null) {
-
-            LOG.info("msg: roleSet.add(roleService.getRoleByAuthority({}))", formUser.getRole());
-            roleSet.add(roleService.getRoleByAuthority(formUser.getRole()));
+        if (formUser.getModer() != null) {
+            LOG.info("msg: roleSet.add(roleService.getRoleByAuthority({}))", formUser.getModer());
+            roleSet.add(roleService.getRoleByAuthority(formUser.getModer()));
+        }
+        if (formUser.getSales() != null) {
+            LOG.info("msg: roleSet.add(roleService.getRoleByAuthority({}))", formUser.getSales());
+            roleSet.add(roleService.getRoleByAuthority(formUser.getSales()));
         }
         LOG.info("msg: roleSet.add(roleService.getRoleByAuthority({}))", Role.ROLE_USER);
         roleSet.add(roleService.getRoleByAuthority(Role.ROLE_USER));

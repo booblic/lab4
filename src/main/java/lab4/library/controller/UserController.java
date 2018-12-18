@@ -243,6 +243,9 @@ public class UserController {
         LOG.info("msg: isModer = false");
         Boolean isModer = false;
 
+        LOG.info("msg: isSales = false");
+        Boolean isSales = false;
+
         for (Role userRole: userService.getCurrentUser().getRoles()) {
             if (userRole.getAuthority().compareTo(Role.ROLE_ADMINISTRATOR) == 0) {
                 LOG.info("msg: isAdmin = true");
@@ -254,11 +257,17 @@ public class UserController {
                 LOG.info("msg: isModer = false");
                 isModer = false;
 
+                LOG.info("msg: isSales = false");
+                isSales = false;
+
                 LOG.info("msg: isAdmin = false");
                 isAdmin = false;
             } else if (userRole.getAuthority().compareTo(Role.ROLE_MODERATOR) == 0) {
                 LOG.info("msg: isModer = true");
                 isModer = true;
+            } else if (userRole.getAuthority().compareTo(Role.ROLE_SALES) == 0) {
+                LOG.info("msg: isSales = false");
+                isSales = true;
             }
         }
         if (isAdmin == true) {
@@ -266,6 +275,9 @@ public class UserController {
         }
         if (isModer == true) {
             model.addAttribute("moder", "isModer");
+        }
+        if (isSales == true) {
+            model.addAttribute("sales", "isSales");
         }
         model.addAttribute("user", user);
 

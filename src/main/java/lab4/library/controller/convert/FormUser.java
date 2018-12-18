@@ -50,7 +50,10 @@ public class FormUser {
     private String phoneNumber;
 
     @ToString
-    private String role;
+    private String moder;
+
+    @ToString
+    private String sales;
 
     public FormUser() {}
 
@@ -152,12 +155,20 @@ public class FormUser {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getRole() {
-        return role;
+    public String getModer() {
+        return moder;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setModer(String moder) {
+        this.moder = moder;
+    }
+
+    public String getSales() {
+        return sales;
+    }
+
+    public void setSales(String sales) {
+        this.sales = sales;
     }
 
     @Override
